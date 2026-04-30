@@ -1,6 +1,6 @@
 import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
-// https://vitepress.dev/reference/site-config
+// https://vitepress.dev/reference/site-config1
 export default defineConfig({
     title: "My Awesome Project",
     description: "A VitePress Site",
