@@ -3,7 +3,7 @@ import {nav, sidebar} from './relaConf';
 // https://vitepress.dev/reference/site-config11
 export default defineConfig({
     base: '/zoro_blog/',
-    title: "My Awesome Project",
+    title: "My Awesome Project",// 这里将会影响之后生成的根路径
     description: "A VitePress Site",
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
