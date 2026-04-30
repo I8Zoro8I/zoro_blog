@@ -5,7 +5,7 @@ home: true
 
 hero:
   name: "zoro"
-  text: "A VitePress Site"
+  text: "测试网站"
   tagline: My great project tagline
   image:
     # 首页右边的图片
@@ -23,13 +23,13 @@ hero:
 
 features:
   - icon: 🤹♀️ 
-    title: Feature A
+    title: 标签一
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - icon: 👩🎨
-    title: Feature B
+    title: 标签二
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - icon: 🧩
-    title: Feature C
+    title: 标签三
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 
