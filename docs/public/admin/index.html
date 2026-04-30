@@ -2,10 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>CMS</title>
-    <!-- 显式链接配置文件 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Manager</title>
+    <!-- 显式关联配置文件，增加 /zoro_blog/ 前缀 -->
     <link href="/zoro_blog/admin/config.yml" type="text/yaml" rel="netlify-cms-config" />
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
-<body></body>
+<body>
+<!-- 引入 Decap CMS 核心脚本 -->
+<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</body>
 </html>

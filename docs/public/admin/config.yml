@@ -1,15 +1,22 @@
+# 后端配置
 backend:
   name: github
-  repo: I8Zoro8I/zoro_blog
-  branch: main
+  repo: I8Zoro8I/zoro_blog  # 你的 用户名/仓库名
+  branch: main             # 确认你的分支是 main
 
+# 只有在本地电脑运行时才开启此项，部署前建议注释掉
+# local_backend: true
+
+# 媒体文件：图片存放在 docs/public/images
 media_folder: "docs/public/images"
-public_folder: "/images"
+# 网页访问图片的路径（对应 VitePress 的访问地址）
+public_folder: "/zoro_blog/images"
 
+# 内容集合
 collections:
-  - name: "posts"
+  - name: "column"
     label: "文章"
-    folder: "docs/posts"
+    folder: "docs/column"  # 文章在仓库中的实际路径
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
