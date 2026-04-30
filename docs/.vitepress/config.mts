@@ -2,6 +2,7 @@ import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
 // https://vitepress.dev/reference/site-config1
 export default defineConfig({
+    base: '/zoro_blog/',
     title: "My Awesome Project",
     description: "A VitePress Site",
     themeConfig: {
