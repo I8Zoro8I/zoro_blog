@@ -23,8 +23,12 @@ export const nav: DefaultTheme.NavItem[] = [
         items: [
             {
 
-                text: '数据结构与算法',
-                link: '/column/fan/' // 对应docs/column/Algorithm下的idnex.md文件
+                text: '链接',
+                link: '/column/fanLink/' // 对应docs/column/Algorithm下的idnex.md文件
+            },
+            {
+                text: '追番记录',
+                link: '/column/fan/' // 对应
             }
         ]
     },
