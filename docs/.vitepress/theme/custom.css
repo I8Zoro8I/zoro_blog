@@ -30,3 +30,19 @@
     --vp-c-brand-dark: var(--vp-c-purple-dark);
     --vp-c-brand-darker: var(--vp-c-purple-darker);
 }
+
+/* 针对导航栏 Logo 的圆角处理 */
+.VPNavBar .logo {
+    border-radius: 50%; /* 变成圆形 */
+    object-fit: cover;   /* 确保长方形图片缩放时不会变形 */
+    border: 1px solid var(--vp-c-divider); /* 可选：加一个淡淡的边框线更好看 */
+
+    /* 如果你的图片非常宽，可以强制限制一下比例 */
+    aspect-ratio: 1 / 1;
+}
+
+/* 调整 Logo 和文字之间的间距（可选） */
+.VPNavBar .title {
+    display: flex;
+    align-items: center;
+}
