@@ -1,8 +1,9 @@
 import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
 // https://vitepress.dev/reference/site-config11
+const isCloudflare = process.env.CF_PAGES === '1'
 export default defineConfig({
-    base: '/zoro_blog/',
+    base: isCloudflare ? '/' : '/zoro_blog/',
     title: "My Awesome Project",// 这里将会影响之后生成的根路径
     description: "A VitePress Site",
     themeConfig: {
