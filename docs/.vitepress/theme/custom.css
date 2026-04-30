@@ -46,3 +46,19 @@
     display: flex;
     align-items: center;
 }
+
+/* 针对首页 Hero 区域图片的圆角处理 */
+.VPHero .image-src {
+    border-radius: 50%;     /* 变成圆形 */
+    object-fit: cover;       /* 防止长方形图片变形 */
+    aspect-ratio: 1 / 1;     /* 强制比例为 1:1 */
+
+    /* 可选：增加一个精致的边框和光晕效果，让它看起来不那么单调 */
+    border: 4px solid var(--vp-c-brand-soft);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 如果有背景渐变图层，也建议一并修圆（防止溢出） */
+.VPHero .image-bg {
+    border-radius: 50%;
+}
