@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: i8zoro8i/zoro_blog
+  repo: I8Zoro8I/zoro_blog
   branch: main
 
 media_folder: "docs/public/images"
