@@ -1,6 +1,6 @@
 import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
-// https://vitepress.dev/reference/site-config1
+// https://vitepress.dev/reference/site-config11
 export default defineConfig({
     base: '/zoro_blog/',
     title: "My Awesome Project",
