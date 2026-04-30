@@ -4,6 +4,7 @@ import {nav, sidebar} from './relaConf';
 // const isCloudflare = process.env.CF_PAGES === '1'
 export default defineConfig({
     base: '/',
+    cleanUrls: true, // 加上这一行
     title: "My Awesome Project",// 这里将会影响之后生成的根路径
     description: "A VitePress Site",
     themeConfig: {
