@@ -1,6 +1,6 @@
 # 后端配置
 backend:
-  name: git-gateway
+  name: github
   repo: I8Zoro8I/zoro_blog  # 你的 用户名/仓库名
   branch: main             # 确认你的分支是 main
 
