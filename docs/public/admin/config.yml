@@ -42,3 +42,29 @@ collections:
 
       - { label: "日期", name: "date", widget: "datetime" }
       - { label: "内容", name: "body", widget: "markdown" }
+
+  - name: "settings"
+      label: "系统设置"
+      delete: false # 防止误删配置文件
+      files:
+        - name: "sidebar_config"
+          label: "侧边栏分类结构"
+          file: "docs/public/categories.json" # 将配置存在 JSON 中
+          fields:
+            - label: "分类列表"
+              name: "categories"
+              widget: "list"
+              fields:
+                - { label: "分类标识 (如: Algorithm)", name: "id", widget: "string" }
+                - { label: "分类中文名", name: "title", widget: "string" }
+                - label: "分组内容"
+                  name: "groups"
+                  widget: "list"
+                  fields:
+                    - { label: "分组名称 (如: 数据结构)", name: "groupName", widget: "string" }
+                    - label: "文章列表"
+                      name: "items"
+                      widget: "list"
+                      fields:
+                        - { label: "侧边栏显示文本", name: "text", widget: "string" }
+                        - { label: "文件路径 (不带.md)", name: "link", widget: "string", hint: "例如: /column/Algorithm/001_Stack" }
