@@ -223,6 +223,7 @@ const sponsorType = ref('wechat');
             class="sponsor-img" 
           />
         </div>
+        <p class="sponsor-tip">如果觉得文章对你有帮助，可以请我喝杯咖啡 ~</p>
       </div>
     </div>
   </div>
@@ -452,5 +453,10 @@ const sponsorType = ref('wechat');
   display: block;
   margin: 0 auto;
   border-radius: 4px;
+}
+.sponsor-tip {
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  line-height: 1.4;
 }
 </style>
