@@ -4,13 +4,8 @@ backend:
   repo: I8Zoro8I/zoro_blog  # 你的 用户名/仓库名
   branch: main             # 确认你的分支是 main
 
-
-# 只有在本地电脑运行时才开启此项，部署前建议注释掉
-#local_backend: true
-
-# 媒体文件：图片存放在 docs/public/images
+# 媒体文件
 media_folder: "docs/public/images"
-# 网页访问图片的路径（对应 VitePress 的访问地址）
 public_folder: "/images"
 
 # 内容集合
@@ -19,52 +14,47 @@ collections:
     label: "内容管理"
     folder: "docs/column"
     create: true
-    # 物理路径逻辑：分类文件夹/文件名.md
     path: "{{new_folder}}/{{slug}}"
     slug: "{{slug}}"
     fields:
-      # --- 关键修改部分：组合拳方案 ---
       - label: "所属分类 (文件夹名)"
         name: "new_folder"
-        widget: "string" # 使用基础输入框保持最大灵活性
+        widget: "string"
         default: "Algorithm"
-        # 这里的 hint 充当了“备忘录”，防止你拼错已有的文件夹
-        hint: "【当前已有分类】: Algorithm (算法), Travel (游记), Growing (成长), fanLink (动漫)"
-
+        hint: "【当前已有分类】: Algorithm, Travel, Growing, fanLink"
       - label: "文章标题 (侧边栏显示)"
         name: "title"
         widget: "string"
-
       - label: "文件名 (URL路径)"
         name: "slug"
         widget: "string"
         hint: "仅限英文、数字、下划线，例如: 005_BinaryTree"
-
       - { label: "日期", name: "date", widget: "datetime" }
       - { label: "内容", name: "body", widget: "markdown" }
 
+  # --- 修复后的 settings 部分 ---
   - name: "settings"
-      label: "系统设置"
-      delete: false # 防止误删配置文件
-      files:
-        - name: "sidebar_config"
-          label: "侧边栏分类结构"
-          file: "docs/public/categories.json" # 将配置存在 JSON 中
-          fields:
-            - label: "分类列表"
-              name: "categories"
-              widget: "list"
-              fields:
-                - { label: "分类标识 (如: Algorithm)", name: "id", widget: "string" }
-                - { label: "分类中文名", name: "title", widget: "string" }
-                - label: "分组内容"
-                  name: "groups"
-                  widget: "list"
-                  fields:
-                    - { label: "分组名称 (如: 数据结构)", name: "groupName", widget: "string" }
-                    - label: "文章列表"
-                      name: "items"
-                      widget: "list"
-                      fields:
-                        - { label: "侧边栏显示文本", name: "text", widget: "string" }
-                        - { label: "文件路径 (不带.md)", name: "link", widget: "string", hint: "例如: /column/Algorithm/001_Stack" }
+    label: "系统设置"
+    delete: false
+    files:
+      - name: "sidebar_config"
+        label: "侧边栏分类结构"
+        file: "docs/public/categories.json"
+        fields:
+          - label: "分类列表"
+            name: "categories"
+            widget: "list"
+            fields:
+              - { label: "分类标识 (如: Algorithm)", name: "id", widget: "string" }
+              - { label: "分类中文名", name: "title", widget: "string" }
+              - label: "分组内容"
+                name: "groups"
+                widget: "list"
+                fields:
+                  - { label: "分组名称 (如: 数据结构)", name: "groupName", widget: "string" }
+                  - label: "文章列表"
+                    name: "items"
+                    widget: "list"
+                    fields:
+                      - { label: "侧边栏显示文本", name: "text", widget: "string" }
+                      - { label: "文件路径 (不带.md)", name: "link", widget: "string", hint: "例如: /column/Algorithm/001_Stack" }
