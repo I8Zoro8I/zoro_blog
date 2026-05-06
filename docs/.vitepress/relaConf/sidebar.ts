@@ -48,11 +48,13 @@
 
 import { DefaultTheme } from 'vitepress';
 import { categories } from './categories';
+// @ts-ignore
+import categoriesData from './cate.json';
 
 export const sidebar: DefaultTheme.Sidebar = {};
 
 // 将 JSON 数据转换为 VitePress 要求的格式
-categories.forEach((cat: any) => {
+categoriesData.categories.forEach((cat: any) => {
     const sidebarKey = `/column/${cat.id}/`;
 
     // 生成该分类下的数组

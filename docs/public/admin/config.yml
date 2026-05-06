@@ -39,7 +39,7 @@ collections:
     files:
       - name: "sidebar_config"
         label: "侧边栏分类结构"
-        file: "docs/public/categories.json"
+        file: "docs/.vitepress/relaConf/cate.json"
         fields:
           - label: "分类列表"
             name: "categories"
