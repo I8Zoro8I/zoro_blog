@@ -21,22 +21,6 @@
       ]
     },
     {
-      "name": "动漫专栏",
-      "id": "fan",
-      "icon": "📺",
-      "children": [
-        {
-          "name": "日本动漫",
-          "links": [
-            {
-              "title": "进击的巨人",
-              "url": "/column/fan/shingeki"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "工具合集",
       "id": "utils",
       "icon": "😈",
@@ -46,7 +30,11 @@
           "links": [
             {
               "title": "番剧推荐好站",
-              "url": "/column/fanLink/index"
+              "url": "/column/utils/fanLink"
+            },
+            {
+              "title": "破解游戏软件分享",
+              "url": "/column/utils/gameCrack"
             }
           ]
         }

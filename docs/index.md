@@ -9,7 +9,7 @@ hero:
   tagline: My great project tagline
   image:
     # 首页右边的图片
-     src: /avatar.png
+     src: /images/avatar.png
      # 图片的描述
      alt: avatar
   # 按钮相关
@@ -37,19 +37,63 @@ features:
 
 <script setup>
 import { ref, computed } from 'vue';
+import { withBase } from 'vitepress'; /* 导入处理 base 路径的工具 */
 import categoriesData from './.vitepress/relaConf/categories.json';
-
 
 const searchQuery = ref('');
 const currentPath = ref([]);
 
-/* 2. 核心搜索逻辑：支持文件夹 + 文档标题的 DFS 检索 */
+/* --- 新增：动态统计逻辑 --- */
+const stats = computed(() => {
+  let docCount = 0;
+  let folderSet = new Set();
+
+  const traverse = (items) => {
+    items.forEach(item => {
+      /* 统计分类目录（第一层和第二层文件夹） */
+      if (item.name) folderSet.add(item.name);
+      
+      /* 统计文章总数 */
+      if (item.links) {
+        docCount += item.links.length;
+      }
+      
+      /* 递归子目录 */
+      if (item.children) traverse(item.children);
+    });
+  };
+
+  traverse(categoriesData.categories);
+  return {
+    docs: docCount,
+    folders: folderSet.size
+  };
+});
+
+/* --- 导航逻辑 --- */
+const currentDisplay = computed(() => {
+  let temp = categoriesData.categories;
+  for (const segment of currentPath.value) {
+    /* 这里的 segment 通常是 item.name */
+    const found = temp.find(c => c.name === segment);
+    if (found) {
+      /* 核心修改：优先找 children (二级分组)，找不到再找 links (三级文章) */
+      /* 如果都没有，说明到底了，返回空数组 */
+      temp = found.children || found.links || [];
+    } else {
+      return [];
+    }
+  }
+  return temp;
+});
+
+/* --- 核心搜索逻辑：支持文件夹 + 文档标题的 DFS 检索 --- */
 const searchResults = computed(() => {
   const query = searchQuery.value.toLowerCase().trim();
   if (!query) return [];
   
   const results = [];
-  const traverse = (items, level = 1) => {
+  const traverse = (items) => {
     items.forEach(item => {
       /* 匹配文件夹名称 */
       if (item.name && item.name.toLowerCase().includes(query)) {
@@ -65,9 +109,7 @@ const searchResults = computed(() => {
         });
       }
       
-      /* 递归子目录 */
-        if (item.children) traverse(item.children, level + 1);
-     /*  if (item.children) traverse(item.children); */
+      if (item.children) traverse(item.children);
     });
   };
   
@@ -75,29 +117,10 @@ const searchResults = computed(() => {
   return results;
 });
 
-/* 3. 导航逻辑：计算当前层级展示的内容 */
-const currentDisplay = computed(() => {
-  let temp = categoriesData.categories;
-  
-  for (const segment of currentPath.value) {
-    /*这里的 segment 通常是 item.name */
-    const found = temp.find(c => c.name === segment);
-    
-    if (found) {
-      /*核心修改：优先找 children (二级分组)，找不到再找 links (三级文章) */
-       /*如果都没有，说明到底了，返回空数组 */
-      temp = found.children || found.links || [];
-    } else {
-      return [];
-    }
-  }
-  return temp;
-});
-
-/* 4. 操作函数 */
+/* --- 操作函数 --- */
 const enterFolder = (name) => {
   currentPath.value.push(name);
-  searchQuery.value = ''; /* 进入时清空搜索*/
+  searchQuery.value = ''; /* 进入时清空搜索 */
 };
 
 const handleSearchClick = (item) => {
@@ -106,12 +129,17 @@ const handleSearchClick = (item) => {
   }
 };
 
+/* 封装跳转函数，自动处理 base 路径 */
+const getUrl = (url) => {
+  if (!url) return '#';
+  return withBase(url);
+};
+
 const goBack = () => currentPath.value.pop();
 const resetNav = () => currentPath.value = [];
 </script>
 
 <div class="custom-home-layout">
-  <!-- 全局搜索栏 -->
   <div class="search-section">
     <div class="search-input-wrapper">
       <input 
@@ -122,9 +150,7 @@ const resetNav = () => currentPath.value = [];
       <span v-if="searchQuery" class="clear-icon" @click="searchQuery = ''">×</span>
     </div>
   </div>
-
   <div class="main-grid">
-    <!-- 左侧 80%：导航内容区 -->
     <div class="left-content">
       <div class="nav-header">
         <div class="breadcrumb">
@@ -137,7 +163,6 @@ const resetNav = () => currentPath.value = [];
           🔙 返回上一级
         </button>
       </div>
-      <!-- 搜索结果展示 -->
       <div v-if="searchQuery" class="list-container">
         <div v-if="searchResults.length > 0" class="card-grid">
           <div 
@@ -147,13 +172,12 @@ const resetNav = () => currentPath.value = [];
             :class="item.isDoc ? 'doc-card' : 'folder-card'"
             @click="handleSearchClick(item)"
           >
-            <a v-if="item.isDoc" :href="item.url" class="card-link">📄 {{ item.title }}</a>
+            <a v-if="item.isDoc" :href="getUrl(item.url)" class="card-link">📄 {{ item.title }}</a>
             <span v-else class="folder-label">{{ item.icon || '📂' }} {{ item.name }}</span>
           </div>
         </div>
         <div v-else class="empty-state">没有找到匹配的结果 😅</div>
       </div>
-      <!-- 常规层级导航 -->
       <div v-else class="list-container">
         <div class="card-grid">
           <div 
@@ -163,35 +187,35 @@ const resetNav = () => currentPath.value = [];
             :class="item.url ? 'doc-card' : 'folder-card'"
             @click="item.url ? null : enterFolder(item.name)"
           >
-            <a v-if="item.url" :href="item.url" class="card-link">📄 {{ item.title }}</a>
+            <a v-if="item.url" :href="getUrl(item.url)" class="card-link">📄 {{ item.title }}</a>
             <span v-else class="folder-label">{{ item.icon || '📂' }} {{ item.name }}</span>
           </div>
         </div>
       </div>
     </div>
-    <!-- 右侧 20%：统计与侧栏 -->
     <div class="right-sidebar">
       <div class="info-widget">
         <h3 class="widget-title">📊 站点统计</h3>
         <div class="stat-row">
           <span>文章总数</span>
-          <strong class="stat-val">12</strong>
+          <strong class="stat-val">{{ stats.docs }}</strong>
         </div>
         <div class="stat-row">
           <span>分类目录</span>
-          <strong class="stat-val">4</strong>
+          <strong class="stat-val">{{ stats.folders }}</strong>
         </div>
         <hr class="divider" />
         <h3 class="widget-title">🔗 快速通道</h3>
         <ul class="quick-links">
-          <li><a href="/column/Algorithm/">算法专栏</a></li>
-          <li><a href="/column/Growing/">成长记录</a></li>
-          <li><a href="/column/fan/">我的番单</a></li>
+          <li><a :href="getUrl('/column/Algorithm/')">算法专栏</a></li>
+          <li><a :href="getUrl('/column/Growing/')">成长记录</a></li>
+          <li><a :href="getUrl('/column/fan/')">我的番单</a></li>
         </ul>
       </div>
     </div>
   </div>
 </div>
+
 
 <style scoped>
 /* 整体容器 */
@@ -391,4 +415,3 @@ const resetNav = () => currentPath.value = [];
   }
 }
 </style>
-

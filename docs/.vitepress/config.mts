@@ -6,12 +6,17 @@ export default defineConfig({
     base :'/',
     //github page  '/zoro_blog/'
     cleanUrls: true, // 加上这一行
+    /* 核心配置：在 HTML 的 <head> 中添加图标链接 */
+    head: [
+        /* 注意：因为你的项目 base 是 /zoro_blog/，路径需包含前缀 */
+        ['link', { rel: 'icon', href: '/zoro_blog/images/logo.png' }]
+    ],
     appearance: 'dark',
     title: "My Awesome Project",// 这里将会影响之后生成的根路径
     description: "A VitePress Site",
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
-        logo: '/avatar.png', // 表示docs/public/avatar.png
+        logo: '/images/avatar.png', // 表示docs/public/avatar.png
         nav: nav,
         //
         sidebar: sidebar,
