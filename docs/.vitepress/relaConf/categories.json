@@ -39,6 +39,34 @@
           ]
         }
       ]
+    },
+    {
+      "name": "博客技术架构",
+      "id": "blog",
+      "icon": "👨",
+      "children": [
+        {
+          "name": "详情",
+          "links": [
+            {
+              "title": "VitePress指南",
+              "url": "/column/blog/001_vitepress"
+            },
+            {
+              "title": "Decap CMS",
+              "url": "/column/blog/002_decapCMS"
+            },
+            {
+              "title": "Cloudflare Worker",
+              "url": "/column/blog/003_cloundFlareWorkerAuth"
+            },
+            {
+              "title": "Giscus",
+              "url": "/column/blog/004_Giscus"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
