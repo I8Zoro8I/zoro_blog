@@ -41,46 +41,46 @@ collections:
         name: "body"
         widget: "markdown"
 
-  - name: "settings"
-    label: "系统设置"
-    delete: false
-    files:
-      - name: "categories_config"
-        label: "全站分类管理"
-        file: "docs/.vitepress/relaConf/categories.json"
-        fields:
-          - label: "分类列表"
-            name: "categories"
-            widget: "list"
-            fields:
-              - label: "分类名称"
-                name: "name"
-                widget: "string"
-
-              - label: "分类标识"
-                name: "id"
-                widget: "string"
-
-              - label: "图标"
-                name: "icon"
-                widget: "string"
-
-              - label: "二级分组"
-                name: "children"
-                widget: "list"
-                fields:
-                  - label: "分组名称"
-                    name: "name"
-                    widget: "string"
-
-                  - label: "三级文章列表"
-                    name: "links"
-                    widget: "list"
-                    fields:
-                      - label: "文章标题"
-                        name: "title"
-                        widget: "string"
-
-                      - label: "文章路径"
-                        name: "url"
-                        widget: "string"
+#  - name: "settings"
+#    label: "系统设置"
+#    delete: false
+#    files:
+#      - name: "categories_config"
+#        label: "全站分类管理"
+#        file: "docs/.vitepress/relaConf/categories.json"
+#        fields:
+#          - label: "分类列表"
+#            name: "categories"
+#            widget: "list"
+#            fields:
+#              - label: "分类名称"
+#                name: "name"
+#                widget: "string"
+#
+#              - label: "分类标识"
+#                name: "id"
+#                widget: "string"
+#
+#              - label: "图标"
+#                name: "icon"
+#                widget: "string"
+#
+#              - label: "二级分组"
+#                name: "children"
+#                widget: "list"
+#                fields:
+#                  - label: "分组名称"
+#                    name: "name"
+#                    widget: "string"
+#
+#                  - label: "三级文章列表"
+#                    name: "links"
+#                    widget: "list"
+#                    fields:
+#                      - label: "文章标题"
+#                        name: "title"
+#                        widget: "string"
+#
+#                      - label: "文章路径"
+#                        name: "url"
+#                        widget: "string"
