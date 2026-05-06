@@ -1,15 +1,19 @@
-# 后端配置
+# 后端配置：使用 GitHub 结合 Cloudflare Worker 鉴权
 backend:
-  name: git-gateway
-  repo: I8Zoro8I/zoro_blog  # 你的 用户名/仓库名
-  branch: main             # 确认你的分支是 main
+  name: github
+  repo: I8Zoro8I/zoro_blog
+  branch: main
+  # 你的 Cloudflare Worker 代理地址
+  base_url: https://snowy-frost-15b9.m15860860386.workers.dev
+  auth_endpoint: auth
 
-# 媒体文件
+# 媒体文件管理
 media_folder: "docs/public/images"
 public_folder: "/images"
 
-# 内容集合
+# 内容集合配置
 collections:
+  # 1. 文章内容管理
   - name: "column"
     label: "内容管理"
     folder: "docs/column"
@@ -21,18 +25,22 @@ collections:
         name: "new_folder"
         widget: "string"
         default: "Algorithm"
-        hint: "【当前已有分类】: Algorithm, Travel, Growing, fanLink"
-      - label: "文章标题 (侧边栏显示)"
+        hint: "注意拼写：Algorithm, Travel, Growing, fanLink"
+      - label: "文章标题"
         name: "title"
         widget: "string"
       - label: "文件名 (URL路径)"
         name: "slug"
         widget: "string"
         hint: "仅限英文、数字、下划线，例如: 005_BinaryTree"
-      - { label: "日期", name: "date", widget: "datetime" }
-      - { label: "内容", name: "body", widget: "markdown" }
+      - label: "发布日期"
+        name: "date"
+        widget: "datetime"
+      - label: "正文内容"
+        name: "body"
+        widget: "markdown"
 
-  # --- 修复后的 settings 部分 ---
+  # 2. 侧边栏与首页列表同步设置 (三级结构)
   - name: "settings"
     label: "系统设置"
     delete: false
@@ -41,17 +49,38 @@ collections:
         label: "全站分类管理"
         file: "docs/.vitepress/relaConf/categories.json"
         fields:
-          - label: "分类列表"
+          - label: "分类列表 (第一级)"
             name: "categories"
             widget: "list"
             fields:
-              - { label: "分类名称", name: "name", widget: "string", hint: "如：开发技术" }
-              - { label: "分类标识 (路径用)", name: "id", widget: "string", hint: "如：Algorithm" }
-              - { label: "图标", name: "icon", widget: "string" }
-              - label: "二级分组", name: "children", widget: "list"
+              - label: "分类名称"
+                name: "name"
+                widget: "string"
+                hint: "如：开发技术"
+              - label: "分类标识 (路径匹配用)"
+                name: "id"
+                widget: "string"
+                hint: "必须与文件夹名一致，如：Algorithm"
+              - label: "图标"
+                name: "icon"
+                widget: "string"
+                hint: "输入 Emoji，如：💻"
+              - label: "二级分组"
+                name: "children"
+                widget: "list"
                 fields:
-                  - { label: "分组名称", name: "name", widget: "string", hint: "如：数据结构" }
-                  - label: "三级文章列表", name: "links", widget: "list"
+                  - label: "分组名称"
+                    name: "name"
+                    widget: "string"
+                    hint: "如：数据结构"
+                  - label: "三级文章列表"
+                    name: "links"
+                    widget: "list"
                     fields:
-                      - { label: "文章标题", name: "title", widget: "string" }
-                      - { label: "文章路径", name: "url", widget: "string", hint: "/column/Algorithm/001_Stack" }
+                      - label: "文章标题"
+                        name: "title"
+                        widget: "string"
+                      - label: "文章路径"
+                        name: "url"
+                        widget: "string"
+                        hint: "完整路径，如：/column/Algorithm/001_Stack"
