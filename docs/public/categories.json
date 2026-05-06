@@ -14,6 +14,21 @@
           ]
         }
       ]
+    },
+    {
+      "id": "Algorithm",
+      "title": "开发",
+      "groups": [
+        {
+          "groupName": "算法",
+          "items": [
+            {
+              "text": "数列",
+              "link": "/column/Algorithm/001_Stack"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
