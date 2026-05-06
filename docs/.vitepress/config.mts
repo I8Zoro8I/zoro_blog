@@ -3,7 +3,8 @@ import {nav, sidebar} from './relaConf';
 // https://vitepress.dev/reference/site-config11
 // const isCloudflare = process.env.CF_PAGES === '1'
 export default defineConfig({
-    base: '/',
+    base: '/zoro_blog/',
+    //github page  '/zoro_blog/'
     cleanUrls: true, // 加上这一行
     appearance: 'dark',
     title: "My Awesome Project",// 这里将会影响之后生成的根路径
