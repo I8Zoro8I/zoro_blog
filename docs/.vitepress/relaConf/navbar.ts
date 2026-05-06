@@ -8,12 +8,12 @@ export const nav: DefaultTheme.NavItem[] = [
     },
     {
 
-        text: '开发',
+        text: '博客',
         items: [
             {
 
-                text: '数据结构与算法',
-                link: '/column/Algorithm/' // 对应docs/column/Algorithm下的idnex.md文件
+                text: '技术架构介绍',
+                link: '/column/blog/' // 对应docs/column/Algorithm下的idnex.md文件
             }
         ]
     },
