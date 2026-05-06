@@ -16,11 +16,29 @@ public_folder: "/images"
 # 内容集合
 collections:
   - name: "column"
-    label: "文章"
-    folder: "docs/column"  # 文章在仓库中的实际路径
+    label: "内容管理"
+    folder: "docs/column"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    # 物理路径逻辑：分类文件夹/文件名.md
+    path: "{{new_folder}}/{{slug}}"
+    slug: "{{slug}}"
     fields:
-      - { label: "标题", name: "title", widget: "string" }
+      # --- 关键修改部分：组合拳方案 ---
+      - label: "所属分类 (文件夹名)"
+        name: "new_folder"
+        widget: "string" # 使用基础输入框保持最大灵活性
+        default: "Algorithm"
+        # 这里的 hint 充当了“备忘录”，防止你拼错已有的文件夹
+        hint: "【当前已有分类】: Algorithm (算法), Travel (游记), Growing (成长), fanLink (动漫)"
+
+      - label: "文章标题 (侧边栏显示)"
+        name: "title"
+        widget: "string"
+
+      - label: "文件名 (URL路径)"
+        name: "slug"
+        widget: "string"
+        hint: "仅限英文、数字、下划线，例如: 005_BinaryTree"
+
       - { label: "日期", name: "date", widget: "datetime" }
       - { label: "内容", name: "body", widget: "markdown" }
