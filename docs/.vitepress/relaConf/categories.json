@@ -8,8 +8,14 @@
         {
           "name": "数据结构",
           "links": [
-            { "title": "栈与队列", "url": "/column/Algorithm/001_Stack" },
-            { "title": "字典与树", "url": "/column/Algorithm/003_Dictionary" }
+            {
+              "title": "栈与队列",
+              "url": "/column/Algorithm/001_Stack"
+            },
+            {
+              "title": "字典与树",
+              "url": "/column/Algorithm/003_Dictionary"
+            }
           ]
         }
       ]
@@ -22,7 +28,26 @@
         {
           "name": "日本动漫",
           "links": [
-            { "title": "进击的巨人", "url": "/column/fan/shingeki" }
+            {
+              "title": "进击的巨人",
+              "url": "/column/fan/shingeki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "工具合集",
+      "id": "utils",
+      "icon": "😈",
+      "children": [
+        {
+          "name": "链接",
+          "links": [
+            {
+              "title": "番剧推荐好站",
+              "url": "/column/fanLink/index"
+            }
           ]
         }
       ]
