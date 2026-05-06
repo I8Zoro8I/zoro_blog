@@ -13,7 +13,6 @@ public_folder: "/images"
 
 # 内容集合配置
 collections:
-  # 1. 文章内容管理
   - name: "column"
     label: "内容管理"
     folder: "docs/column"
@@ -25,22 +24,23 @@ collections:
         name: "new_folder"
         widget: "string"
         default: "Algorithm"
-        hint: "注意拼写：Algorithm, Travel, Growing, fanLink"
+
       - label: "文章标题"
         name: "title"
         widget: "string"
+
       - label: "文件名 (URL路径)"
         name: "slug"
         widget: "string"
-        hint: "仅限英文、数字、下划线，例如: 005_BinaryTree"
+
       - label: "发布日期"
         name: "date"
         widget: "datetime"
+
       - label: "正文内容"
         name: "body"
         widget: "markdown"
 
-  # 2. 侧边栏与首页列表同步设置 (三级结构)
   - name: "settings"
     label: "系统设置"
     delete: false
@@ -49,22 +49,22 @@ collections:
         label: "全站分类管理"
         file: "docs/.vitepress/relaConf/categories.json"
         fields:
-          - label: "分类列表 (第一级)"
+          - label: "分类列表"
             name: "categories"
             widget: "list"
             fields:
               - label: "分类名称"
                 name: "name"
                 widget: "string"
-                hint: "如：开发技术"
-              - label: "分类标识 (路径匹配用)"
+
+              - label: "分类标识"
                 name: "id"
                 widget: "string"
-                hint: "必须与文件夹名一致，如：Algorithm"
+
               - label: "图标"
                 name: "icon"
                 widget: "string"
-                hint: "输入 Emoji，如：💻"
+
               - label: "二级分组"
                 name: "children"
                 widget: "list"
@@ -72,7 +72,7 @@ collections:
                   - label: "分组名称"
                     name: "name"
                     widget: "string"
-                    hint: "如：数据结构"
+
                   - label: "三级文章列表"
                     name: "links"
                     widget: "list"
@@ -80,7 +80,7 @@ collections:
                       - label: "文章标题"
                         name: "title"
                         widget: "string"
+
                       - label: "文章路径"
                         name: "url"
                         widget: "string"
-                        hint: "完整路径，如：/column/Algorithm/001_Stack"
