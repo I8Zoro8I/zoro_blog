@@ -37,7 +37,6 @@ features:
 
 <script setup>
 import { ref, computed } from 'vue';
-import { categories } from './.vitepress/relaConf/categories';
 import categoriesData from './.vitepress/relaConf/categories.json';
 
 
@@ -79,10 +78,17 @@ const searchResults = computed(() => {
 /* 3. 导航逻辑：计算当前层级展示的内容 */
 const currentDisplay = computed(() => {
   let temp = categoriesData.categories;
+  
   for (const segment of currentPath.value) {
+    /*这里的 segment 通常是 item.name */
     const found = temp.find(c => c.name === segment);
+    
     if (found) {
+      /*核心修改：优先找 children (二级分组)，找不到再找 links (三级文章) */
+       /*如果都没有，说明到底了，返回空数组 */
       temp = found.children || found.links || [];
+    } else {
+      return [];
     }
   }
   return temp;
