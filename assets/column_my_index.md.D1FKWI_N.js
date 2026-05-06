@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as n}from"./chunks/framework.CeCiKVaq.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"column/my/index.md","filePath":"column/my/index.md"}'),a={name:"column/my/index.md"};function o(c,r,s,m,d,i){return t(),n("div")}const l=e(a,[["render",o]]);export{_ as __pageData,l as default};
