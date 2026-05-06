@@ -37,24 +37,21 @@ collections:
     label: "系统设置"
     delete: false
     files:
-      - name: "sidebar_config"
-        label: "侧边栏分类结构"
-        file: "docs/.vitepress/relaConf/cate.json"
+      - name: "categories_config"
+        label: "全站分类管理"
+        file: "docs/.vitepress/relaConf/categories.json"
         fields:
           - label: "分类列表"
             name: "categories"
             widget: "list"
             fields:
-              - { label: "分类标识 (如: Algorithm)", name: "id", widget: "string" }
-              - { label: "分类中文名", name: "title", widget: "string" }
-              - label: "分组内容"
-                name: "groups"
-                widget: "list"
+              - { label: "分类名称", name: "name", widget: "string", hint: "如：开发技术" }
+              - { label: "分类标识 (路径用)", name: "id", widget: "string", hint: "如：Algorithm" }
+              - { label: "图标", name: "icon", widget: "string" }
+              - label: "二级分组", name: "children", widget: "list"
                 fields:
-                  - { label: "分组名称 (如: 数据结构)", name: "groupName", widget: "string" }
-                  - label: "文章列表"
-                    name: "items"
-                    widget: "list"
+                  - { label: "分组名称", name: "name", widget: "string", hint: "如：数据结构" }
+                  - label: "三级文章列表", name: "links", widget: "list"
                     fields:
-                      - { label: "侧边栏显示文本", name: "text", widget: "string" }
-                      - { label: "文件路径 (不带.md)", name: "link", widget: "string", hint: "例如: /column/Algorithm/001_Stack" }
+                      - { label: "文章标题", name: "title", widget: "string" }
+                      - { label: "文章路径", name: "url", widget: "string", hint: "/column/Algorithm/001_Stack" }

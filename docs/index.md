@@ -38,6 +38,8 @@ features:
 <script setup>
 import { ref, computed } from 'vue';
 import { categories } from './.vitepress/relaConf/categories';
+import categoriesData from './.vitepress/relaConf/categories.json';
+
 
 const searchQuery = ref('');
 const currentPath = ref([]);
@@ -48,7 +50,7 @@ const searchResults = computed(() => {
   if (!query) return [];
   
   const results = [];
-  const traverse = (items) => {
+  const traverse = (items, level = 1) => {
     items.forEach(item => {
       /* 匹配文件夹名称 */
       if (item.name && item.name.toLowerCase().includes(query)) {
@@ -65,21 +67,22 @@ const searchResults = computed(() => {
       }
       
       /* 递归子目录 */
-      if (item.children) traverse(item.children);
+        if (item.children) traverse(item.children, level + 1);
+     /*  if (item.children) traverse(item.children); */
     });
   };
   
-  traverse(categories);
+  traverse(categoriesData.categories);
   return results;
 });
 
 /* 3. 导航逻辑：计算当前层级展示的内容 */
 const currentDisplay = computed(() => {
-  let temp = categories;
+  let temp = categoriesData.categories;
   for (const segment of currentPath.value) {
     const found = temp.find(c => c.name === segment);
     if (found) {
-      temp = found.children || found.links;
+      temp = found.children || found.links || [];
     }
   }
   return temp;

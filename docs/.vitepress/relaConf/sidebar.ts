@@ -46,28 +46,53 @@
 //     ]
 // };
 
+// import { DefaultTheme } from 'vitepress';
+// import { categories } from './categories';
+// // @ts-ignore
+// import categoriesData from './cate.json';
+//
+// export const sidebar: DefaultTheme.Sidebar = {};
+//
+// // 将 JSON 数据转换为 VitePress 要求的格式
+// categoriesData.categories.forEach((cat: any) => {
+//     const sidebarKey = `/column/${cat.id}/`;
+//
+//     // 生成该分类下的数组
+//     sidebar[sidebarKey] = [
+//         // 自动添加一个首页
+//         { text: `${cat.title}首页`, link: `${sidebarKey}index` },
+//         // 循环 JSON 中的分组
+//         ...cat.groups.map((group: any) => ({
+//             text: group.groupName,
+//             collapsed: false,
+//             items: group.items.map((item: any) => ({
+//                 text: item.text,
+//                 link: item.link
+//             }))
+//         }))
+//     ];
+// });
 import { DefaultTheme } from 'vitepress';
-import { categories } from './categories';
 // @ts-ignore
-import categoriesData from './cate.json';
+import categoriesData from './categories.json';
 
 export const sidebar: DefaultTheme.Sidebar = {};
 
-// 将 JSON 数据转换为 VitePress 要求的格式
-categoriesData.categories.forEach((cat: any) => {
+categoriesData.categories?.forEach((cat: any) => {
+    // 动态生成路径 Key，例如 "/column/Algorithm/"
     const sidebarKey = `/column/${cat.id}/`;
 
-    // 生成该分类下的数组
     sidebar[sidebarKey] = [
-        // 自动添加一个首页
-        { text: `${cat.title}首页`, link: `${sidebarKey}index` },
-        // 循环 JSON 中的分组
-        ...cat.groups.map((group: any) => ({
-            text: group.groupName,
+        // 第一层：该分类的首页
+        { text: `${cat.name}概览`, link: `${sidebarKey}index` },
+        // 第二层：循环 children 映射为侧边栏的分组
+        ...(cat.children || []).map((group: any) => ({
+            text: group.name,
             collapsed: false,
-            items: group.items.map((item: any) => ({
-                text: item.text,
-                link: item.link
+            // 第三层：循环 links 映射为具体的文章
+            items: (group.links || []).map((link: any) => ({
+                text: link.title,
+                link: link.url
             }))
         }))
     ];

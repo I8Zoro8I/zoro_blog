@@ -1,6 +1,5 @@
 import {defineConfig} from 'vitepress'
-import {nav} from './relaConf';
-import AutoSidebar from 'vite-plugin-vitepress-auto-sidebar';
+import {nav, sidebar} from './relaConf';
 // @ts-ignore
 export default defineConfig({
     // base: '/zoro_blog/',
@@ -15,7 +14,7 @@ export default defineConfig({
         logo: '/avatar.png', // 表示docs/public/avatar.png
         nav: nav,
         //
-        // sidebar: sidebar,
+        sidebar: sidebar,
         search: {
 
             provider: 'local'
@@ -28,15 +27,5 @@ export default defineConfig({
             level: [2, 6],
             label: '目录'
         }
-    },
-    vite: {
-        plugins: [
-            AutoSidebar({
-                path: '/docs/column',
-                collapsed: false,
-                ignoreList: ['index.md'],
-                titleFromFile: true
-            })
-        ]
     }
 })

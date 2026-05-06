@@ -1,0 +1,31 @@
+{
+  "categories": [
+    {
+      "name": "开发技术",
+      "id": "Algorithm",
+      "icon": "💻",
+      "children": [
+        {
+          "name": "数据结构",
+          "links": [
+            { "title": "栈与队列", "url": "/column/Algorithm/001_Stack" },
+            { "title": "字典与树", "url": "/column/Algorithm/003_Dictionary" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "动漫专栏",
+      "id": "fan",
+      "icon": "📺",
+      "children": [
+        {
+          "name": "日本动漫",
+          "links": [
+            { "title": "进击的巨人", "url": "/column/fan/shingeki" }
+          ]
+        }
+      ]
+    }
+  ]
+}
