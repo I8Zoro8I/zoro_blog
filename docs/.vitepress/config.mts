@@ -5,6 +5,7 @@ import {nav, sidebar} from './relaConf';
 export default defineConfig({
     base: '/',
     cleanUrls: true, // 加上这一行
+    appearance: 'dark',
     title: "My Awesome Project",// 这里将会影响之后生成的根路径
     description: "A VitePress Site",
     themeConfig: {
@@ -12,7 +13,7 @@ export default defineConfig({
         logo: '/avatar.png', // 表示docs/public/avatar.png
         nav: nav,
         //
-        sidebar:sidebar,
+        sidebar: sidebar,
         search: {
 
             provider: 'local'

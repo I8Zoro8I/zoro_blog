@@ -1,11 +1,9 @@
 # 后端配置
 backend:
-  name: github
+  name: git-gateway
   repo: I8Zoro8I/zoro_blog  # 你的 用户名/仓库名
   branch: main             # 确认你的分支是 main
-    # 关键修改：指向你刚刚部署的 Worker 地址
-  base_url: https://cms-auth.m15860860386.workers.dev
-  auth_endpoint: /auth
+
 
 # 只有在本地电脑运行时才开启此项，部署前建议注释掉
 # local_backend: true

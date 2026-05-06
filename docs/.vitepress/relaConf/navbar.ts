@@ -19,35 +19,31 @@ export const nav: DefaultTheme.NavItem[] = [
     },
     {
 
-        text: '动漫',
+        text: '工具合集',
         items: [
             {
 
-                text: '链接',
+                text: '动漫链接',
                 link: '/column/fanLink/' // 对应docs/column/Algorithm下的idnex.md文件
-            },
-            {
-                text: '追番记录',
-                link: '/column/fan/' // 对应
             }
         ]
     },
-    // {
-    //
-    //     text: '个人成长',
-    //     items: [
-    //         {
-    //
-    //             text: '大江南北游记',
-    //             link: '/column/Travel/' // 表示docs/column/Travel/index.md
-    //         },
-    //         {
-    //
-    //             text: '所思·所想',
-    //             link: '/column/Growing/' // 表示docs/column/Growing/index.md
-    //         }
-    //     ]
-    // },
+    {
+
+        text: '游戏随笔',
+        items: [
+            {
+
+                text: '大江南北游记',
+                link: '/column/Travel/' // 表示docs/column/Travel/index.md
+            },
+            {
+
+                text: '所思·所想',
+                link: '/column/Growing/' // 表示docs/column/Growing/index.md
+            }
+        ]
+    },
     {
 
         text: '关于我',
@@ -63,6 +59,10 @@ export const nav: DefaultTheme.NavItem[] = [
 
                 text: '抖音',
                 link: 'https://pzfqk98jn1.feishu.cn/wiki/space/7193915595975491587?ccm_open_type=lark_wiki_spaceLink'
+            },
+            {
+                text: '追番记录',
+                link: '/column/fan/' // 对应
             }
         ]
     }
