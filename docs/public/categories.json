@@ -1,0 +1,19 @@
+{
+  "categories": [
+    {
+      "id": "demo",
+      "title": "测试1",
+      "groups": [
+        {
+          "groupName": "测试12",
+          "items": [
+            {
+              "text": "demo1",
+              "link": "/column/Demo/001_demo"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
