@@ -1,0 +1,72 @@
+{
+  "categories": [
+    {
+      "name": "开发技术",
+      "id": "Algorithm",
+      "icon": "💻",
+      "children": [
+        {
+          "name": "数据结构",
+          "links": [
+            {
+              "title": "栈与队列",
+              "url": "/column/Algorithm/001_Stack"
+            },
+            {
+              "title": "字典与树",
+              "url": "/column/Algorithm/003_Dictionary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "工具合集",
+      "id": "utils",
+      "icon": "😈",
+      "children": [
+        {
+          "name": "链接",
+          "links": [
+            {
+              "title": "番剧推荐好站",
+              "url": "/column/utils/fanLink"
+            },
+            {
+              "title": "破解游戏软件分享",
+              "url": "/column/utils/gameCrack"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "博客技术架构",
+      "id": "blog",
+      "icon": "👨",
+      "children": [
+        {
+          "name": "详情",
+          "links": [
+            {
+              "title": "VitePress指南",
+              "url": "/column/blog/001_vitepress"
+            },
+            {
+              "title": "Decap CMS",
+              "url": "/column/blog/002_decapCMS"
+            },
+            {
+              "title": "Cloudflare Worker",
+              "url": "/column/blog/003_cloundFlareWorkerAuth"
+            },
+            {
+              "title": "Giscus",
+              "url": "/column/blog/004_Giscus"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
