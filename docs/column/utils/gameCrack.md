@@ -1,7 +1,7 @@
 ---
-new_folder: Algorithm
+new_folder: utils
 title: 🕹️ 破解软件 & 游戏资源收藏指南
-slug: crack_resource_guide
+slug: gameCrack
 date: 2026-05-06T00:41:00.000+08:00
 ---
 
