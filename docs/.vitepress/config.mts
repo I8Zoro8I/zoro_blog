@@ -1,9 +1,8 @@
 import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
-// https://vitepress.dev/reference/site-config11
-// const isCloudflare = process.env.CF_PAGES === '1'
 export default defineConfig({
-    base: '/zoro_blog/',
+    // base: '/zoro_blog/',
+    base :'/',
     //github page  '/zoro_blog/'
     cleanUrls: true, // 加上这一行
     appearance: 'dark',
