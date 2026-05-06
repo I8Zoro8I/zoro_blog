@@ -34,7 +34,7 @@ export const nav: DefaultTheme.NavItem[] = [
     },
     {
 
-        text: '关于我',
+        text: '联系我',
         items: [
             {
                 text: 'Github', link: 'https://github.com/I8Zoro8I' },

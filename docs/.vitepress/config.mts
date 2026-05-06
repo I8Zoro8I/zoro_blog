@@ -12,8 +12,8 @@ export default defineConfig({
         ['link', { rel: 'icon', href: '/zoro_blog/images/logo.png' }]
     ],
     appearance: 'dark',
-    title: "My Awesome Project",// 这里将会影响之后生成的根路径
-    description: "A VitePress Site",
+    title: "zoro's Blog",// 这里将会影响之后生成的根路径
+    description: "记录成长，分享技术与生活 | zoro 个人博客",
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config
         logo: '/images/avatar.png', // 表示docs/public/avatar.png
@@ -30,7 +30,7 @@ export default defineConfig({
         outline: {
 
             level: [2, 6],
-            label: '目录'
+            label: '文章目录'
         }
     }
 })

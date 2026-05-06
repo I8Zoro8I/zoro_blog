@@ -5,8 +5,8 @@ home: true
 
 hero:
   name: "zoro"
-  text: "测试网站"
-  tagline: My great project tagline
+  text: "个人博客"
+  tagline: 技术沉淀 · 生活随笔 · 持续成长
   image:
     # 首页右边的图片
      src: /images/avatar.png
@@ -15,22 +15,22 @@ hero:
   # 按钮相关
   actions:
     - theme: brand
-      text: 进入主页
-      link: /markdown-examples
+      text: 博客介绍
+      link: /column/blog
     - theme: alt
-      text: 个人成长
-      link: /api-examples
+      text: 关于我
+      link: /column/my
 
 features:
-  - icon: 🤹♀️ 
-    title: 标签一
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - icon: 👩🎨
-    title: 标签二
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - icon: 💻 
+    title: 技术沉淀
+    details: 专注开发与实战，记录项目踩坑、技术复盘，分享可复用的开发经验与技巧
   - icon: 🧩
-    title: 标签三
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    title: 生活杂记
+    details: 跳出代码世界，记录日常感悟、阅读随笔与成长碎片，藏着不慌不忙的生活态度
+  - icon: 📈
+    title: 成长存档
+    details: 追踪学习进度，记录目标达成与自我突破，每一步前行都有迹可循
 ---
 
 [//]: # (<!-- 自定义组件 -->)
@@ -137,6 +137,7 @@ const getUrl = (url) => {
 
 const goBack = () => currentPath.value.pop();
 const resetNav = () => currentPath.value = [];
+const sponsorType = ref('wechat');
 </script>
 
 <div class="custom-home-layout">
@@ -205,12 +206,23 @@ const resetNav = () => currentPath.value = [];
           <strong class="stat-val">{{ stats.folders }}</strong>
         </div>
         <hr class="divider" />
-        <h3 class="widget-title">🔗 快速通道</h3>
-        <ul class="quick-links">
-          <li><a :href="getUrl('/column/Algorithm/')">算法专栏</a></li>
-          <li><a :href="getUrl('/column/Growing/')">成长记录</a></li>
-          <li><a :href="getUrl('/column/fan/')">我的番单</a></li>
-        </ul>
+        <h3 class="widget-title">☕ 赞助我</h3>
+        <div class="sponsor-tabs">
+          <span 
+            :class="['tab-item', sponsorType === 'wechat' ? 'active' : '']" 
+            @click="sponsorType = 'wechat'"
+          >微信</span>
+          <span 
+            :class="['tab-item', sponsorType === 'alipay' ? 'active' : '']" 
+            @click="sponsorType = 'alipay'"
+          >支付宝</span>
+        </div>
+        <div class="sponsor-content">
+          <img 
+            :src="sponsorType === 'wechat' ? getUrl('/images/wechat.jpg') : getUrl('/images/alipay.jpg')" 
+            class="sponsor-img" 
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -413,5 +425,32 @@ const resetNav = () => currentPath.value = [];
   .right-sidebar {
     order: -1; /* 移动端统计放在上面 */
   }
+}
+
+.sponsor-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+.tab-item {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+}
+.tab-item.active {
+  background: var(--vp-c-brand);
+  color: white;
+  border-color: var(--vp-c-brand);
+}
+.sponsor-img {
+  width: 130px;
+  height: 130px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
 }
 </style>
