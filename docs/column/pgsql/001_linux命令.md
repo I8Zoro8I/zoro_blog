@@ -1,3 +1,11 @@
+---
+title: PostgreSQL终端命令linux
+slug: PostgreSQLlinux命令
+date: 2026年05月07日
+---
+
+
+
 #### 一、PostgreSQL 登录命令
 
 ##### 基础登录语法
