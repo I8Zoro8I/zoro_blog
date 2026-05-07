@@ -47,7 +47,7 @@ export const nav: DefaultTheme.NavItem[] = [
             {
 
                 text: '抖音',
-                link: 'https://pzfqk98jn1.feishu.cn/wiki/space/7193915595975491587?ccm_open_type=lark_wiki_spaceLink'
+                link: 'https://v.douyin.com/AnOvAGcLGqM/ '
             }
         ]
     }
