@@ -6,19 +6,6 @@
       "icon": "💻",
       "children": [
         {
-          "name": "数据结构",
-          "links": [
-            {
-              "title": "栈与队列",
-              "url": "/column/Algorithm/001_Stack"
-            },
-            {
-              "title": "字典与树",
-              "url": "/column/Algorithm/003_Dictionary"
-            }
-          ]
-        },
-        {
           "name": "PostgreSQL",
           "links": [
             {
@@ -32,6 +19,26 @@
             {
               "title": "分布式库",
               "url": "/column/pgsql/003_分布式库"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "开发问题",
+      "id": "question",
+      "icon": "\uD83D\uDCA1",
+      "children": [
+        {
+          "name": "pm2",
+          "links": [
+            {
+              "title": "PM2 跟随 NVM 切换 Node",
+              "url": "/column/question/pm2/001_nvm跟随版本"
+            },
+            {
+              "title": "pm2 list显示端口号",
+              "url": "/column/question/pm2/002_list显示端口号"
             }
           ]
         }
