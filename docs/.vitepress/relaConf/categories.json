@@ -2,7 +2,7 @@
   "categories": [
     {
       "name": "开发技术",
-      "id": "Algorithm",
+      "id": "technology",
       "icon": "💻",
       "children": [
         {
@@ -15,6 +15,23 @@
             {
               "title": "字典与树",
               "url": "/column/Algorithm/003_Dictionary"
+            }
+          ]
+        },
+        {
+          "name": "PostgreSQL",
+          "links": [
+            {
+              "title": "linux命令",
+              "url": "/column/pgsql/001_linux命令"
+            },
+            {
+              "title": "全文检索&表分区",
+              "url": "/column/pgsql/002_全文检索&表分区"
+            },
+            {
+              "title": "分布式库",
+              "url": "/column/pgsql/003_分布式库"
             }
           ]
         }
