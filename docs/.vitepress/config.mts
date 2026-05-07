@@ -2,8 +2,8 @@ import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
 // @ts-ignore
 export default defineConfig({
-    // base: '/zoro_blog/',
-    base: '/',
+    base: '/zoro_blog/',
+    // base: '/',
     //github page  '/zoro_blog/'
     cleanUrls: true, // 加上这一行
     /* 核心配置：在 HTML 的 <head> 中添加图标链接 */
