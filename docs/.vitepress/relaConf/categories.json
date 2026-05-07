@@ -19,6 +19,10 @@
             {
               "title": "分布式库",
               "url": "/column/pgsql/003_分布式库"
+            },
+            {
+              "title": "通用函数",
+              "url": "/column/pgsql/004_通用函数sql"
             }
           ]
         }
