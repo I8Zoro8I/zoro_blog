@@ -8,6 +8,8 @@ date: 2026-05-06
 
 在完成了博客的交互（Giscus）与内容管理（Decap CMS）后，我们需要一套数据监控系统来了解访问流量。Umami 是一款开源、隐私友好、且完全不依赖 Cookie 的统计工具，是 Google Analytics 的完美替代品。
 
+🔗链接:https://cloud.umami.is/
+
 ## 1. 为什么选择 Umami？
 
 对于后端开发者而言，Umami 的吸引力在于：
