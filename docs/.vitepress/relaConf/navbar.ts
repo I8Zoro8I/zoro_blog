@@ -29,6 +29,10 @@ export const nav: DefaultTheme.NavItem[] = [
             {
                 text: '破解游戏软件',
                 link: '/column/utils/gameCrack'
+            },
+            {
+                text: '终端工具推荐',
+                link: '/column/utils/terminal'
             }
         ]
     },
