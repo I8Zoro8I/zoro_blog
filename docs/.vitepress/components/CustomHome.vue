@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { withBase } from 'vitepress';
+import {ref, computed, watch} from 'vue';
+import {withBase} from 'vitepress';
 /* 请确保路径正确，如果报错请检查 categories.json 的位置 */
 import categoriesData from '../relaConf/categories.json';
 
@@ -117,7 +117,15 @@ const getUrl = (url) => {
   if (!url) return '#';
   return withBase(url);
 };
-
+/* --- 新增：跳转到指定路径层级 --- */
+const jumpToPath = (index) => {
+  // 截取路径，保留从 0 到 index 的部分
+  // 例如路径是 ['开发技术', 'PostgreSQL']，点击 '开发技术' (index为0)
+  // 路径会变为 ['开发技术']
+  currentPath.value = currentPath.value.slice(0, index + 1);
+  searchQuery.value = ''; // 清空搜索
+  currentPage.value = 1;  // 重置页码
+};
 /* --- 6. 监听器 --- */
 /* 搜索内容变化时，自动回到第一页 */
 watch(searchQuery, () => {
@@ -143,10 +151,22 @@ watch(searchQuery, () => {
       <div class="left-content">
         <div class="nav-header">
           <div class="breadcrumb">
+            <!-- 首页链接 -->
             <span class="crumb-item" @click="resetNav">🏠 全部分类</span>
-            <span v-for="p in currentPath" :key="p" class="crumb-separator">
-              / <span class="crumb-text">{{ p }}</span>
-            </span>
+
+            <!-- 动态路径链接 -->
+            <span v-for="(p, index) in currentPath" :key="index">
+            <span class="crumb-separator">/</span>
+              <!-- 情况 A：如果是路径的最后一级，仅显示文字 -->
+              <span v-if="index === currentPath.length - 1" class="crumb-text-current">
+                {{ p }}
+              </span>
+
+                        <!-- 情况 B：如果是中间层级，显示为可点击的链接 -->
+              <span v-else class="crumb-item" @click="jumpToPath(index)">
+                {{ p }}
+              </span>
+          </span>
           </div>
           <button v-if="currentPath.length > 0" class="back-link" @click="goBack">
             🔙 返回上一级
@@ -173,18 +193,20 @@ watch(searchQuery, () => {
           <!-- 空状态 -->
           <div v-else class="empty-state">没有找到匹配的结果 😅</div>
           <!-- 分页组件 -->
-          <div v-if="totalPages > 1" class="pagination">
+          <div class="pagination">
             <button
                 :disabled="currentPage === 1"
                 @click="currentPage--"
                 class="page-btn"
-            >上一页</button>
+            >上一页
+            </button>
             <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
             <button
                 :disabled="currentPage === totalPages"
                 @click="currentPage++"
                 class="page-btn"
-            >下一页</button>
+            >下一页
+            </button>
           </div>
         </div>
       </div>
@@ -200,7 +222,7 @@ watch(searchQuery, () => {
             <span>分类目录</span>
             <strong class="stat-val">{{ stats.folders }}</strong>
           </div>
-          <hr class="divider" />
+          <hr class="divider"/>
           <h3 class="widget-title">☕ 赞助我</h3>
           <div class="sponsor-tabs">
             <span
@@ -237,11 +259,13 @@ watch(searchQuery, () => {
 .search-section {
   margin-bottom: 30px;
 }
+
 .search-input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
+
 .search-input {
   width: 100%;
   padding: 14px 20px;
@@ -252,11 +276,13 @@ watch(searchQuery, () => {
   font-size: 16px;
   transition: all 0.3s;
 }
+
 .search-input:focus {
   border-color: var(--vp-c-brand);
   outline: none;
   box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
 }
+
 .clear-icon {
   position: absolute;
   right: 15px;
@@ -303,13 +329,16 @@ watch(searchQuery, () => {
   font-size: 15px;
   font-weight: 500;
 }
+
 .crumb-item {
   cursor: pointer;
   color: var(--vp-c-brand);
 }
+
 .crumb-item:hover {
   text-decoration: underline;
 }
+
 .crumb-separator {
   margin: 0 8px;
   color: var(--vp-c-text-3);
@@ -326,6 +355,7 @@ watch(searchQuery, () => {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .back-link:hover {
   background: var(--vp-c-brand);
   color: white;
@@ -338,6 +368,7 @@ watch(searchQuery, () => {
   gap: 16px;
   align-content: flex-start;
 }
+
 .card {
   height: 90px; /* 固定高度使对齐 */
   padding: 10px 20px;
@@ -351,19 +382,22 @@ watch(searchQuery, () => {
   align-items: center;
   justify-content: center;
 }
+
 .card:hover {
   transform: translateY(-5px);
   border-color: var(--vp-c-brand);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .folder-card {
   color: var(--vp-c-text-1);
   font-weight: 600;
 }
+
 .doc-card {
   background: var(--vp-c-brand-soft);
 }
+
 .card-link {
   text-decoration: none;
   color: var(--vp-c-text-1);
@@ -384,6 +418,7 @@ watch(searchQuery, () => {
   padding-top: 20px;
   border-top: 1px dashed var(--vp-c-divider);
 }
+
 .page-btn {
   padding: 6px 16px;
   border-radius: 8px;
@@ -394,14 +429,17 @@ watch(searchQuery, () => {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .page-btn:hover:not(:disabled) {
   border-color: var(--vp-c-brand);
   color: var(--vp-c-brand);
 }
+
 .page-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
 .page-info {
   font-size: 14px;
   font-weight: 600;
@@ -421,27 +459,32 @@ watch(searchQuery, () => {
   flex-direction: column;
   gap: 20px;
 }
+
 .info-widget {
   background: var(--vp-c-bg-alt);
   padding: 24px;
   border-radius: 16px;
   border: 1px solid var(--vp-c-divider);
 }
+
 .widget-title {
   font-size: 16px;
   margin-bottom: 16px;
   color: var(--vp-c-text-1);
   font-weight: bold;
 }
+
 .stat-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
   font-size: 14px;
 }
+
 .stat-val {
   color: var(--vp-c-brand);
 }
+
 .divider {
   border: 0;
   border-top: 1px solid var(--vp-c-divider);
@@ -455,6 +498,7 @@ watch(searchQuery, () => {
   margin-bottom: 15px;
   justify-content: center;
 }
+
 .tab-item {
   font-size: 12px;
   padding: 4px 10px;
@@ -464,11 +508,13 @@ watch(searchQuery, () => {
   color: var(--vp-c-text-2);
   transition: all 0.2s;
 }
+
 .tab-item.active {
   background: var(--vp-c-brand);
   color: white;
   border-color: var(--vp-c-brand);
 }
+
 .sponsor-img {
   width: 140px;
   height: 140px;
@@ -477,6 +523,7 @@ watch(searchQuery, () => {
   border-radius: 8px;
   border: 1px solid var(--vp-c-divider);
 }
+
 .sponsor-tip {
   font-size: 12px;
   color: var(--vp-c-text-2);
@@ -490,6 +537,7 @@ watch(searchQuery, () => {
   .main-grid {
     grid-template-columns: 1fr;
   }
+
   .right-sidebar {
     order: -1;
   }
