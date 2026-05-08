@@ -2,6 +2,7 @@ import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
 // @ts-ignore
 export default defineConfig({
+    lang: 'zh-CN', // 设置页面的 lang 属性
     base: '/zoro_blog/',
     // base: '/',
     //github page  '/zoro_blog/'
@@ -36,10 +37,34 @@ export default defineConfig({
         socialLinks: [
             {icon: 'github', link: 'https://github.com/vuejs/vitepress'}
         ],
+        // 右侧大纲的标题映射
         outline: {
 
             level: [2, 6],
-            label: '文章目录'
-        }
+            label: '页面大纲'
+        },
+        // 显示最后更新时间
+        lastUpdated: {
+            text: '最后更新于',
+            formatOptions: {
+                dateStyle: 'full',
+                timeStyle: 'medium'
+            } as any
+        },
+        // 自定义页脚
+        footer: {
+            message: '基于 VitePress 驱动',
+            copyright: `版权所有 © 2024-${new Date().getFullYear()} Zoro`
+        },
+        // 文档页面的翻页按钮文字
+        docFooter: {
+            prev: '上一篇',
+            next: '下一篇'
+        },
+        // 编辑链接：允许读者直接在 GitHub 上纠错
+        editLink: {
+            pattern: 'https://github.com/I8zoro8I/zoro_blog/edit/main/docs/:path',
+            text: '在 GitHub 上编辑此页'
+        },
     }
 })
