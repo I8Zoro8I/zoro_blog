@@ -3,13 +3,15 @@ new_folder: utils
 title: 🎬 动漫资源收藏指南
 slug: gameCrack
 date: 2026-04-30
-​----------------
+---
+
+
+
+
 
 # 🎬 动漫资源收藏指南
 
 > 一个好用的番剧资源导航页，适合长期收藏 ✨
-
----
 
 
 ![anime-cover](https://images.unsplash.com/photo-1606112219348-204d7d8b94ee?q=80\&w=1600\&auto=format\&fit=crop)
