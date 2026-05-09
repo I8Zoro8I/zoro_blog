@@ -67,6 +67,10 @@
             {
               "title": "终端工具推荐",
               "url": "/column/utils/terminal"
+            },
+            {
+              "title": "机场推荐",
+              "url": "/column/utils/vpn"
             }
           ]
         }
