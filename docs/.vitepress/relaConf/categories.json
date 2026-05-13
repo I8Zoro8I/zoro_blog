@@ -111,7 +111,7 @@
     {
       "name": "系统优化",
       "id": "computer",
-      "icon": "👨",
+      "icon": "\uD83D\uDDA5\uFE0F",
       "children": [
         {
           "name": "mac",
