@@ -40,7 +40,7 @@ export default defineConfig({
         // 右侧大纲的标题映射
         outline: {
 
-            level: [2, 6],
+            level: [1, 4],
             label: '页面大纲'
         },
         // 显示最后更新时间
