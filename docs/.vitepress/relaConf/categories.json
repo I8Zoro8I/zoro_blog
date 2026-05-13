@@ -107,6 +107,31 @@
           ]
         }
       ]
+    },
+    {
+      "name": "系统优化",
+      "id": "computer",
+      "icon": "👨",
+      "children": [
+        {
+          "name": "mac",
+          "links": [
+            {
+              "title": "mac软件推荐（Windows 用户转 Mac 必备小工具）",
+              "url": "/column/mac/001_app"
+            }
+          ]
+        },
+        {
+          "name": "window",
+          "links": [
+            {
+              "title": "window软件推荐",
+              "url": "/column/window/001_app"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
