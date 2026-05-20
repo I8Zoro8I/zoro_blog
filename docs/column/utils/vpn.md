@@ -101,7 +101,7 @@ https://xn--6nq44r2uh9rhj7f.com/
 
 官网：
 
-https://www.lmspeedapp.com/
+https://inv06.lmaff01.cc/register?aff=TiPMur9D
 
 基础套餐：
 
@@ -204,3 +204,17 @@ IKUUU
 
 ```text
 一个主力 + 一个备用
+```
+
+
+
+> [!TIP]
+>
+> 更多VPN
+>
+> Mitce https://mitce.net/
+>
+> 杨帆云 https://yangfanhome.com/
+>
+> ssone https://m.ssone.io/#/login
+
