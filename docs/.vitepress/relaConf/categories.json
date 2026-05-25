@@ -45,12 +45,8 @@
               "url": "/column/AI/math/02ProbabilityTheory"
             },
             {
-              "title": "分布式库",
-              "url": "/column/AI/math/003_分布式库"
-            },
-            {
-              "title": "通用函数",
-              "url": "/column/pgsql/004_通用函数sql"
+              "title": "微积分",
+              "url": "/column/AI/math/03Calculus"
             }
           ]
         }
