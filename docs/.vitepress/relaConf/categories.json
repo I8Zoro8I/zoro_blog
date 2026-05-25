@@ -49,6 +49,14 @@
               "url": "/column/AI/math/03Calculus"
             }
           ]
+        },{
+          "name": "python基础",
+          "links": [
+            {
+              "title": "01-简介与环境",
+              "url": "/column/AI/python/01环境"
+            }
+          ]
         }
       ]
     },
