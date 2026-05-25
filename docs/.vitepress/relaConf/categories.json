@@ -29,6 +29,34 @@
       ]
     },
     {
+      "name": "AI工程",
+      "id": "AI",
+      "icon": "\uD83C\uDF5E",
+      "children": [
+        {
+          "name": "数学基础",
+          "links": [
+            {
+              "title": "线性代数",
+              "url": "/column/AI/math/01linearAlgebra"
+            },
+            {
+              "title": "全文检索&表分区",
+              "url": "/column/AI/math/002_全文检索&表分区"
+            },
+            {
+              "title": "分布式库",
+              "url": "/column/AI/math/003_分布式库"
+            },
+            {
+              "title": "通用函数",
+              "url": "/column/pgsql/004_通用函数sql"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "开发问题",
       "id": "question",
       "icon": "\uD83D\uDCA1",

@@ -1,6 +1,8 @@
 import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
 // @ts-ignore
+import katex from 'markdown-it-katex'
+// @ts-ignore
 export default defineConfig({
     lang: 'zh-CN', // 设置页面的 lang 属性
     base: '/zoro_blog/',
@@ -10,6 +12,13 @@ export default defineConfig({
     /* 核心配置：在 HTML 的 <head> 中添加图标链接 */
     head: [
         /* 注意：因为你的项目 base 是 /zoro_blog/，路径需包含前缀 */
+        [
+            'link',
+            {
+                rel: 'stylesheet',
+                href: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css'
+            }
+        ],
         ['link', {rel: 'icon', href: '/zoro_blog/images/logo.png'}],
         [
             'script',
@@ -66,5 +75,10 @@ export default defineConfig({
             pattern: 'https://github.com/I8zoro8I/zoro_blog/edit/main/docs/:path',
             text: '在 GitHub 上编辑此页'
         },
+    },
+    markdown: {
+        config: (md) => {
+            md.use(katex)
+        }
     }
 })
