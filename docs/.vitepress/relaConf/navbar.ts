@@ -38,17 +38,6 @@ export const nav: DefaultTheme.NavItem[] = [
     },
     {
 
-        text: '笔记',
-        items: [
-            {
-
-                text: 'AI工程岗',
-                link: '/column/AI/'
-            }
-        ]
-    },
-    {
-
         text: '联系我',
         items: [
             {
