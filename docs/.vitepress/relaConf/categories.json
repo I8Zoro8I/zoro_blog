@@ -55,6 +55,42 @@
             {
               "title": "01-简介与环境",
               "url": "/column/AI/python/01环境"
+            },
+            {
+              "title": "02-语法和数据类型",
+              "url": "/column/AI/python/02语法&数据"
+            },
+            {
+              "title": "03-运算符",
+              "url": "/column/AI/python/03运算符"
+            },
+            {
+              "title": "04-推导式",
+              "url": "/column/AI/python/04推导式"
+            },
+            {
+              "title": "05-迭代器与生成器",
+              "url": "/column/AI/python/05迭代器与生成器"
+            },
+            {
+              "title": "06-With关键字",
+              "url": "/column/AI/python/06With"
+            },
+            {
+              "title": "07-函数",
+              "url": "/column/AI/python/07函数"
+            },
+            {
+              "title": "08-装饰器",
+              "url": "/column/AI/python/08装饰器"
+            },
+            {
+              "title": "09-File&OS",
+              "url": "/column/AI/python/09File&OS"
+            },
+            {
+              "title": "10-面对对象",
+              "url": "/column/AI/python/10面对对象"
             }
           ]
         }
