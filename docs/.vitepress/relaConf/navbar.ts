@@ -44,6 +44,10 @@ export const nav: DefaultTheme.NavItem[] = [
                 text: 'Github', link: 'https://github.com/I8Zoro8I'
             },
             {
+                text: 'Gitee',
+                link: 'https://gitee.com/zoro869466424'
+            },
+            {
 
                 text: 'bilibili',
                 link: 'https://space.bilibili.com/179491448'
@@ -52,7 +56,8 @@ export const nav: DefaultTheme.NavItem[] = [
 
                 text: '抖音',
                 link: 'https://v.douyin.com/AnOvAGcLGqM/ '
-            }
+            },
+
         ]
     }
 ];
