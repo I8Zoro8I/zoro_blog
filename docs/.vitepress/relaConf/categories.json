@@ -99,23 +99,23 @@
           "links": [
             {
               "title": "01-Ndarray对象",
-              "url": "/column/AI/python/01Ndarray"
+              "url": "/column/AI/Numpy/01Ndarray"
             },
             {
               "title": "02-数据类型",
-              "url": "/column/AI/python/02数据类型"
+              "url": "/column/AI/Numpy/02数据类型"
             },
             {
               "title": "03数组",
-              "url": "/column/AI/python/03数组"
+              "url": "/column/AI/Numpy/03数组"
             },
             {
               "title": "04切片和索引",
-              "url": "/column/AI/python/04切片和索引"
+              "url": "/column/AI/Numpy/04切片和索引"
             },
             {
               "title": "05-广播",
-              "url": "/column/AI/python/05广播"
+              "url": "/column/AI/Numpy/05广播"
             }
           ]
         }
