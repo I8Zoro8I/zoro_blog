@@ -50,7 +50,9 @@ export default defineConfig({
         outline: {
 
             level: [1, 4],
-            label: '页面大纲'
+            label: '页面大纲',
+            // @ts-ignore
+            deep: true     // 开启深度按需加载/折叠
         },
         // 显示最后更新时间
         lastUpdated: {
