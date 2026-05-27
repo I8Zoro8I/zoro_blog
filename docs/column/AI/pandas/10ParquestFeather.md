@@ -12,7 +12,7 @@ Parquet 和 Feather 是两种高效的列式数据存储格式，专为大数据
 
 ## 为什么使用 Parquet 和 Feather
 
-列式存储格式的主要优势：
+列式存储格式的主要优势:
 
 | 特性       | CSV  | Parquet       | Feather  |
 | :--------- | :--- | :------------ | :------- |
@@ -80,7 +80,7 @@ df.to_parquet("data_none.parquet", compression=None, index=False)  # 不压缩
 
 # 查看文件大小
 import os
-print("文件大小对比：")
+print("文件大小对比:")
 print(f"原始 CSV 预估: {len(df) * 50 / 1024 / 1024:.2f} MB")
 print(f"snappy 压缩: {os.path.getsize('data_snappy.parquet') / 1024 / 1024:.2f} MB")
 print(f"gzip 压缩: {os.path.getsize('data_gzip.parquet') / 1024 / 1024:.2f} MB")
@@ -237,7 +237,7 @@ with tempfile.TemporaryDirectory() as tmpdir:
 
 **1、读取 Parquet 报错**
 
-确保安装了 pyarrow 或 fastparquet：`pip install pyarrow`
+确保安装了 pyarrow 或 fastparquet:`pip install pyarrow`
 
 **2、文件损坏**
 
