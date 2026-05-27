@@ -116,6 +116,34 @@
             {
               "title": "05-广播",
               "url": "/column/AI/Numpy/05广播"
+            },
+            {
+              "title": "06-位运算",
+              "url": "/column/AI/Numpy/06位运算"
+            },
+            {
+              "title": "07-函数",
+              "url": "/column/AI/Numpy/07函数"
+            },
+            {
+              "title": "08-字节交换",
+              "url": "/column/AI/Numpy/08字节交换"
+            },
+            {
+              "title": "09-副本和视图",
+              "url": "/column/AI/Numpy/09副本和视图"
+            },
+            {
+              "title": "10-矩阵库",
+              "url": "/column/AI/Numpy/10矩阵库"
+            },
+            {
+              "title": "11-线性代数",
+              "url": "/column/AI/Numpy/11线性代数"
+            },
+            {
+              "title": "12-IO",
+              "url": "/column/AI/Numpy/12IO"
             }
           ]
         }
