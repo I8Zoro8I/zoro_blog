@@ -62,3 +62,10 @@
 .VPHero .image-bg {
     border-radius: 50%;
 }
+
+
+/* 当某个侧边栏分组处于非激活状态，且未被手动强制点开时，确保其内部列表高度为0 */
+.VPSidebarItem.level-1:not(.has-active) .items {
+    /* VitePress 默认会通过 JS 切换 display 状态，
+       如果你想增强“只要不活跃就绝对折叠”的视觉，可以通过这个 class 辅助控制 */
+}

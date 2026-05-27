@@ -48,7 +48,6 @@ export default defineConfig({
         ],
         // 右侧大纲的标题映射
         outline: {
-
             level: [1, 4],
             label: '页面大纲',
             // @ts-ignore

@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'vitepress';
+import {DefaultTheme} from 'vitepress';
 // @ts-ignore
 import categoriesData from './categories.json';
 
@@ -26,7 +26,7 @@ categoriesData.categories?.forEach((cat: any) => {
                 if (!existingGroup) {
                     (sidebar[sidebarKey] as any[]).push({
                         text: group.name,
-                        collapsed: false,
+                        collapsed: true,
                         items: group.links.map((l: any) => ({
                             text: l.title,
                             link: l.url

@@ -1,27 +1,27 @@
 {
   "categories": [
     {
-      "name": "开发技术",
+      "name": "后端与数据库",
       "id": "technology",
-      "icon": "💻",
+      "icon": "🗄️",
       "children": [
         {
           "name": "PostgreSQL",
           "links": [
             {
-              "title": "linux命令",
+              "title": "Linux 基础命令",
               "url": "/column/pgsql/001_linux命令"
             },
             {
-              "title": "全文检索&表分区",
+              "title": "全文检索 & 表分区",
               "url": "/column/pgsql/002_全文检索&表分区"
             },
             {
-              "title": "分布式库",
+              "title": "分布式数据库架构",
               "url": "/column/pgsql/003_分布式库"
             },
             {
-              "title": "通用函数",
+              "title": "通用 SQL 函数指南",
               "url": "/column/pgsql/004_通用函数sql"
             }
           ]
@@ -29,9 +29,9 @@
       ]
     },
     {
-      "name": "AI工程",
+      "name": "AI 与数据工程",
       "id": "AI",
-      "icon": "\uD83C\uDF5E",
+      "icon": "🧠",
       "children": [
         {
           "name": "数学基础",
@@ -49,120 +49,166 @@
               "url": "/column/AI/math/03Calculus"
             }
           ]
-        },{
-          "name": "python基础",
+        },
+        {
+          "name": "Python 基础",
           "links": [
             {
-              "title": "01-简介与环境",
+              "title": "01- 简介与环境配置",
               "url": "/column/AI/python/01环境"
             },
             {
-              "title": "02-语法和数据类型",
+              "title": "02- 核心语法与数据类型",
               "url": "/column/AI/python/02语法&数据"
             },
             {
-              "title": "03-运算符",
+              "title": "03- 运算符全解",
               "url": "/column/AI/python/03运算符"
             },
             {
-              "title": "04-推导式",
+              "title": "04- 核心推导式",
               "url": "/column/AI/python/04推导式"
             },
             {
-              "title": "05-迭代器与生成器",
+              "title": "05- 迭代器与生成器",
               "url": "/column/AI/python/05迭代器与生成器"
             },
             {
-              "title": "06-With关键字",
+              "title": "06- With 上下文管理器",
               "url": "/column/AI/python/06With"
             },
             {
-              "title": "07-函数",
+              "title": "07- 函数式编程",
               "url": "/column/AI/python/07函数"
             },
             {
-              "title": "08-装饰器",
+              "title": "08- 闭包与装饰器",
               "url": "/column/AI/python/08装饰器"
             },
             {
-              "title": "09-File&OS",
+              "title": "09- File & OS 文件操作",
               "url": "/column/AI/python/09File&OS"
             },
             {
-              "title": "10-面对对象",
+              "title": "10- 面向对象编程 (OOP)",
               "url": "/column/AI/python/10面对对象"
             }
           ]
         },
         {
-          "name": "Numpy",
+          "name": "NumPy 科学计算",
           "links": [
             {
-              "title": "01-Ndarray对象",
+              "title": "01- Ndarray 核心对象",
               "url": "/column/AI/Numpy/01Ndarray"
             },
             {
-              "title": "02-数据类型",
+              "title": "02- 基础数据类型",
               "url": "/column/AI/Numpy/02数据类型"
             },
             {
-              "title": "03-数组",
+              "title": "03- 数组创建与操作",
               "url": "/column/AI/Numpy/03数组"
             },
             {
-              "title": "04-切片和索引",
+              "title": "04- 切片与高级索引",
               "url": "/column/AI/Numpy/04切片和索引"
             },
             {
-              "title": "05-广播",
+              "title": "05- 广播机制原理",
               "url": "/column/AI/Numpy/05广播"
             },
             {
-              "title": "06-位运算",
+              "title": "06- 位运算操作",
               "url": "/column/AI/Numpy/06位运算"
             },
             {
-              "title": "07-函数",
+              "title": "07- 常用数学函数",
               "url": "/column/AI/Numpy/07函数"
             },
             {
-              "title": "08-字节交换",
+              "title": "08- 内存字节交换",
               "url": "/column/AI/Numpy/08字节交换"
             },
             {
-              "title": "09-副本和视图",
+              "title": "09- 数据副本与视图",
               "url": "/column/AI/Numpy/09副本和视图"
             },
             {
-              "title": "10-矩阵库",
+              "title": "10- Matrix 矩阵库",
               "url": "/column/AI/Numpy/10矩阵库"
             },
             {
-              "title": "11-线性代数",
+              "title": "11- 线性代数模块",
               "url": "/column/AI/Numpy/11线性代数"
             },
             {
-              "title": "12-IO",
+              "title": "12- NumPy 输入与输出",
               "url": "/column/AI/Numpy/12IO"
+            }
+          ]
+        },
+        {
+          "name": "Pandas 数据分析",
+          "links": [
+            {
+              "title": "01- 框架简介与数据科学",
+              "url": "/column/AI/pandas/01简介"
+            },
+            {
+              "title": "02- Series 一维序列",
+              "url": "/column/AI/pandas/02Series"
+            },
+            {
+              "title": "03- DataFrame 二维表格",
+              "url": "/column/AI/pandas/03DataFrame"
+            },
+            {
+              "title": "04- 高效数据读写总览",
+              "url": "/column/AI/pandas/04数据读写"
+            },
+            {
+              "title": "05- CSV 文本数据交互",
+              "url": "/column/AI/pandas/05CSV"
+            },
+            {
+              "title": "06- Excel 报表交互与联动",
+              "url": "/column/AI/pandas/06Excel"
+            },
+            {
+              "title": "07- JSON 半结构化处理",
+              "url": "/column/AI/pandas/07JSON"
+            },
+            {
+              "title": "08- SQL 关系数据库联通",
+              "url": "/column/AI/pandas/08sQL"
+            },
+            {
+              "title": "09- HTML 网页数据爬取",
+              "url": "/column/AI/pandas/09html"
+            },
+            {
+              "title": "10- Parquet & Feather 大数据流",
+              "url": "/column/AI/pandas/10ParquestFeather"
             }
           ]
         }
       ]
     },
     {
-      "name": "开发问题",
+      "name": "踩坑与运维",
       "id": "question",
-      "icon": "\uD83D\uDCA1",
+      "icon": "🛠️",
       "children": [
         {
-          "name": "pm2",
+          "name": "PM2 进程管理",
           "links": [
             {
-              "title": "PM2 跟随 NVM 切换 Node",
+              "title": "PM2 跟随 NVM 切换 Node 版本",
               "url": "/column/question/pm2/001_nvm跟随版本"
             },
             {
-              "title": "pm2 list显示端口号",
+              "title": "PM2 List 列表显示端口号技巧",
               "url": "/column/question/pm2/002_list显示端口号"
             }
           ]
@@ -170,27 +216,27 @@
       ]
     },
     {
-      "name": "工具合集",
+      "name": "宝藏工具箱",
       "id": "utils",
-      "icon": "😈",
+      "icon": "🧰",
       "children": [
         {
-          "name": "链接",
+          "name": "常用链接",
           "links": [
             {
-              "title": "番剧推荐好站",
+              "title": "优质番剧推荐好站",
               "url": "/column/utils/fanLink"
             },
             {
-              "title": "破解游戏软件分享",
+              "title": "生产力软件与单机分享",
               "url": "/column/utils/gameCrack"
             },
             {
-              "title": "终端工具推荐",
+              "title": "高效终端常用工具推荐",
               "url": "/column/utils/terminal"
             },
             {
-              "title": "机场推荐",
+              "title": "网络加速与独立边缘节点",
               "url": "/column/utils/vpn"
             }
           ]
@@ -198,31 +244,31 @@
       ]
     },
     {
-      "name": "博客架构",
+      "name": "博客架构与运维",
       "id": "blog",
-      "icon": "👨",
+      "icon": "🚀",
       "children": [
         {
-          "name": "本站",
+          "name": "站点技术栈",
           "links": [
             {
-              "title": "VitePress指南",
+              "title": "VitePress 搭建与深度定制指南",
               "url": "/column/blog/001_vitepress"
             },
             {
-              "title": "Decap CMS",
+              "title": "Decap CMS 去中心化内容管理",
               "url": "/column/blog/002_decapCMS"
             },
             {
-              "title": "Cloudflare Worker",
+              "title": "Cloudflare Worker 边缘路由鉴权",
               "url": "/column/blog/003_cloundFlareWorkerAuth"
             },
             {
-              "title": "Giscus",
+              "title": "Giscus 基于 GitHub 讨论区的评论系统",
               "url": "/column/blog/004_Giscus"
             },
             {
-              "title": "Umami",
+              "title": "Umami 隐私安全的自建统计分析",
               "url": "/column/blog/005_umami"
             }
           ]
@@ -230,24 +276,24 @@
       ]
     },
     {
-      "name": "系统优化",
+      "name": "工作站系统优化",
       "id": "computer",
-      "icon": "\uD83D\uDDA5\uFE0F",
+      "icon": "💻",
       "children": [
         {
-          "name": "mac",
+          "name": "macOS 平台",
           "links": [
             {
-              "title": "mac软件推荐（Windows 用户转 Mac 必备小工具）",
+              "title": "Win 转 Mac 必备硬核效率小工具",
               "url": "/column/mac/001_app"
             }
           ]
         },
         {
-          "name": "window",
+          "name": "Windows 平台",
           "links": [
             {
-              "title": "window软件推荐",
+              "title": "Windows 装机必备利器推荐",
               "url": "/column/window/001_app"
             }
           ]
