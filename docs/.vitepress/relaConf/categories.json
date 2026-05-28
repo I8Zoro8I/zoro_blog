@@ -190,6 +190,38 @@
             {
               "title": "10- Parquet & Feather 大数据流",
               "url": "/column/AI/pandas/10ParquestFeather"
+            },
+            {
+              "title": "11- 数据导出与归档",
+              "url": "/column/AI/pandas/11数据导出"
+            },
+            {
+              "title": "12- 数据清洗与缺失值处理",
+              "url": "/column/AI/pandas/12数据清洗"
+            },
+            {
+              "title": "13- 常用高频内置函数",
+              "url": "/column/AI/pandas/13常用函数"
+            },
+            {
+              "title": "14- 相关性分析",
+              "url": "/column/AI/pandas/14相关性分析"
+            },
+            {
+              "title": "15- 数据排序、分组与聚合",
+              "url": "/column/AI/pandas/15数据排序与聚合"
+            },
+            {
+              "title": "16- 数据可视化",
+              "url": "/column/AI/pandas/16数据可视化"
+            },
+            {
+              "title": "17- 进阶高级功能探秘",
+              "url": "/column/AI/pandas/17高级功能"
+            },
+            {
+              "title": "18- 性能优化",
+              "url": "/column/AI/pandas/18性能优化"
             }
           ]
         }
