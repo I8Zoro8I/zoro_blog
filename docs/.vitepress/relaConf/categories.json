@@ -236,6 +236,23 @@
               "url": "/column/AI/pandas/21电商数据分析小Demo"
             }
           ]
+        },
+        {
+          "name": "pyTorch",
+          "links": [
+            {
+              "title": "0-简介",
+              "url": "/column/AI/pyTorch/0-简介"
+            },
+            {
+              "title": "1-张量",
+              "url": "/column/AI/pyTorch/1-张量"
+            },
+            {
+              "title": "2-神经网络基础",
+              "url": "/column/AI/pyTorch/2-神经网络基础"
+            }
+          ]
         }
       ]
     },
