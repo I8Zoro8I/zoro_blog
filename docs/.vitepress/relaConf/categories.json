@@ -222,6 +222,18 @@
             {
               "title": "18- 性能优化",
               "url": "/column/AI/pandas/18性能优化"
+            },
+            {
+              "title": "19- 数据选取",
+              "url": "/column/AI/pandas/19数据选取"
+            },
+            {
+              "title": "20- 过滤与条件查询",
+              "url": "/column/AI/pandas/20过滤与条件查询"
+            },
+            {
+              "title": "21- 电商数据分析Demo",
+              "url": "/column/AI/pandas/21电商数据分析小Demo"
             }
           ]
         }
