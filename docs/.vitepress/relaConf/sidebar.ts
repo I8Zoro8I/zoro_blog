@@ -4,50 +4,80 @@ import categoriesData from './categories.json';
 
 export const sidebar: DefaultTheme.Sidebar = {};
 
+/**
+ * 安全提取 URL 路径前缀的辅助函数
+ * 例如将 "/column/AI/math/01linearAlgebra" 提取出 "/column/AI/"
+ */
+function getSidebarKey(url: string | undefined): string | null {
+    if (!url) return null;
+    const pathParts = url.split('/');
+    if (pathParts.length >= 3) {
+        return `/${pathParts[1]}/${pathParts[2]}/`;
+    }
+    return null;
+}
+
 categoriesData.categories?.forEach((cat: any) => {
-    // 方案：遍历 children 下的所有链接，提取它们共同的父路径作为 Key
     (cat.children || []).forEach((group: any) => {
         (group.links || []).forEach((link: any) => {
-            // 通过正则或分割字符串获取路径前缀
-            // 例如从 "/column/Algorithm/001_Stack" 提取出 "/column/Algorithm/"
-            const pathParts = link.url.split('/');
-            if (pathParts.length >= 3) {
-                const sidebarKey = `/${pathParts[1]}/${pathParts[2]}/`;
 
-                // 如果该路径的侧边栏还没初始化，则初始化
-                if (!sidebar[sidebarKey]) {
-                    sidebar[sidebarKey] = [];
+            // 1. 动态确定当前节点的 sidebarKey
+            let sidebarKey: string | null = null;
+            if (link.url) {
+                sidebarKey = getSidebarKey(link.url);
+            } else if (link.items && link.items.length > 0) {
+                // 如果是嵌套的多级节点，取它下面第一个子链接的路径作为 key
+                sidebarKey = getSidebarKey(link.items[0].url);
+            }
+
+            // 如果找不到合法的路径前缀，跳过该节点防止报错
+            if (!sidebarKey) return;
+
+            // 2. 初始化该路径的侧边栏数组
+            if (!sidebar[sidebarKey]) {
+                sidebar[sidebarKey] = [];
+            }
+
+            // 3. 检查当前侧边栏分组中是否已经添加过同名的 group
+            const currentSidebar = sidebar[sidebarKey] as any[];
+            // 替换原有的 currentSidebar.find 逻辑
+            let existingGroup = null;
+            for (let j = 0; j < currentSidebar.length; j++) {
+                if (currentSidebar[j].text === group.name) {
+                    existingGroup = currentSidebar[j];
+                    break;
                 }
+            }
 
-                // 将该 group 加入到对应的侧边栏中
-                // 检查是否已经存在同名分组，避免重复添加
-                // @ts-ignore
-                const existingGroup = (sidebar[sidebarKey] as any[]).find(g => g.text === group.name);
-                // 在已有的 existingGroup 判断逻辑内部：
-                if (!existingGroup) {
-                    (sidebar[sidebarKey] as any[]).push({
-                        text: group.name,
-                        collapsed: true,
-                        // 这里对 group.links 进行映射转换
-                        items: group.links.map((l: any) => {
-                            // 如果这个 link 拥有嵌套的子级 items
-                            if (l.items && l.items.length > 0) {
-                                return {
-                                    text: l.title,
-                                    collapsed: true, // 让这一级也可以折叠
-                                    items: l.items.map((subLink: any) => ({
-                                        text: subLink.title,
-                                        link: subLink.url
-                                    }))
-                                };
-                            } else {
-                                // 如果没有子级，依然按照标准叶子节点渲染
-                                return {
-                                    text: l.title,
-                                    link: l.url
-                                };
-                            }
-                        })
+            if (!existingGroup) {
+                // 创建全新的分组架构
+                existingGroup = {
+                    text: group.name,
+                    collapsed: true,
+                    items: []
+                };
+                currentSidebar.push(existingGroup);
+            }
+
+            // 4. 将当前的 link（单篇或嵌套多篇）安全注入到 items 列表中
+            // 避免因重复遍历而重复添加
+            const isAlreadyAdded = existingGroup.items.some((item: any) => item.text === link.title);
+            if (!isAlreadyAdded) {
+                if (link.items && link.items.length > 0) {
+                    // 🌟 核心修复：处理拥有二级items嵌套的深度节点
+                    existingGroup.items.push({
+                        text: link.title,
+                        collapsed: true, // 允许这一级子菜单在前端展开/折叠
+                        items: link.items.map((sub: any) => ({
+                            text: sub.title,
+                            link: sub.url
+                        }))
+                    });
+                } else if (link.url) {
+                    // 处理普通单篇叶子节点
+                    existingGroup.items.push({
+                        text: link.title,
+                        link: link.url
                     });
                 }
             }

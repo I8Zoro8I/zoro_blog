@@ -69,3 +69,132 @@
     /* VitePress 默认会通过 JS 切换 display 状态，
        如果你想增强“只要不活跃就绝对折叠”的视觉，可以通过这个 class 辅助控制 */
 }
+
+
+/* ==========================================================================
+   VitePress 侧边栏完美深度重构（精准隔离同级文件夹与纯文章）
+   ========================================================================== */
+
+/* ---------------- 统一全级：长标题超出全部单行省略号 ---------------- */
+.VPSidebarItem .item-text {
+    white-space: nowrap !important;       /* 绝对禁止换行 */
+    overflow: hidden !important;          /* 超出部分隐藏 */
+    text-overflow: ellipsis !important;   /* 超出显示省略号 ... */
+    display: inline-block !important;
+    max-width: 100% !important;
+}
+
+.VPSidebarItem .item {
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+/* ---------------- 🌟 精精准隔离：二级“文件夹”（如：数学基础） ---------------- */
+/* 只有当 level-1 节点内部包含子集（折叠箭头）时才触发文件夹卡片样式 */
+.VPSidebarItem.level-1.has-children > .item {
+    background-color: var(--vp-c-bg-soft) !important;
+    /* 文件夹专属：高亮核心主题色左边条 */
+    border-left: 3px solid var(--vp-c-brand) !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    transition: all 0.2s ease;
+}
+
+.VPSidebarItem.level-1.has-children > .item:hover {
+    background-color: var(--vp-c-bg-alt) !important;
+}
+
+.VPSidebarItem.level-1.has-children .item-text {
+    font-size: 14px !important;
+    font-weight: 700 !important;      /* 粗体 */
+    color: var(--vp-c-text-1) !important;
+    padding-left: 4px !important;
+}
+
+
+/* ---------------- 🌟 精准隔离：二级直接展示的“纯文章”（如：概率论、微积分） ---------------- */
+/* 如果是 level-1 但它本身就是个直达链接，没有子项 */
+.VPSidebarItem.level-1:not(.has-children) > .item {
+    background-color: transparent !important;
+    /* 文章专属：左边条颜色调淡，或者你可以直接写成 transparent 去掉它 */
+    border-left: 3px solid var(--vp-c-brand-dimm) !important;
+    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    transition: all 0.2s ease;
+}
+
+.VPSidebarItem.level-1:not(.has-children) > .item:hover {
+    background-color: var(--vp-c-bg-soft) !important;
+}
+
+.VPSidebarItem.level-1:not(.has-children) .item-text {
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: var(--vp-c-text-2) !important; /* 默认使用次级灰字 */
+}
+
+/* 当这个二级纯文章被点击激活时 */
+.VPSidebarItem.level-1:not(.has-children).active > .item {
+    background-color: var(--vp-c-brand-soft) !important;
+    border-left-color: var(--vp-c-brand) !important; /* 激活时边框变亮 */
+}
+.VPSidebarItem.level-1:not(.has-children).active .item-text {
+    color: var(--vp-c-brand) !important;
+    font-weight: 600 !important;
+}
+
+
+/* ---------------- 三级深层具体文章（例如：嵌套在数学基础下的线性代数） ---------------- */
+.VPSidebarItem.level-2 {
+    margin-top: 3px !important;
+    margin-bottom: 3px !important;
+    padding-left: 12px !important; /* 三级树状整体缩进 */
+}
+
+.VPSidebarItem.level-2 > .item {
+    padding: 5px 12px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease;
+}
+
+.VPSidebarItem.level-2 .item-text {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: var(--vp-c-text-2) !important;
+}
+
+.VPSidebarItem.level-2 > .item:hover {
+    background-color: var(--vp-c-bg-soft) !important;
+}
+.VPSidebarItem.level-2 > .item:hover .item-text {
+    color: var(--vp-c-brand) !important;
+}
+
+/* 三级文章被激活选取时 */
+.VPSidebarItem.level-2.active > .item {
+    background-color: var(--vp-c-brand-soft) !important;
+}
+
+.VPSidebarItem.level-2.active .item-text {
+    color: var(--vp-c-brand) !important;
+    font-weight: 600 !important;
+    position: relative;
+    padding-left: 12px !important;
+}
+
+/* 给三级选中的文章前面塞一个小圆点 */
+.VPSidebarItem.level-2.active .item-text::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--vp-c-brand);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* 修正二级折叠箭头间距 */
+.VPSidebarItem.level-1 > .item .caret {
+    margin-right: 2px !important;
+}

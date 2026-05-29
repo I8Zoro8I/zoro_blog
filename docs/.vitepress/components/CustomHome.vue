@@ -1,7 +1,7 @@
 <script setup>
-import {ref, computed, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
 import {withBase} from 'vitepress';
-/* 请确保路径正确，如果报错请检查 categories.json 的位置 */
+/* 请确保路径正确 */
 import categoriesData from '../relaConf/categories.json';
 
 /* --- 基础状态 --- */
@@ -9,11 +9,10 @@ const searchQuery = ref('');
 const currentPath = ref([]);
 const sponsorType = ref('wechat');
 
-/* --- 核心修复：确保这一行在最前面，且使用 const 定义 --- */
 const pageSize = 12;
 const currentPage = ref(1);
 
-/* --- 1. 动态统计逻辑 --- */
+/* --- 1. 动态统计逻辑（兼容多级） --- */
 const stats = computed(() => {
   let docCount = 0;
   let folderSet = new Set();
@@ -21,7 +20,17 @@ const stats = computed(() => {
   const traverse = (items) => {
     items.forEach(item => {
       if (item.name) folderSet.add(item.name);
-      if (item.links) docCount += item.links.length;
+      if (item.title && item.items) folderSet.add(item.title);
+
+      if (item.links) {
+        item.links.forEach(l => {
+          if (l.url) docCount++;
+          if (l.items) docCount += l.items.length;
+        });
+      }
+      if (item.items) {
+        item.items.forEach(sub => { if (sub.url) docCount++; });
+      }
       if (item.children) traverse(item.children);
     });
   };
@@ -33,13 +42,16 @@ const stats = computed(() => {
   };
 });
 
-/* --- 2. 目录导航逻辑 --- */
+/* --- 2. 目录导航逻辑（无限级打通） --- */
 const currentDisplay = computed(() => {
   let temp = categoriesData.categories;
   for (const segment of currentPath.value) {
-    const found = temp.find(c => c.name === segment);
+    let found = null;
+    if (Array.isArray(temp)) {
+      found = temp.find(c => c.name === segment || c.title === segment);
+    }
     if (found) {
-      temp = found.children || found.links || [];
+      temp = found.children || found.links || found.items || [];
     } else {
       return [];
     }
@@ -56,12 +68,28 @@ const searchResults = computed(() => {
   const traverse = (items) => {
     items.forEach(item => {
       if (item.name && item.name.toLowerCase().includes(query)) {
-        results.push({ ...item, isFolder: true });
+        results.push({ ...item, isFolder: true, displayName: item.name });
+      }
+      if (item.title && item.items && item.title.toLowerCase().includes(query)) {
+        results.push({ ...item, isFolder: true, displayName: item.title });
       }
       if (item.links) {
         item.links.forEach(link => {
-          if (link.title.toLowerCase().includes(query)) {
-            results.push({ ...link, isDoc: true });
+          if (link.title && link.title.toLowerCase().includes(query)) {
+            if (link.url) results.push({ ...link, isDoc: true });
+            if (link.items) results.push({ ...link, isFolder: true, displayName: link.title });
+          }
+          if (link.items) {
+            link.items.forEach(sub => {
+              if (sub.title.toLowerCase().includes(query)) results.push({ ...sub, isDoc: true });
+            });
+          }
+        });
+      }
+      if (item.items) {
+        item.items.forEach(sub => {
+          if (sub.title && sub.title.toLowerCase().includes(query) && sub.url) {
+            results.push({ ...sub, isDoc: true });
           }
         });
       }
@@ -72,62 +100,62 @@ const searchResults = computed(() => {
   return results;
 });
 
-/* --- 4. 分页核心逻辑 --- */
-/* 统一数据源：如果有搜索内容则用搜索结果，否则用当前目录内容*/
+/* --- 4. 分页数据源 --- */
 const totalData = computed(() => {
   return searchQuery.value ? searchResults.value : currentDisplay.value;
 });
 
-/* 计算总页数*/
 const totalPages = computed(() => {
   return Math.ceil(totalData.value.length / pageSize) || 1;
 });
 
-/* 当前页面实际显示的截取数据 */
 const pagedDisplay = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
   const end = start + pageSize;
   return totalData.value.slice(start, end);
 });
 
-/* --- 5. 操作函数 --- */
+/* --- 5. 分离当前页面的文件夹与文章（用于换行排列） --- */
+const pagedFolders = computed(() => {
+  return pagedDisplay.value.filter(item => !item.isDoc && !item.url);
+});
+
+const pagedDocs = computed(() => {
+  return pagedDisplay.value.filter(item => item.isDoc || item.url);
+});
+
+/* --- 6. 操作函数 --- */
 const enterFolder = (name) => {
   currentPath.value.push(name);
-  searchQuery.value = ''; /* 进入文件夹清空搜索 */
-  currentPage.value = 1;  /* 重置页码 */
+  searchQuery.value = '';
+  currentPage.value = 1;
 };
 
 const goBack = () => {
   currentPath.value.pop();
-  currentPage.value = 1;  /* 重置页码 */
+  currentPage.value = 1;
 };
 
 const resetNav = () => {
   currentPath.value = [];
-  currentPage.value = 1;  /* 重置页码 */
+  currentPage.value = 1;
 };
 
-const handleSearchClick = (item) => {
-  if (item.isFolder) {
-    enterFolder(item.name);
-  }
+const getFolderName = (item) => {
+  return item.name || item.title || item.displayName;
 };
 
 const getUrl = (url) => {
   if (!url) return '#';
   return withBase(url);
 };
-/* --- 新增：跳转到指定路径层级 --- */
+
 const jumpToPath = (index) => {
-  // 截取路径，保留从 0 到 index 的部分
-  // 例如路径是 ['开发技术', 'PostgreSQL']，点击 '开发技术' (index为0)
-  // 路径会变为 ['开发技术']
   currentPath.value = currentPath.value.slice(0, index + 1);
-  searchQuery.value = ''; // 清空搜索
-  currentPage.value = 1;  // 重置页码
+  searchQuery.value = '';
+  currentPage.value = 1;
 };
-/* --- 6. 监听器 --- */
-/* 搜索内容变化时，自动回到第一页 */
+
 watch(searchQuery, () => {
   currentPage.value = 1;
 });
@@ -146,70 +174,72 @@ watch(searchQuery, () => {
         <span v-if="searchQuery" class="clear-icon" @click="searchQuery = ''">×</span>
       </div>
     </div>
+
     <div class="main-grid">
       <!-- 左侧内容区 -->
       <div class="left-content">
         <div class="nav-header">
           <div class="breadcrumb">
-            <!-- 首页链接 -->
             <span class="crumb-item" @click="resetNav">🏠 全部分类</span>
-
-            <!-- 动态路径链接 -->
             <span v-for="(p, index) in currentPath" :key="index">
-            <span class="crumb-separator">/</span>
-              <!-- 情况 A：如果是路径的最后一级，仅显示文字 -->
+              <span class="crumb-separator">/</span>
               <span v-if="index === currentPath.length - 1" class="crumb-text-current">
                 {{ p }}
               </span>
-
-                        <!-- 情况 B：如果是中间层级，显示为可点击的链接 -->
               <span v-else class="crumb-item" @click="jumpToPath(index)">
                 {{ p }}
               </span>
-          </span>
+            </span>
           </div>
           <button v-if="currentPath.length > 0" class="back-link" @click="goBack">
             🔙 返回上一级
           </button>
         </div>
+
         <div class="list-container">
-          <!-- 卡片列表 -->
-          <div v-if="pagedDisplay.length > 0" class="card-grid">
-            <div
-                v-for="item in pagedDisplay"
-                :key="item.url || item.name || item.title"
-                class="card"
-                :class="(item.isDoc || item.url) ? 'doc-card' : 'folder-card'"
-                @click="(item.isDoc || item.url) ? null : (item.isFolder ? handleSearchClick(item) : enterFolder(item.name))"
-            >
-              <a v-if="item.isDoc || item.url" :href="getUrl(item.url)" class="card-link">
-                📄 {{ item.title }}
-              </a>
-              <span v-else class="folder-label">
-                {{ item.icon || '📂' }} {{ item.name }}
-              </span>
+          <!-- 干净的内容包裹区：去掉了层级缩进相关的 class -->
+          <div v-if="pagedDisplay.length > 0" class="list-wrapper">
+
+            <!-- 🌟 文件夹行（排在上方，占满整行宽度，从而实现与文章卡片的自动折行） -->
+            <div v-if="pagedFolders.length > 0" class="card-grid">
+              <div
+                  v-for="item in pagedFolders"
+                  :key="getFolderName(item)"
+                  class="card folder-card"
+                  @click="enterFolder(getFolderName(item))"
+              >
+                <span class="folder-label">
+                  {{ item.icon || '📂' }} {{ getFolderName(item) }}
+                </span>
+              </div>
+            </div>
+
+            <!-- 🌟 文章行（自成一派排在下方，样式规格与第一版完全保持一致） -->
+            <div v-if="pagedDocs.length > 0" class="card-grid">
+              <div
+                  v-for="item in pagedDocs"
+                  :key="item.url || item.title"
+                  class="card doc-card"
+              >
+                <a :href="getUrl(item.url)" class="card-link">
+                  📄 {{ item.title }}
+                </a>
+              </div>
             </div>
           </div>
+
           <!-- 空状态 -->
           <div v-else class="empty-state">没有找到匹配的结果 😅</div>
+
           <!-- 分页组件 -->
           <div class="pagination">
-            <button
-                :disabled="currentPage === 1"
-                @click="currentPage--"
-                class="page-btn"
-            >上一页
-            </button>
+            <button :disabled="currentPage === 1" @click="currentPage--" class="page-btn">上一页</button>
             <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
-            <button
-                :disabled="currentPage === totalPages"
-                @click="currentPage++"
-                class="page-btn"
-            >下一页
-            </button>
+            <button :disabled="currentPage === totalPages" @click="currentPage++" class="page-btn">下一页</button>
           </div>
         </div>
       </div>
+
       <!-- 右侧侧边栏 -->
       <div class="right-sidebar">
         <div class="info-widget">
@@ -225,22 +255,13 @@ watch(searchQuery, () => {
           <hr class="divider"/>
           <h3 class="widget-title">☕ 赞助我</h3>
           <div class="sponsor-tabs">
-            <span
-                :class="['tab-item', sponsorType === 'wechat' ? 'active' : '']"
-                @click="sponsorType = 'wechat'"
-            >微信</span>
-            <span
-                :class="['tab-item', sponsorType === 'alipay' ? 'active' : '']"
-                @click="sponsorType = 'alipay'"
-            >支付宝</span>
+            <span :class="['tab-item', sponsorType === 'wechat' ? 'active' : '']" @click="sponsorType = 'wechat'">微信</span>
+            <span :class="['tab-item', sponsorType === 'alipay' ? 'active' : '']" @click="sponsorType = 'alipay'">支付宝</span>
           </div>
           <div class="sponsor-content">
-            <img
-                :src="sponsorType === 'wechat' ? getUrl('/images/wechat.jpg') : getUrl('/images/alipay.jpg')"
-                class="sponsor-img"
-            />
+            <img :src="sponsorType === 'wechat' ? getUrl('/images/wechat.jpg') : getUrl('/images/alipay.jpg')" class="sponsor-img" />
           </div>
-          <p class="sponsor-tip">如果觉得文章对你有帮助，可以请我喝杯咖啡 ~</p>
+          <p class="sponsor-tip">如果觉得文章对你有帮助，可以请我喝杯 coffee ~</p>
         </div>
       </div>
     </div>
@@ -259,13 +280,11 @@ watch(searchQuery, () => {
 .search-section {
   margin-bottom: 30px;
 }
-
 .search-input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
-
 .search-input {
   width: 100%;
   padding: 14px 20px;
@@ -276,13 +295,11 @@ watch(searchQuery, () => {
   font-size: 16px;
   transition: all 0.3s;
 }
-
 .search-input:focus {
   border-color: var(--vp-c-brand);
   outline: none;
   box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
 }
-
 .clear-icon {
   position: absolute;
   right: 15px;
@@ -308,7 +325,6 @@ watch(searchQuery, () => {
   display: flex;
   flex-direction: column;
 }
-
 .list-container {
   flex-grow: 1;
   display: flex;
@@ -324,26 +340,21 @@ watch(searchQuery, () => {
   padding-bottom: 15px;
   border-bottom: 1px solid var(--vp-c-divider);
 }
-
 .breadcrumb {
   font-size: 15px;
   font-weight: 500;
 }
-
 .crumb-item {
   cursor: pointer;
   color: var(--vp-c-brand);
 }
-
 .crumb-item:hover {
   text-decoration: underline;
 }
-
 .crumb-separator {
   margin: 0 8px;
   color: var(--vp-c-text-3);
 }
-
 .back-link {
   font-size: 14px;
   color: var(--vp-c-brand);
@@ -355,13 +366,19 @@ watch(searchQuery, () => {
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .back-link:hover {
   background: var(--vp-c-brand);
   color: white;
 }
 
-/* 卡片展示 */
+/* 内容区域上下换行布局 */
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* 文件夹网络和文章网格之间的空隙 */
+}
+
+/* 🌟 标准平铺网格（和第一版完全相同的尺寸参数） */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -369,8 +386,9 @@ watch(searchQuery, () => {
   align-content: flex-start;
 }
 
+/* 一视同仁的原版大卡片样式 */
 .card {
-  height: 90px; /* 固定高度使对齐 */
+  height: 90px;
   padding: 10px 20px;
   background: var(--vp-c-bg);
   border: 1px solid var(--vp-c-divider);
@@ -382,22 +400,18 @@ watch(searchQuery, () => {
   align-items: center;
   justify-content: center;
 }
-
 .card:hover {
   transform: translateY(-5px);
   border-color: var(--vp-c-brand);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
-
 .folder-card {
   color: var(--vp-c-text-1);
   font-weight: 600;
 }
-
 .doc-card {
   background: var(--vp-c-brand-soft);
 }
-
 .card-link {
   text-decoration: none;
   color: var(--vp-c-text-1);
@@ -406,6 +420,12 @@ watch(searchQuery, () => {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.folder-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 /* 分页样式 */
@@ -418,7 +438,6 @@ watch(searchQuery, () => {
   padding-top: 20px;
   border-top: 1px dashed var(--vp-c-divider);
 }
-
 .page-btn {
   padding: 6px 16px;
   border-radius: 8px;
@@ -429,23 +448,19 @@ watch(searchQuery, () => {
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .page-btn:hover:not(:disabled) {
   border-color: var(--vp-c-brand);
   color: var(--vp-c-brand);
 }
-
 .page-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-
 .page-info {
   font-size: 14px;
   font-weight: 600;
   color: var(--vp-c-text-2);
 }
-
 .empty-state {
   text-align: center;
   padding: 60px 0;
@@ -459,46 +474,40 @@ watch(searchQuery, () => {
   flex-direction: column;
   gap: 20px;
 }
-
 .info-widget {
   background: var(--vp-c-bg-alt);
   padding: 24px;
   border-radius: 16px;
   border: 1px solid var(--vp-c-divider);
 }
-
 .widget-title {
   font-size: 16px;
   margin-bottom: 16px;
   color: var(--vp-c-text-1);
   font-weight: bold;
 }
-
 .stat-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
   font-size: 14px;
 }
-
 .stat-val {
   color: var(--vp-c-brand);
 }
-
 .divider {
   border: 0;
   border-top: 1px solid var(--vp-c-divider);
   margin: 20px 0;
 }
 
-/* 赞助板块样式 */
+/* 赞助板块 */
 .sponsor-tabs {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
   justify-content: center;
 }
-
 .tab-item {
   font-size: 12px;
   padding: 4px 10px;
@@ -508,13 +517,11 @@ watch(searchQuery, () => {
   color: var(--vp-c-text-2);
   transition: all 0.2s;
 }
-
 .tab-item.active {
   background: var(--vp-c-brand);
   color: white;
   border-color: var(--vp-c-brand);
 }
-
 .sponsor-img {
   width: 140px;
   height: 140px;
@@ -523,7 +530,6 @@ watch(searchQuery, () => {
   border-radius: 8px;
   border: 1px solid var(--vp-c-divider);
 }
-
 .sponsor-tip {
   font-size: 12px;
   color: var(--vp-c-text-2);
@@ -532,12 +538,10 @@ watch(searchQuery, () => {
   text-align: center;
 }
 
-/* 响应式适配 */
 @media (max-width: 960px) {
   .main-grid {
     grid-template-columns: 1fr;
   }
-
   .right-sidebar {
     order: -1;
   }

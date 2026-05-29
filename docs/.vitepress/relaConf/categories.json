@@ -34,19 +34,56 @@
       "icon": "🧠",
       "children": [
         {
-          "name": "数学基础",
+          "name": "机器学习",
           "links": [
             {
-              "title": "线性代数",
-              "url": "/column/AI/math/01linearAlgebra"
+              "title": "01. 全景导论与生命周期",
+              "items": [
+                { "title": "机器学习全景简介", "url": "/column/AI/MachineLearning/1-机器学习简介" },
+                { "title": "项目全生命周期演进", "url": "/column/AI/MachineLearning/2-机器学习生命周期" }
+              ]
             },
             {
-              "title": "概率论与数理统计",
-              "url": "/column/AI/math/02ProbabilityTheory"
+              "title": "02. 底层数学计算基石",
+              "items": [
+                { "title": "线性代数基础演练", "url": "/column/AI/math/01linearAlgebra" },
+                { "title": "概率论与数理统计", "url": "/column/AI/math/02ProbabilityTheory" },
+                { "title": "微积分与最优化原理", "url": "/column/AI/math/03Calculus" }
+              ]
             },
             {
-              "title": "微积分",
-              "url": "/column/AI/math/03Calculus"
+              "title": "03. 数据管道与特征工程",
+              "items": [
+                { "title": "数据理解", "url": "/column/AI/MachineLearning/data/01数据理解" },
+                { "title": "数据清洗", "url": "/column/AI/MachineLearning/data/02数据清洗" },
+                { "title": "特征工程", "url": "/column/AI/MachineLearning/data/03特征工程" },
+                { "title": "数据可视化", "url": "/column/AI/MachineLearning/data/04数据可视化" },
+                { "title": "数据集划分", "url": "/column/AI/MachineLearning/data/05数据集划分" },
+                { "title": "统计学基础", "url": "/column/AI/MachineLearning/data/06统计学基础" },
+                { "title": "概率思维", "url": "/column/AI/MachineLearning/data/07概率思维" },
+                { "title": "损失函数与梯度", "url": "/column/AI/MachineLearning/data/08损失函数与梯度" },
+                { "title": "过拟合.欠拟合.偏差与方差", "url": "/column/AI/MachineLearning/data/09过拟合.欠拟合.偏差与方差" }
+              ]
+            },
+            {
+              "title": "04. 预测与决策算法模型",
+              "remark": "🌟 核心合并：传统经典算法 + 强化学习 完美合体",
+              "items": [
+                { "title": "大纲", "url": "/column/AI/MachineLearning/algorithm/01大纲" },
+                { "title": "线性回归", "url": "/column/AI/MachineLearning/algorithm/02线性回归" },
+                { "title": "多元线性回归", "url": "/column/AI/MachineLearning/algorithm/03多元线性回归" },
+                { "title": "多项式回归", "url": "/column/AI/MachineLearning/algorithm/04多项式回归" },
+                { "title": "逻辑回归", "url": "/column/AI/MachineLearning/algorithm/05逻辑回归" },
+                { "title": "回归模型评估", "url": "/column/AI/MachineLearning/algorithm/06回归模型评估" }
+              ]
+            },
+            {
+              "title": "05. 模型调优与工程落地",
+              "items": [
+                { "title": "欠拟合/过拟合与正则化技术", "url": "/column/AI/MachineLearning/model/01_optimization" },
+                { "title": "超参数自动搜索调优指南", "url": "/column/AI/MachineLearning/model/02_hparam" },
+                { "title": "模型评估指标与混淆矩阵", "url": "/column/AI/MachineLearning/model/03_metrics" }
+              ]
             }
           ]
         },
@@ -238,7 +275,7 @@
           ]
         },
         {
-          "name": "pyTorch",
+          "name": "pyTorch 深度学习框架",
           "links": [
             {
               "title": "0-简介",
