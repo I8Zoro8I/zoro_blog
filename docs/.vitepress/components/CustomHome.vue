@@ -42,9 +42,27 @@ const stats = computed(() => {
   };
 });
 
-/* --- 2. 目录导航逻辑（无限级打通） --- */
+// /* --- 2. 目录导航逻辑（无限级打通） --- */
+// const currentDisplay = computed(() => {
+//   let temp = categoriesData.categories;
+//   for (const segment of currentPath.value) {
+//     let found = null;
+//     if (Array.isArray(temp)) {
+//       found = temp.find(c => c.name === segment || c.title === segment);
+//     }
+//     if (found) {
+//       temp = found.children || found.links || found.items || [];
+//     } else {
+//       return [];
+//     }
+//   }
+//   return temp;
+// });
+/* --- 2. 目录导航逻辑（无限级打通 + 单子项智能跨越） --- */
 const currentDisplay = computed(() => {
   let temp = categoriesData.categories;
+
+  // 1. 先根据当前显式路径，正常逐级向下查找
   for (const segment of currentPath.value) {
     let found = null;
     if (Array.isArray(temp)) {
@@ -56,6 +74,26 @@ const currentDisplay = computed(() => {
       return [];
     }
   }
+
+  // 2. 🌟 自动化下钻拦截：如果当前层级【只有一个子项】，且该子项是个“空壳目录”而非单篇文章
+  // 只要满足条件，就自动把它推进 currentPath，实现一键穿透
+  while (
+      Array.isArray(temp) &&
+      temp.length === 1 &&
+      !temp[0].url &&               // 确保它不是一篇文章
+      (temp[0].children || temp[0].links || temp[0].items) // 确保它有下级数据
+      ) {
+    const nextNode = temp[0];
+    const nextName = nextNode.name || nextNode.title;
+
+    if (nextName) {
+      currentPath.value.push(nextName); // 同步把面包屑路径也补全，防止面包屑和内容对不上
+      temp = nextNode.children || nextNode.links || nextNode.items || [];
+    } else {
+      break;
+    }
+  }
+
   return temp;
 });
 
