@@ -251,6 +251,10 @@
             {
               "title": "2-神经网络基础",
               "url": "/column/AI/pyTorch/2-神经网络基础"
+            },
+            {
+              "title": "番外-计算机视觉识别烟叶种类与物联网控制",
+              "url": "/column/AI/pyTorch/番外-视觉识别烟叶种类"
             }
           ]
         }
