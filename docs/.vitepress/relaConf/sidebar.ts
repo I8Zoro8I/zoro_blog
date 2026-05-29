@@ -23,14 +23,31 @@ categoriesData.categories?.forEach((cat: any) => {
                 // 检查是否已经存在同名分组，避免重复添加
                 // @ts-ignore
                 const existingGroup = (sidebar[sidebarKey] as any[]).find(g => g.text === group.name);
+                // 在已有的 existingGroup 判断逻辑内部：
                 if (!existingGroup) {
                     (sidebar[sidebarKey] as any[]).push({
                         text: group.name,
                         collapsed: true,
-                        items: group.links.map((l: any) => ({
-                            text: l.title,
-                            link: l.url
-                        }))
+                        // 这里对 group.links 进行映射转换
+                        items: group.links.map((l: any) => {
+                            // 如果这个 link 拥有嵌套的子级 items
+                            if (l.items && l.items.length > 0) {
+                                return {
+                                    text: l.title,
+                                    collapsed: true, // 让这一级也可以折叠
+                                    items: l.items.map((subLink: any) => ({
+                                        text: subLink.title,
+                                        link: subLink.url
+                                    }))
+                                };
+                            } else {
+                                // 如果没有子级，依然按照标准叶子节点渲染
+                                return {
+                                    text: l.title,
+                                    link: l.url
+                                };
+                            }
+                        })
                     });
                 }
             }
