@@ -74,7 +74,24 @@
                 { "title": "多元线性回归", "url": "/column/AI/MachineLearning/algorithm/03多元线性回归" },
                 { "title": "多项式回归", "url": "/column/AI/MachineLearning/algorithm/04多项式回归" },
                 { "title": "逻辑回归", "url": "/column/AI/MachineLearning/algorithm/05逻辑回归" },
-                { "title": "回归模型评估", "url": "/column/AI/MachineLearning/algorithm/06回归模型评估" }
+                { "title": "回归模型评估", "url": "/column/AI/MachineLearning/algorithm/06回归模型评估" },
+                { "title": "决策树", "url": "/column/AI/MachineLearning/algorithm/07决策树" },
+                { "title": "支持向量机", "url": "/column/AI/MachineLearning/algorithm/08支持向量机" },
+                { "title": "K近邻算法", "url": "/column/AI/MachineLearning/algorithm/09K近邻算法" },
+                { "title": "集成学习", "url": "/column/AI/MachineLearning/algorithm/10集成学习" },
+                { "title": "朴素贝叶斯", "url": "/column/AI/MachineLearning/algorithm/11朴素贝叶斯" },
+                { "title": "随机森林", "url": "/column/AI/MachineLearning/algorithm/12随机森林" },
+                { "title": "分类指标", "url": "/column/AI/MachineLearning/algorithm/13分类指标" },
+                { "title": "无监督学习-聚类", "url": "/column/AI/MachineLearning/algorithm/14无监督学习-聚类" },
+                { "title": "无监督学习-降维", "url": "/column/AI/MachineLearning/algorithm/15无监督学习-降维" },
+                { "title": "强化学习基本框架", "url": "/column/AI/MachineLearning/algorithm/16强化学习基本框架" },
+                { "title": "强化学习探索VS开采", "url": "/column/AI/MachineLearning/algorithm/17强化学习探索VS开采" },
+                { "title": "强化学习Q-learning与SARSA", "url": "/column/AI/MachineLearning/algorithm/18强化学习Q-learning与SARSA"},
+                { "title": "深度强化学习", "url": "/column/AI/MachineLearning/algorithm/19深度强化学习"},
+                { "title": "神经网络的基本结构", "url": "/column/AI/MachineLearning/algorithm/20神经网络的基本结构"},
+                { "title": "前向传播与反向传播", "url": "/column/AI/MachineLearning/algorithm/21前向传播与反向传播"},
+                { "title": "深度学习VS传统机器学习", "url": "/column/AI/MachineLearning/algorithm/22深度学习VS传统机器学习"},
+                { "title": "常见网络类型", "url": "/column/AI/MachineLearning/algorithm/23常见网络类型"}
               ]
             },
             {
