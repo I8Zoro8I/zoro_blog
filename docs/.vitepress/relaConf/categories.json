@@ -97,9 +97,13 @@
             {
               "title": "05. 模型调优与工程落地",
               "items": [
-                { "title": "欠拟合/过拟合与正则化技术", "url": "/column/AI/MachineLearning/model/01_optimization" },
-                { "title": "超参数自动搜索调优指南", "url": "/column/AI/MachineLearning/model/02_hparam" },
-                { "title": "模型评估指标与混淆矩阵", "url": "/column/AI/MachineLearning/model/03_metrics" }
+                { "title": "交叉验证", "url": "/column/AI/MachineLearning/model/01交叉验证" },
+                { "title": "正则化", "url": "/column/AI/MachineLearning/model/02正则化" },
+                { "title": "数据泄露", "url": "/column/AI/MachineLearning/model/03数据泄露" },
+                { "title": "集成方法", "url": "/column/AI/MachineLearning/model/04集成方法" },
+                { "title": "超参搜索", "url": "/column/AI/MachineLearning/model/05超参搜索" },
+                { "title": "MLOps概念", "url": "/column/AI/MachineLearning/model/06MLOps概念" },
+                { "title": "常见问题排查", "url": "/column/AI/MachineLearning/model/07常见问题排查" }
               ]
             }
           ]
