@@ -37,14 +37,14 @@
           "name": "机器学习",
           "links": [
             {
-              "title": "01. 全景导论与生命周期",
+              "title": "01. 从零开始：机器学习到底是什么？",
               "items": [
                 { "title": "机器学习全景简介", "url": "/column/AI/MachineLearning/1-机器学习简介" },
                 { "title": "项目全生命周期演进", "url": "/column/AI/MachineLearning/2-机器学习生命周期" }
               ]
             },
             {
-              "title": "02. 底层数学计算基石",
+              "title": "02. 避坑前置：逃不掉的数学童子功",
               "items": [
                 { "title": "线性代数基础演练", "url": "/column/AI/math/01linearAlgebra" },
                 { "title": "概率论与数理统计", "url": "/column/AI/math/02ProbabilityTheory" },
@@ -52,7 +52,7 @@
               ]
             },
             {
-              "title": "03. 数据管道与特征工程",
+              "title": "03. 巧妇难为无米之炊：数据清洗与特征绝活",
               "items": [
                 { "title": "数据理解", "url": "/column/AI/MachineLearning/data/01数据理解" },
                 { "title": "数据清洗", "url": "/column/AI/MachineLearning/data/02数据清洗" },
@@ -66,7 +66,7 @@
               ]
             },
             {
-              "title": "04. 预测与决策算法模型",
+              "title": "04. 降维打击：经典算法与强化学习大杂烩",
               "remark": "🌟 核心合并：传统经典算法 + 强化学习 完美合体",
               "items": [
                 { "title": "大纲", "url": "/column/AI/MachineLearning/algorithm/01大纲" },
@@ -95,7 +95,7 @@
               ]
             },
             {
-              "title": "05. 模型调优与工程落地",
+              "title": "05. 临门一脚：模型调优与线上干货",
               "items": [
                 { "title": "交叉验证", "url": "/column/AI/MachineLearning/model/01交叉验证" },
                 { "title": "正则化", "url": "/column/AI/MachineLearning/model/02正则化" },
@@ -104,6 +104,12 @@
                 { "title": "超参搜索", "url": "/column/AI/MachineLearning/model/05超参搜索" },
                 { "title": "MLOps概念", "url": "/column/AI/MachineLearning/model/06MLOps概念" },
                 { "title": "常见问题排查", "url": "/column/AI/MachineLearning/model/07常见问题排查" }
+              ]
+            },
+            {
+              "title": "06. 爽文剧本：刷爆 Kaggle 的经典实战案例",
+              "items": [
+                { "title": "泰坦尼克号生还者预测", "url": "/column/AI/MachineLearning/model/01交叉验证" }
               ]
             }
           ]
