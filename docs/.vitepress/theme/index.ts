@@ -10,9 +10,21 @@ import DocMetaPanel from './components/DocMetaPanel.vue'
 import DocEngagementPanel from './components/DocEngagementPanel.vue'
 // @ts-ignore
 import ReadingProgressNotice from './components/ReadingProgressNotice.vue'
+// @ts-ignore
+import CustomHome from '../components/CustomHome.vue'
+// @ts-ignore
+import ArchivePage from './components/ArchivePage.vue'
+// @ts-ignore
+import TagsPage from './components/TagsPage.vue'
 
 export default {
     ...DefaultTheme,
+    enhanceApp({ app }) {
+        // 注册为全局组件
+        app.component('CustomHome', CustomHome)
+        app.component('TagsPage', TagsPage)
+        app.component('ArchivePage', ArchivePage)
+    },
     Layout() {
         return h(DefaultTheme.Layout, null, {
             'doc-before': () => h(ReadingProgressNotice),
