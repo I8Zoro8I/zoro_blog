@@ -16,7 +16,7 @@ export default defineConfig({
             'link',
             {
                 rel: 'stylesheet',
-                href: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css'
+                href: 'https://cdn.jsdelivr.net/npm/katex@0.6.0/dist/katex.min.css'
             }
         ],
         ['link', {rel: 'icon', href: '/zoro_blog/images/logo.png'}],

@@ -198,3 +198,36 @@
 .VPSidebarItem.level-1 > .item .caret {
     margin-right: 2px !important;
 }
+
+/* ---------------- 公式块样式修复 ---------------- */
+.VPDoc .katex {
+    font-size: 1em;
+}
+
+.VPDoc .katex-display {
+    display: block;
+    margin: 1rem 0;
+    padding: 0.3rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-align: center;
+}
+
+.VPDoc .katex-display > .katex {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.VPDoc li .katex-display {
+    margin: 0.65rem 0;
+}
+
+.VPDoc .katex-display::-webkit-scrollbar {
+    height: 6px;
+}
+
+.VPDoc .katex-display::-webkit-scrollbar-thumb {
+    background: var(--vp-c-divider);
+    border-radius: 999px;
+}
