@@ -34,6 +34,22 @@ export const nav: DefaultTheme.NavItem[] = [
     },
     {
 
+        text: '发现',
+        items: [
+            {
+
+                text: '标签导航',
+                link: '/tags/'
+            },
+            {
+
+                text: '系列导航',
+                link: '/series/'
+            }
+        ]
+    },
+    {
+
         text: '联系我',
         items: [
             {
@@ -57,4 +73,3 @@ export const nav: DefaultTheme.NavItem[] = [
         ]
     }
 ];
-

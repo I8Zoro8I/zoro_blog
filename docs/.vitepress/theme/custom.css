@@ -231,3 +231,193 @@
     background: var(--vp-c-divider);
     border-radius: 999px;
 }
+
+/* ---------------- 标签页 / 系列页 ---------------- */
+.taxonomy-page {
+    margin: 0 auto;
+    padding: 1rem 0 2rem;
+}
+
+.taxonomy-hero {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at top right, rgba(177, 133, 219, 0.18), transparent 35%),
+        linear-gradient(135deg, var(--vp-c-bg-soft), var(--vp-c-bg));
+}
+
+.taxonomy-kicker {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vp-c-brand);
+}
+
+.taxonomy-hero h1 {
+    margin: 0;
+}
+
+.taxonomy-lead {
+    margin: 0.75rem 0 0;
+    color: var(--vp-c-text-2);
+}
+
+.taxonomy-cloud,
+.series-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.9rem;
+    margin: 1.5rem 0 2rem;
+}
+
+.taxonomy-chip,
+.series-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 16px;
+    background: var(--vp-c-bg-soft);
+    color: var(--vp-c-text-1);
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.taxonomy-chip:hover,
+.series-card:hover,
+.taxonomy-item:hover {
+    border-color: var(--vp-c-brand);
+    background: var(--vp-c-bg-alt);
+    transform: translateY(-2px);
+}
+
+.taxonomy-chip-count,
+.series-card span {
+    color: var(--vp-c-text-2);
+    font-size: 0.92rem;
+}
+
+.taxonomy-section {
+    margin-top: 2rem;
+    scroll-margin-top: 84px;
+}
+
+.taxonomy-section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.taxonomy-section-head h2 {
+    margin: 0;
+}
+
+.taxonomy-section-head span {
+    color: var(--vp-c-text-2);
+}
+
+.taxonomy-list {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.taxonomy-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 16px;
+    background: var(--vp-c-bg-soft);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.taxonomy-item strong {
+    display: block;
+    margin-bottom: 0.35rem;
+}
+
+.taxonomy-item p {
+    margin: 0;
+    color: var(--vp-c-text-2);
+    font-size: 0.92rem;
+}
+
+.taxonomy-item-date {
+    flex-shrink: 0;
+    color: var(--vp-c-text-2);
+    font-size: 0.88rem;
+}
+
+/* ---------------- 文章标签 / 系列入口 ---------------- */
+.doc-meta-panel {
+    margin: 1.5rem 0 0.75rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 16px;
+    background:
+        linear-gradient(135deg, rgba(177, 133, 219, 0.12), transparent 45%),
+        var(--vp-c-bg-soft);
+}
+
+.doc-meta-row + .doc-meta-row {
+    margin-top: 0.9rem;
+}
+
+.doc-meta-label {
+    display: block;
+    margin-bottom: 0.55rem;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--vp-c-text-2);
+}
+
+.doc-meta-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.doc-meta-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 999px;
+    background: var(--vp-c-bg);
+    color: var(--vp-c-text-1);
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.doc-meta-pill:hover {
+    border-color: var(--vp-c-brand);
+    color: var(--vp-c-brand);
+}
+
+.doc-meta-pill-primary {
+    background: var(--vp-c-brand-soft);
+    border-color: transparent;
+}
+
+@media (max-width: 768px) {
+    .taxonomy-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .taxonomy-item-date {
+        font-size: 0.82rem;
+    }
+}

@@ -20,6 +20,12 @@ hero:
     - theme: alt
       text: 关于我
       link: /column/my
+    - theme: alt
+      text: 标签导航
+      link: /tags/
+    - theme: alt
+      text: 系列导航
+      link: /series/
 
 features:
   - icon: 💻 
@@ -36,7 +42,6 @@ features:
 [//]: # (<!-- 自定义组件 -->)
 
 <script setup>
-import CustomHome from './.vitepress/components/CustomHome.vue'
 </script>
 
 
