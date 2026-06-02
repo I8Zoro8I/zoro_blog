@@ -517,6 +517,20 @@ export function getArticleByPath(path: string): ArticleSummary | null {
     return articleMap.get(normalizeRoutePath(path)) || null;
 }
 
+export function getRandomArticle(currentPath?: string): ArticleSummary | null {
+    const normalizedPath = currentPath ? normalizeRoutePath(currentPath) : null;
+    const candidates = normalizedPath
+        ? articles.filter((article) => normalizeRoutePath(article.link) !== normalizedPath)
+        : articles;
+
+    if (candidates.length === 0) {
+        return null;
+    }
+
+    const index = Math.floor(Math.random() * candidates.length);
+    return candidates[index] || null;
+}
+
 export function getTagAnchor(tag: string): string {
     return toAnchor(tag);
 }

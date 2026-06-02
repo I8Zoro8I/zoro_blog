@@ -1,16 +1,39 @@
 <script setup>
-import {computed, ref, watch} from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
 import {withBase} from 'vitepress';
 /* 请确保路径正确 */
 import categoriesData from '../relaConf/categories.json';
+import {siteLaunchDate} from '../relaConf/siteStats';
+import {data as siteStatsData} from '../siteStats.data';
+import {getRandomArticle} from '../theme/contentIndex';
 
 /* --- 基础状态 --- */
 const searchQuery = ref('');
 const currentPath = ref([]);
 const sponsorType = ref('wechat');
+const randomArticle = ref(null);
 
 const pageSize = 12;
 const currentPage = ref(1);
+
+const getRunningDays = (startDate) => {
+  const start = new Date(startDate);
+  if (Number.isNaN(start.getTime())) {
+    return 0;
+  }
+
+  const now = new Date();
+  const diff = now.getTime() - start.getTime();
+  return Math.max(1, Math.floor(diff / (1000 * 60 * 60 * 24)) + 1);
+};
+
+const formatWords = (value) => {
+  return new Intl.NumberFormat('zh-CN').format(value);
+};
+
+const pickRandomArticle = () => {
+  randomArticle.value = getRandomArticle();
+};
 
 /* --- 1. 动态统计逻辑（兼容多级） --- */
 const stats = computed(() => {
@@ -38,7 +61,10 @@ const stats = computed(() => {
   traverse(categoriesData.categories);
   return {
     docs: docCount,
-    folders: folderSet.size
+    folders: folderSet.size,
+    totalWords: siteStatsData.totalWords,
+    latestUpdatedDate: siteStatsData.latestUpdatedDate,
+    runningDays: getRunningDays(siteLaunchDate)
   };
 });
 
@@ -197,6 +223,10 @@ const jumpToPath = (index) => {
 watch(searchQuery, () => {
   currentPage.value = 1;
 });
+
+onMounted(() => {
+  pickRandomArticle();
+});
 </script>
 
 <template>
@@ -287,8 +317,36 @@ watch(searchQuery, () => {
             <strong class="stat-val">{{ stats.docs }}</strong>
           </div>
           <div class="stat-row">
+            <span>总字数</span>
+            <strong class="stat-val">{{ formatWords(stats.totalWords) }}</strong>
+          </div>
+          <div class="stat-row">
             <span>分类目录</span>
             <strong class="stat-val">{{ stats.folders }}</strong>
+          </div>
+          <div class="stat-row">
+            <span>运营时间</span>
+            <strong class="stat-val">{{ stats.runningDays }} 天</strong>
+          </div>
+          <div class="stat-row">
+            <span>最近更新</span>
+            <strong class="stat-val">{{ stats.latestUpdatedDate }}</strong>
+          </div>
+          <div class="random-widget">
+            <div class="random-widget-head">
+              <h3 class="widget-title random-widget-title">🎲 随机一篇</h3>
+            </div>
+            <p v-if="randomArticle" class="random-article-title">{{ randomArticle.title }}</p>
+            <div class="random-widget-actions">
+              <a
+                  v-if="randomArticle"
+                  :href="getUrl(randomArticle.link)"
+                  class="random-article-link random-action-primary"
+              >
+                去看看
+              </a>
+              <button class="random-action-secondary" type="button" @click="pickRandomArticle">换一篇</button>
+            </div>
           </div>
           <hr class="divider"/>
           <h3 class="widget-title">☕ 赞助我</h3>
@@ -539,6 +597,86 @@ watch(searchQuery, () => {
   margin: 20px 0;
 }
 
+.random-widget {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 16px;
+  background:
+      linear-gradient(145deg, rgba(177, 133, 219, 0.14), rgba(255, 255, 255, 0)),
+      var(--vp-c-bg);
+}
+
+.random-widget-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.random-widget-title {
+  margin-bottom: 0;
+}
+
+.random-article-title {
+  margin: 0;
+  min-height: 48px;
+  color: var(--vp-c-text-1);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.random-widget-actions {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.random-action-primary,
+.random-action-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.random-action-primary {
+  background: var(--vp-c-brand);
+  color: #fff;
+  border: 1px solid var(--vp-c-brand);
+}
+
+.random-action-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.random-action-secondary {
+  background: transparent;
+  color: var(--vp-c-text-1);
+  border: 1px solid var(--vp-c-divider);
+}
+
+.random-action-secondary:hover {
+  border-color: var(--vp-c-brand);
+  color: var(--vp-c-brand);
+  transform: translateY(-1px);
+}
+
 /* 赞助板块 */
 .sponsor-tabs {
   display: flex;
@@ -582,6 +720,9 @@ watch(searchQuery, () => {
   }
   .right-sidebar {
     order: -1;
+  }
+  .random-widget-actions {
+    flex-wrap: wrap;
   }
 }
 </style>

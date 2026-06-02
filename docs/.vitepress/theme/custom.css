@@ -452,6 +452,164 @@
     border-color: transparent;
 }
 
+/* ---------------- 阅读进度 ---------------- */
+.reading-progress-notice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 1.2rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 16px;
+    background:
+        linear-gradient(135deg, rgba(177, 133, 219, 0.14), transparent 40%),
+        var(--vp-c-bg-soft);
+}
+
+.reading-progress-copy strong {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.reading-progress-copy p {
+    margin: 0;
+    color: var(--vp-c-text-2);
+    font-size: 0.92rem;
+}
+
+.reading-progress-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-shrink: 0;
+}
+
+.reading-progress-badge {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 40;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 999px;
+    background: rgba(20, 20, 24, 0.86);
+    color: var(--vp-c-text-1);
+    font-size: 0.86rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.reading-progress-btn,
+.doc-engagement-btn,
+.doc-rating-btn {
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 999px;
+    background: var(--vp-c-bg);
+    color: var(--vp-c-text-1);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.reading-progress-btn,
+.doc-engagement-btn {
+    padding: 0.55rem 0.9rem;
+    text-decoration: none;
+}
+
+.reading-progress-btn:hover,
+.doc-engagement-btn:hover,
+.doc-rating-btn:hover {
+    border-color: var(--vp-c-brand);
+    color: var(--vp-c-brand);
+    transform: translateY(-1px);
+}
+
+.reading-progress-btn-primary,
+.doc-engagement-btn-primary {
+    background: var(--vp-c-brand-soft);
+    border-color: transparent;
+}
+
+/* ---------------- 阅读互动 ---------------- */
+.doc-engagement-panel {
+    margin-top: 1.1rem;
+}
+
+.doc-engagement-card {
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 16px;
+    background:
+        linear-gradient(135deg, rgba(177, 133, 219, 0.1), transparent 45%),
+        var(--vp-c-bg-soft);
+}
+
+.doc-engagement-label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    color: var(--vp-c-brand);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.doc-engagement-title {
+    display: block;
+    margin-bottom: 0.45rem;
+}
+
+.doc-engagement-desc {
+    margin: 0 0 0.9rem;
+    color: var(--vp-c-text-2);
+    font-size: 0.92rem;
+}
+
+.doc-engagement-actions,
+.doc-rating-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.doc-rating-btn {
+    padding: 0.55rem 0.9rem;
+}
+
+.doc-rating-btn.is-active {
+    background: var(--vp-c-brand-soft);
+    border-color: transparent;
+    color: var(--vp-c-brand);
+}
+
+.random-widget {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--vp-c-divider);
+}
+
+.random-article-title {
+  margin: 0.35rem 0 0.9rem;
+  color: var(--vp-c-text-1);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.random-widget-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.random-article-link {
+  color: var(--vp-c-brand);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.random-article-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .taxonomy-item {
         align-items: flex-start;
@@ -460,6 +618,21 @@
 
     .taxonomy-item-date {
         font-size: 0.82rem;
+    }
+
+    .reading-progress-notice {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .reading-progress-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .reading-progress-badge {
+        right: 12px;
+        bottom: 12px;
     }
 }
 

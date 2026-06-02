@@ -50,15 +50,19 @@ export const nav: DefaultTheme.NavItem[] = [
     },
     {
 
-        text: '联系我',
+        text: '开源项目',
         items: [
             {
-                text: 'Github', link: 'https://github.com/I8Zoro8I'
-            },
-            {
-                text: 'Gitee',
+
+                text: '烟草一体化管控系统',
                 link: 'https://gitee.com/zoro869466424'
-            },
+            }
+        ]
+    },
+    {
+
+        text: '联系我',
+        items: [
             {
 
                 text: 'bilibili',
