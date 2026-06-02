@@ -1,80 +1,85 @@
 import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
-// 1. 彻底停用并注释掉之前容易导致样式碎掉的 markdown-it-katex 插件
-// import katex from 'markdown-it-katex'
-
 // @ts-ignore
+import katex from 'markdown-it-katex'
 // @ts-ignore
 export default defineConfig({
-    lang: 'zh-CN',
+    lang: 'zh-CN', // 设置页面的 lang 属性
     base: '/zoro_blog/',
-    cleanUrls: true,
+    // base: '/',
+    //github page  '/zoro_blog/'
+    cleanUrls: true, // 加上这一行
+    /* 核心配置：在 HTML 的 <head> 中添加图标链接 */
     head: [
-        ['link', { rel: 'icon', href: '/zoro_blog/images/logo.png' }],
-        // 2. 核心：通过全局配置项告诉 MathJax，直接寻找页面上的 $ 和 $$ 并接管它们
+        /* 注意：因为你的项目 base 是 /zoro_blog/，路径需包含前缀 */
         [
-            'script',
-            {},
-            `
-          window.MathJax = {
-            tex: {
-              inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
-              displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
-              processEscapes: true
-            },
-            options: {
-              // 关键：只处理带这两个类名或特定区域的数学公式
-              processHtmlClass: 'tex2jax_process'
-            }
-          };
-          `
-        ],
-        // 3. 核心：引入官方功能最全、抗干扰能力最强的 tex-mml-chtml 引擎
-        [
-            'script',
+            'link',
             {
-                src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
-                id: 'MathJax-script',
-                async: 'true'
+                rel: 'stylesheet',
+                href: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css'
             }
         ],
-        // Umami 统计
+        ['link', {rel: 'icon', href: '/zoro_blog/images/logo.png'}],
         [
             'script',
             {
                 async: '',
                 defer: '',
-                src: 'https://cloud.umami.is/script.js',
-                'data-website-id': '6e4a1d59-7078-490f-9521-7b833f23befe'
+                src: 'https://cloud.umami.is/script.js', // 如果是自建，换成你的域名
+                'data-website-id': '6e4a1d59-7078-490f-9521-7b833f23befe'    // 替换为实际 ID
             }
         ]
     ],
     appearance: 'dark',
-    title: "zoro's Blog",
+    title: "zoro's Blog",// 这里将会影响之后生成的根路径
     description: "记录成长，分享技术与生活 | zoro 个人博客",
     themeConfig: {
-        logo: '/images/avatar.png',
+        // https://vitepress.dev/reference/default-theme-config
+        logo: '/images/avatar.png', // 表示docs/public/avatar.png
         nav: nav,
+        //
         sidebar: sidebar,
-        search: { provider: 'local' },
-        socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }],
-        // @ts-ignore
-        outline: { level: [1, 4], label: '页面大纲', deep: true },
+        search: {
+
+            provider: 'local'
+        },
+        socialLinks: [
+            {icon: 'github', link: 'https://github.com/vuejs/vitepress'}
+        ],
+        // 右侧大纲的标题映射
+        outline: {
+            level: [1, 4],
+            label: '页面大纲',
+            // @ts-ignore
+            deep: true     // 开启深度按需加载/折叠
+        },
+        // 显示最后更新时间
         lastUpdated: {
             text: '最后更新于',
-            formatOptions: { dateStyle: 'full', timeStyle: 'medium' } as any
+            formatOptions: {
+                dateStyle: 'full',
+                timeStyle: 'medium'
+            } as any
         },
+        // 自定义页脚
         footer: {
             message: '基于 VitePress 驱动',
             copyright: `版权所有 © 2024-${new Date().getFullYear()} Zoro`
         },
-        docFooter: { prev: '上一篇', next: '下一篇' },
+        // 文档页面的翻页按钮文字
+        docFooter: {
+            prev: '上一篇',
+            next: '下一篇'
+        },
+        // 编辑链接：允许读者直接在 GitHub 上纠错
         editLink: {
             pattern: 'https://github.com/I8zoro8I/zoro_blog/edit/main/docs/:path',
             text: '在 GitHub 上编辑此页'
         },
     },
-    // 4. 清空 markdown 插件配置，让文档原封不动地吐出 $$
-    // 这样前端加载好后，MathJax 脚本就会自动把原本完好的 $$ 变成和 Typora 精度一模一样的矢量公式
-    markdown: {}
+    markdown: {
+        config: (md) => {
+            md.use(katex)
+        }
+    }
 })
