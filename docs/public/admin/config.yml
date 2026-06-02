@@ -22,7 +22,6 @@ collections:
       - { label: "文章标题", name: "title", widget: "string" }
       - { label: "文件名 (URL路径)", name: "slug", widget: "string" }
       - { label: "发布日期", name: "date", widget: "datetime" }
-      - { label: "系列名称", name: "series", widget: "string", required: false }
       - label: "标签"
         name: "tags"
         widget: "list"

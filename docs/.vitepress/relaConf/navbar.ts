@@ -43,8 +43,8 @@ export const nav: DefaultTheme.NavItem[] = [
             },
             {
 
-                text: '系列导航',
-                link: '/series/'
+                text: '时间归档',
+                link: '/archive/'
             }
         ]
     },

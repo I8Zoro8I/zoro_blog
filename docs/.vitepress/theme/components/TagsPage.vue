@@ -25,18 +25,19 @@ import {tagSections} from '../contentIndex';
       </a>
     </div>
 
-    <section
-      v-for="section in tagSections"
+    <details
+      v-for="(section, sectionIndex) in tagSections"
       :id="`tag-${section.anchor}`"
       :key="section.name"
-      class="taxonomy-section"
+      class="taxonomy-section-card"
+      :open="sectionIndex === 0"
     >
-      <div class="taxonomy-section-head">
+      <summary class="taxonomy-section-head taxonomy-summary">
         <h2>{{ section.name }}</h2>
         <span>{{ section.count }} 篇</span>
-      </div>
+      </summary>
 
-      <div class="taxonomy-list">
+      <div class="taxonomy-list taxonomy-section-list">
         <a
           v-for="article in section.articles"
           :key="article.link"
@@ -54,6 +55,6 @@ import {tagSections} from '../contentIndex';
           <span class="taxonomy-item-date">{{ article.date || '未填写日期' }}</span>
         </a>
       </div>
-    </section>
+    </details>
   </div>
 </template>

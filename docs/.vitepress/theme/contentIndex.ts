@@ -31,6 +31,19 @@ export type TaxonomySection = {
     articles: ArticleSummary[];
 };
 
+export type ArchiveMonthSection = {
+    key: string;
+    month: string;
+    count: number;
+    articles: ArticleSummary[];
+};
+
+export type ArchiveYearSection = {
+    year: string;
+    count: number;
+    months: ArchiveMonthSection[];
+};
+
 type PathMeta = {
     category: string | null;
     group: string | null;
@@ -426,6 +439,74 @@ export const seriesSections = createTaxonomySections(
         return a.title.localeCompare(b.title, 'zh-CN');
     }
 );
+
+function padMonth(value: number): string {
+    // @ts-ignore
+    return String(value).padStart(2, '0');
+}
+
+function getArchiveParts(article: ArticleSummary): { year: string; month: string } {
+    const date = article.sortTime ? new Date(article.sortTime) : null;
+
+    // @ts-ignore
+    if (!date || Number.isNaN(date.getTime())) {
+        return {
+            year: '未填写日期',
+            month: '未分组'
+        };
+    }
+
+    return {
+        year: String(date.getFullYear()),
+        month: `${padMonth(date.getMonth() + 1)} 月`
+    };
+}
+
+export const archiveSections: ArchiveYearSection[] = (() => {
+    // @ts-ignore
+    const yearMap = new Map<string, Map<string, ArticleSummary[]>>();
+
+    for (const article of articles) {
+        const parts = getArchiveParts(article);
+        // @ts-ignore
+        const months = yearMap.get(parts.year) || new Map<string, ArticleSummary[]>();
+        const list = months.get(parts.month) || [];
+        list.push(article);
+        months.set(parts.month, list);
+        yearMap.set(parts.year, months);
+    }
+
+    return [...yearMap.entries()]
+        .map(([year, months]) => ({
+            year,
+            count: [...months.values()].reduce((total, list) => total + list.length, 0),
+            months: [...months.entries()]
+                .map(([month, list]) => ({
+                    key: `${year}-${month}`,
+                    month,
+                    count: list.length,
+                    articles: [...list].sort((a, b) => b.sortTime - a.sortTime)
+                }))
+                .sort((a, b) => {
+                    if (year === '未填写日期') {
+                        return a.month.localeCompare(b.month, 'zh-CN');
+                    }
+
+                    return Number(b.month.slice(0, 2)) - Number(a.month.slice(0, 2));
+                })
+        }))
+        .sort((a, b) => {
+            if (a.year === '未填写日期') {
+                return 1;
+            }
+
+            if (b.year === '未填写日期') {
+                return -1;
+            }
+
+            return Number(b.year) - Number(a.year);
+        });
+})();
 
 // @ts-ignore
 const articleMap = new Map(

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed} from 'vue';
 import {useRoute, withBase} from 'vitepress';
-import {getArticleByPath, getSeriesAnchor, getTagAnchor} from '../contentIndex';
+import {getArticleByPath, getTagAnchor} from '../contentIndex';
 
 const route = useRoute();
 
@@ -12,12 +12,9 @@ const article = computed(() => getArticleByPath(route.path));
   <section v-if="article && (article.tags.length || article.series)" class="doc-meta-panel">
     <div v-if="article.series" class="doc-meta-row">
       <span class="doc-meta-label">系列</span>
-      <a
-        class="doc-meta-pill doc-meta-pill-primary"
-        :href="withBase(`/series/#series-${getSeriesAnchor(article.series)}`)"
-      >
+      <span class="doc-meta-pill doc-meta-pill-primary">
         {{ article.series }}
-      </a>
+      </span>
     </div>
 
     <div v-if="article.tags.length" class="doc-meta-row">
