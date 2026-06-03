@@ -94,7 +94,6 @@ const isItemActive = (item: NavItem): boolean => {
 .cascade-panel {
   /* ─── 宽度自适应（保持之前的流式包裹） ─── */
   width: max-content !important;
-  //min-width: 120px;
 
   padding: 8px;
   border-radius: 16px;

@@ -113,7 +113,8 @@
                 { "title": "练手小项目-2-房价预测", "url": "/column/AI/MachineLearning/project/02预测房价" },
                 { "title": "kaggle项目-3-黑神话悟空用户分析", "url": "/column/AI/MachineLearning/project/03客户分群" },
                 { "title": "练手小项目-4-PCA可视化", "url": "/column/AI/MachineLearning/project/04PCA可视化" },
-                { "title": "练手小项目-5-强化学习悬崖寻路", "url": "/column/AI/MachineLearning/project/05强化学习-悬崖寻路" }
+                { "title": "练手小项目-5-强化学习悬崖寻路", "url": "/column/AI/MachineLearning/project/05强化学习-悬崖寻路" },
+                { "title": "kaggle项目-6-VALORANT比赛预测胜负", "url": "/column/AI/MachineLearning/project/06VCT预测胜负" }
               ]
             }
           ]

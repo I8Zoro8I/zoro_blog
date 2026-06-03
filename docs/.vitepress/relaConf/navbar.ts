@@ -18,7 +18,8 @@ export const nav: DefaultTheme.NavItem[] = [
             {
                 text: '机器学习', // 专门分一组放你的硬核算法文章
                 items: [
-                    { text: '黑神话悟空-用户分析', link: '/column/AI/MachineLearning/project/03客户分群' }
+                    { text: '黑神话悟空-用户分析', link: '/column/AI/MachineLearning/project/03客户分群' },
+                    { text: '无畏契约-胜负预测', link: '/column/AI/MachineLearning/project/06VCT预测胜负' }
                 ]
             }
 
