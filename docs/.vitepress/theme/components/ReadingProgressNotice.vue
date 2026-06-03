@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue';
 import {useRoute} from 'vitepress';
-import {getArticleByPath} from '../contentIndex';
 
 type SavedProgress = {
   percent: number;
@@ -9,16 +8,28 @@ type SavedProgress = {
 };
 
 const route = useRoute();
-const article = computed(() => getArticleByPath(route.path));
 const savedProgress = ref<SavedProgress | null>(null);
 const noticeVisible = ref(false);
 const currentPercent = ref(0);
 
 const STORAGE_PREFIX = 'zblog:reading-progress:';
+const SITE_BASE = '/zoro_blog';
 
 let saveTimer: number | null = null;
 
-const storageKey = computed(() => `${STORAGE_PREFIX}${route.path}`);
+const normalizedPath = computed(() => {
+  if (route.path.startsWith(`${SITE_BASE}/`)) {
+    return route.path.slice(SITE_BASE.length);
+  }
+
+  return route.path;
+});
+
+const isTrackablePage = computed(() => {
+  return normalizedPath.value.startsWith('/column/') && !normalizedPath.value.endsWith('/');
+});
+
+const storageKey = computed(() => `${STORAGE_PREFIX}${normalizedPath.value}`);
 
 const getScrollPercent = () => {
   const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
@@ -32,7 +43,7 @@ const getScrollPercent = () => {
 };
 
 const persistProgress = () => {
-  if (!article.value) {
+  if (!isTrackablePage.value) {
     return;
   }
 
@@ -61,7 +72,7 @@ const loadSavedProgress = () => {
   savedProgress.value = null;
   currentPercent.value = 0;
 
-  if (!article.value) {
+  if (!isTrackablePage.value) {
     return;
   }
 
@@ -107,6 +118,7 @@ watch(
     if (typeof window !== 'undefined') {
       window.requestAnimationFrame(() => {
         loadSavedProgress();
+        currentPercent.value = getScrollPercent();
       });
     }
   }
@@ -129,7 +141,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="article">
+  <div v-if="isTrackablePage">
     <section v-if="savedProgress && noticeVisible" class="reading-progress-notice">
       <div class="reading-progress-copy">
         <strong>已为你记住阅读进度</strong>

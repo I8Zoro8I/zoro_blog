@@ -49,6 +49,7 @@ type PathMeta = {
     group: string | null;
     series: string | null;
     tags: string[];
+    topLevelTag: string | null;
 };
 
 // @ts-ignore
@@ -278,7 +279,8 @@ function setPathMeta(link: string, meta: PathMeta): void {
         category: meta.category,
         group: meta.group,
         series: meta.series,
-        tags: unique(meta.tags)
+        tags: unique(meta.tags),
+        topLevelTag: meta.topLevelTag
     });
 }
 
@@ -291,7 +293,8 @@ for (const category of categoriesData.categories || []) {
                         category: category.name || null,
                         group: group.name || null,
                         series: entry.title || group.name || null,
-                        tags: [category.name, group.name, entry.title].filter(Boolean)
+                        tags: [category.name, group.name, entry.title].filter(Boolean),
+                        topLevelTag: group.name || null
                     });
                 }
                 continue;
@@ -302,7 +305,8 @@ for (const category of categoriesData.categories || []) {
                     category: category.name || null,
                     group: group.name || null,
                     series: group.name || null,
-                    tags: [category.name, group.name].filter(Boolean)
+                    tags: [category.name, group.name].filter(Boolean),
+                    topLevelTag: group.name || null
                 });
             }
         }
@@ -324,7 +328,8 @@ function getFallbackMeta(link: string): PathMeta {
             category: matchedRule.category,
             group: matchedRule.group,
             series: matchedRule.series,
-            tags: matchedRule.tags
+            tags: matchedRule.tags,
+            topLevelTag: matchedRule.group
         };
     }
 
@@ -332,7 +337,8 @@ function getFallbackMeta(link: string): PathMeta {
         category: null,
         group: null,
         series: null,
-        tags: []
+        tags: [],
+        topLevelTag: null
     };
 }
 
@@ -353,7 +359,9 @@ function createArticle(pageData: RawPageData): ArticleSummary | null {
     const title = String(frontmatter.title || pageData.title || relativePath.split('/').pop() || '未命名文章').trim();
     const date = String(frontmatter.date || '').trim();
     const frontmatterTags = normalizeStringArray(frontmatter.tags);
-    const tags = unique([...frontmatterTags, ...fallbackMeta.tags]);
+    const tags = frontmatterTags.length > 0
+        ? unique(frontmatterTags)
+        : unique([fallbackMeta.topLevelTag].filter(Boolean) as string[]);
     const series = normalizeSeries(frontmatter.series) || fallbackMeta.series;
 
     const article: ArticleSummary = {

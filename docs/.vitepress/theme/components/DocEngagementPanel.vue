@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue';
 import {useRoute} from 'vitepress';
-import {getArticleByPath} from '../contentIndex';
 
 type RatingValue = 'helpful' | 'normal' | 'hardcore';
 
 const route = useRoute();
-const article = computed(() => getArticleByPath(route.path));
 const rating = ref<RatingValue | null>(null);
 
 const RATING_STORAGE_PREFIX = 'zblog:article-rating:';
@@ -20,11 +18,6 @@ const ratingOptions: Array<{value: RatingValue; label: string}> = [
 const ratingStorageKey = computed(() => `${RATING_STORAGE_PREFIX}${route.path}`);
 
 const loadRating = () => {
-  if (!article.value) {
-    rating.value = null;
-    return;
-  }
-
   const raw = localStorage.getItem(ratingStorageKey.value);
   if (raw === 'helpful' || raw === 'normal' || raw === 'hardcore') {
     rating.value = raw;
@@ -54,7 +47,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section v-if="article" class="doc-engagement-panel">
+  <section class="doc-engagement-panel">
     <div class="doc-engagement-card">
       <span class="doc-engagement-label">一句话评价</span>
       <strong class="doc-engagement-title">这篇内容看起来怎么样？</strong>
