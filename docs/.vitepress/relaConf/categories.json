@@ -109,7 +109,11 @@
             {
               "title": "06. 爽文剧本：刷爆 Kaggle 的经典实战案例",
               "items": [
-                { "title": "泰坦尼克号生还者预测", "url": "/column/AI/MachineLearning/model/01交叉验证" }
+                { "title": "练手小项目-1-泰坦尼克号生存", "url": "/column/AI/MachineLearning/project/01泰坦尼克号" },
+                { "title": "练手小项目-2-房价预测", "url": "/column/AI/MachineLearning/project/02预测房价" },
+                { "title": "kaggle项目-3-黑神话悟空用户分析", "url": "/column/AI/MachineLearning/project/03客户分群" },
+                { "title": "练手小项目-4-PCA可视化", "url": "/column/AI/MachineLearning/project/04PCA可视化" },
+                { "title": "练手小项目-5-强化学习悬崖寻路", "url": "/column/AI/MachineLearning/project/05强化学习-悬崖寻路" }
               ]
             }
           ]
@@ -353,11 +357,11 @@
           "name": "常用链接",
           "links": [
             {
-              "title": "优质番剧推荐好站",
+              "title": "动漫好站",
               "url": "/column/utils/fanLink"
             },
             {
-              "title": "生产力软件与单机分享",
+              "title": "破解软件 & 游戏资源收藏指南",
               "url": "/column/utils/gameCrack"
             },
             {
@@ -365,7 +369,7 @@
               "url": "/column/utils/terminal"
             },
             {
-              "title": "网络加速与独立边缘节点",
+              "title": "自用 VPN / 机场推荐",
               "url": "/column/utils/vpn"
             }
           ]
