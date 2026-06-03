@@ -8,13 +8,20 @@ export const nav: DefaultTheme.NavItem[] = [
     },
     {
 
-        text: '博客',
+        text: '技术专栏',
         items: [
             {
 
-                text: '技术架构介绍',
+                text: '博客架构介绍',
                 link: '/column/blog/' // 对应docs/column/Algorithm下的idnex.md文件
+            },
+            {
+                text: '机器学习', // 专门分一组放你的硬核算法文章
+                items: [
+                    { text: '黑神话悟空-用户分析', link: '/column/AI/MachineLearning/project/03客户分群' }
+                ]
             }
+
         ]
     },
     {

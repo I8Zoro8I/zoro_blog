@@ -16,6 +16,8 @@ import CustomHome from '../components/CustomHome.vue'
 import ArchivePage from './components/ArchivePage.vue'
 // @ts-ignore
 import TagsPage from './components/TagsPage.vue'
+// @ts-ignore
+import NavCascadeMenu from './components/NavCascadeMenu.vue'
 
 export default {
     ...DefaultTheme,
@@ -27,6 +29,7 @@ export default {
     },
     Layout() {
         return h(DefaultTheme.Layout, null, {
+            'nav-bar-content-after': () => h(NavCascadeMenu),
             'doc-before': () => h(ReadingProgressNotice),
             'doc-footer-before': () => h(DocMetaPanel),
             /* 1. 评论组件 */

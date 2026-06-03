@@ -47,6 +47,50 @@
     align-items: center;
 }
 
+@media (min-width: 768px) {
+    .VPNavBarMenu.menu {
+        display: none !important;
+    }
+
+    .VPNavBar .content-body > .search {
+        order: 1;
+    }
+
+    .VPNavBar .content-body > .cascade-navbar {
+        order: 2;
+        margin-left: 12px;
+        margin-right: 8px;
+        padding-right: 14px;
+        border-right: 1px solid var(--vp-c-divider);
+    }
+
+    .VPNavBar .content-body > .translations {
+        order: 3;
+    }
+
+    .VPNavBar .content-body > .appearance {
+        order: 4;
+    }
+
+    .VPNavBar .content-body > .social-links {
+        order: 5;
+    }
+
+    .VPNavBar .content-body > .extra {
+        order: 6;
+    }
+
+    .VPNavBar .content-body > .hamburger {
+        order: 7;
+    }
+
+    .VPNavBar .content-body > .cascade-navbar + .appearance::before,
+    .VPNavBar .content-body > .cascade-navbar + .social-links::before,
+    .VPNavBar .content-body > .cascade-navbar + .translations::before {
+        display: none;
+    }
+}
+
 /* 针对首页 Hero 区域图片的圆角处理 */
 .VPHero .image-src {
     border-radius: 50%; /* 变成圆形 */
