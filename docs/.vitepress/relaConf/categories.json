@@ -122,38 +122,14 @@
         {
           "name": "Python 基础",
           "links": [
-            {
-              "title": "01- 简介与环境配置",
-              "url": "/column/AI/python/01环境"
-            },
-            {
-              "title": "02- 核心语法与数据类型",
-              "url": "/column/AI/python/02语法&数据"
-            },
-            {
-              "title": "03- 运算符全解",
-              "url": "/column/AI/python/03运算符"
-            },
-            {
-              "title": "04- 核心推导式",
-              "url": "/column/AI/python/04推导式"
-            },
-            {
-              "title": "05- 迭代器与生成器",
-              "url": "/column/AI/python/05迭代器与生成器"
-            },
-            {
-              "title": "06- With 上下文管理器",
-              "url": "/column/AI/python/06With"
-            },
-            {
-              "title": "07- 函数式编程",
-              "url": "/column/AI/python/07函数"
-            },
-            {
-              "title": "08- 闭包与装饰器",
-              "url": "/column/AI/python/08装饰器"
-            },
+            {"title": "01- 简介与环境配置", "url": "/column/AI/python/01环境"},
+            {"title": "02- 核心语法与数据类型", "url": "/column/AI/python/02语法&数据"},
+            {"title": "03- 运算符全解", "url": "/column/AI/python/03运算符"},
+            {"title": "04- 核心推导式", "url": "/column/AI/python/04推导式"},
+            {"title": "05- 迭代器与生成器", "url": "/column/AI/python/05迭代器与生成器"},
+            {"title": "06- With 上下文管理器", "url": "/column/AI/python/06With"},
+            {"title": "07- 函数式编程", "url": "/column/AI/python/07函数"},
+            {"title": "08- 闭包与装饰器", "url": "/column/AI/python/08装饰器"},
             {
               "title": "09- File & OS 文件操作",
               "url": "/column/AI/python/09File&OS"
@@ -309,22 +285,14 @@
         {
           "name": "pyTorch 深度学习框架",
           "links": [
-            {
-              "title": "0-简介",
-              "url": "/column/AI/pyTorch/0-简介"
-            },
-            {
-              "title": "1-张量",
-              "url": "/column/AI/pyTorch/1-张量"
-            },
-            {
-              "title": "2-神经网络基础",
-              "url": "/column/AI/pyTorch/2-神经网络基础"
-            },
-            {
-              "title": "番外-计算机视觉识别烟叶种类与物联网控制",
-              "url": "/column/AI/pyTorch/番外-视觉识别烟叶种类"
-            }
+            {"title": "简介", "url": "/column/AI/pyTorch/0-简介"},
+            {"title": "张量", "url": "/column/AI/pyTorch/1-张量"},
+            {"title": "神经网络基础", "url": "/column/AI/pyTorch/2-神经网络基础"},
+            {"title": "数据处理与加载", "url": "/column/AI/pyTorch/03数据处理与加载"},
+            {"title": "线性回归", "url": "/column/AI/pyTorch/04线性回归"},
+            {"title": "卷积神经网络CNN", "url": "/column/AI/pyTorch/05卷积神经网络"},
+            {"title": "循环神经网络RNN", "url": "/column/AI/pyTorch/06循环神经网络"},
+            {"title": "番外-计算机视觉识别烟叶种类与物联网控制", "url": "/column/AI/pyTorch/番外-视觉识别烟叶种类"}
           ]
         }
       ]

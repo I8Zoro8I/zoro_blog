@@ -27,7 +27,7 @@ date: 2026年05月08日
     </div>
   </a>
 
-  <a href="https://47.242.128.61:8000/login" target="_blank" class="mini-card-link">
+  <a href="https://mojie.xn--yrs494l.com/register?aff=XrK22R6e" target="_blank" class="mini-card-link">
     <div class="mini-card">
       <div class="card-title">3. 魔戒</div>
       <div class="card-status status-pro">按量计费 / 永不过期 🌟</div>
@@ -41,7 +41,7 @@ date: 2026年05月08日
     </div>
   </a>
 
-  <a href="#" target="_blank" class="mini-card-link">
+  <a href="https://inv06.lmaff01.cc/register?aff=TiPMur9D" target="_blank" class="mini-card-link">
     <div class="mini-card">
       <div class="card-title">5. 龙猫云</div>
       <div class="card-status status-hot">中端主力 / 长期稳定</div>
