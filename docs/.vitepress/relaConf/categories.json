@@ -130,156 +130,51 @@
             {"title": "06- With 上下文管理器", "url": "/column/AI/python/06With"},
             {"title": "07- 函数式编程", "url": "/column/AI/python/07函数"},
             {"title": "08- 闭包与装饰器", "url": "/column/AI/python/08装饰器"},
-            {
-              "title": "09- File & OS 文件操作",
-              "url": "/column/AI/python/09File&OS"
-            },
-            {
-              "title": "10- 面向对象编程 (OOP)",
-              "url": "/column/AI/python/10面对对象"
-            }
+            {"title": "09- File & OS 文件操作", "url": "/column/AI/python/09File&OS"},
+            {"title": "10- 面向对象编程 (OOP)", "url": "/column/AI/python/10面对对象"}
           ]
         },
         {
           "name": "NumPy 科学计算",
           "links": [
-            {
-              "title": "01- Ndarray 核心对象",
-              "url": "/column/AI/Numpy/01Ndarray"
-            },
-            {
-              "title": "02- 基础数据类型",
-              "url": "/column/AI/Numpy/02数据类型"
-            },
-            {
-              "title": "03- 数组创建与操作",
-              "url": "/column/AI/Numpy/03数组"
-            },
-            {
-              "title": "04- 切片与高级索引",
-              "url": "/column/AI/Numpy/04切片和索引"
-            },
-            {
-              "title": "05- 广播机制原理",
-              "url": "/column/AI/Numpy/05广播"
-            },
-            {
-              "title": "06- 位运算操作",
-              "url": "/column/AI/Numpy/06位运算"
-            },
-            {
-              "title": "07- 常用数学函数",
-              "url": "/column/AI/Numpy/07函数"
-            },
-            {
-              "title": "08- 内存字节交换",
-              "url": "/column/AI/Numpy/08字节交换"
-            },
-            {
-              "title": "09- 数据副本与视图",
-              "url": "/column/AI/Numpy/09副本和视图"
-            },
-            {
-              "title": "10- Matrix 矩阵库",
-              "url": "/column/AI/Numpy/10矩阵库"
-            },
-            {
-              "title": "11- 线性代数模块",
-              "url": "/column/AI/Numpy/11线性代数"
-            },
-            {
-              "title": "12- NumPy 输入与输出",
-              "url": "/column/AI/Numpy/12IO"
-            }
+            {"title": "01- Ndarray 核心对象", "url": "/column/AI/Numpy/01Ndarray"},
+            {"title": "02- 基础数据类型", "url": "/column/AI/Numpy/02数据类型"},
+            {"title": "03- 数组创建与操作", "url": "/column/AI/Numpy/03数组"},
+            {"title": "04- 切片与高级索引", "url": "/column/AI/Numpy/04切片和索引"},
+            {"title": "05- 广播机制原理", "url": "/column/AI/Numpy/05广播"},
+            {"title": "06- 位运算操作", "url": "/column/AI/Numpy/06位运算"},
+            {"title": "07- 常用数学函数", "url": "/column/AI/Numpy/07函数"},
+            {"title": "08- 内存字节交换", "url": "/column/AI/Numpy/08字节交换"},
+            {"title": "09- 数据副本与视图", "url": "/column/AI/Numpy/09副本和视图"},
+            {"title": "10- Matrix 矩阵库", "url": "/column/AI/Numpy/10矩阵库"},
+            {"title": "11- 线性代数模块", "url": "/column/AI/Numpy/11线性代数"},
+            {"title": "12- NumPy 输入与输出", "url": "/column/AI/Numpy/12IO"}
           ]
         },
         {
           "name": "Pandas 数据分析",
           "links": [
-            {
-              "title": "01- 框架简介与数据科学",
-              "url": "/column/AI/pandas/01简介"
-            },
-            {
-              "title": "02- Series 一维序列",
-              "url": "/column/AI/pandas/02Series"
-            },
-            {
-              "title": "03- DataFrame 二维表格",
-              "url": "/column/AI/pandas/03DataFrame"
-            },
-            {
-              "title": "04- 高效数据读写总览",
-              "url": "/column/AI/pandas/04数据读写"
-            },
-            {
-              "title": "05- CSV 文本数据交互",
-              "url": "/column/AI/pandas/05CSV"
-            },
-            {
-              "title": "06- Excel 报表交互与联动",
-              "url": "/column/AI/pandas/06Excel"
-            },
-            {
-              "title": "07- JSON 半结构化处理",
-              "url": "/column/AI/pandas/07JSON"
-            },
-            {
-              "title": "08- SQL 关系数据库联通",
-              "url": "/column/AI/pandas/08SQL"
-            },
-            {
-              "title": "09- HTML 网页数据爬取",
-              "url": "/column/AI/pandas/09html"
-            },
-            {
-              "title": "10- Parquet & Feather 大数据流",
-              "url": "/column/AI/pandas/10ParquestFeather"
-            },
-            {
-              "title": "11- 数据导出与归档",
-              "url": "/column/AI/pandas/11数据导出"
-            },
-            {
-              "title": "12- 数据清洗与缺失值处理",
-              "url": "/column/AI/pandas/12数据清洗"
-            },
-            {
-              "title": "13- 常用高频内置函数",
-              "url": "/column/AI/pandas/13常用函数"
-            },
-            {
-              "title": "14- 相关性分析",
-              "url": "/column/AI/pandas/14相关性分析"
-            },
-            {
-              "title": "15- 数据排序、分组与聚合",
-              "url": "/column/AI/pandas/15数据排序与聚合"
-            },
-            {
-              "title": "16- 数据可视化",
-              "url": "/column/AI/pandas/16数据可视化"
-            },
-            {
-              "title": "17- 进阶高级功能探秘",
-              "url": "/column/AI/pandas/17高级功能"
-            },
-            {
-              "title": "18- 性能优化",
-              "url": "/column/AI/pandas/18性能优化"
-            },
-            {
-              "title": "19- 数据选取",
-              "url": "/column/AI/pandas/19数据选取"
-            },
-            {
-              "title": "20- 过滤与条件查询",
-              "url": "/column/AI/pandas/20过滤与条件查询"
-            },
-            {
-              "title": "21- 电商数据分析Demo",
-              "url": "/column/AI/pandas/21电商数据分析小Demo"
-            }
+            {"title": "01- 框架简介与数据科学", "url": "/column/AI/pandas/01简介"},
+            {"title": "02- Series 一维序列", "url": "/column/AI/pandas/02Series"},
+            {"title": "03- DataFrame 二维表格", "url": "/column/AI/pandas/03DataFrame"},
+            {"title": "04- 高效数据读写总览", "url": "/column/AI/pandas/04数据读写"},
+            {"title": "05- CSV 文本数据交互", "url": "/column/AI/pandas/05CSV"},
+            {"title": "06- Excel 报表交互与联动", "url": "/column/AI/pandas/06Excel"},
+            {"title": "07- JSON 半结构化处理", "url": "/column/AI/pandas/07JSON"},
+            {"title": "08- SQL 关系数据库联通", "url": "/column/AI/pandas/08SQL"},
+            {"title": "09- HTML 网页数据爬取", "url": "/column/AI/pandas/09html"},
+            {"title": "10- Parquet & Feather 大数据流", "url": "/column/AI/pandas/10ParquestFeather"},
+            {"title": "11- 数据导出与归档", "url": "/column/AI/pandas/11数据导出"},
+            {"title": "12- 数据清洗与缺失值处理", "url": "/column/AI/pandas/12数据清洗"},
+            {"title": "13- 常用高频内置函数", "url": "/column/AI/pandas/13常用函数"},
+            {"title": "14- 相关性分析", "url": "/column/AI/pandas/14相关性分析"},
+            {"title": "15- 数据排序、分组与聚合", "url": "/column/AI/pandas/15数据排序与聚合"},
+            {"title": "16- 数据可视化", "url": "/column/AI/pandas/16数据可视化"},
+            {"title": "17- 进阶高级功能探秘", "url": "/column/AI/pandas/17高级功能"},
+            {"title": "18- 性能优化", "url": "/column/AI/pandas/18性能优化"},
+            {"title": "19- 数据选取", "url": "/column/AI/pandas/19数据选取"},
+            {"title": "20- 过滤与条件查询", "url": "/column/AI/pandas/20过滤与条件查询"},
+            {"title": "21- 电商数据分析Demo", "url": "/column/AI/pandas/21电商数据分析小Demo"}
           ]
         },
         {
@@ -305,14 +200,8 @@
         {
           "name": "PM2 进程管理",
           "links": [
-            {
-              "title": "PM2 跟随 NVM 切换 Node 版本",
-              "url": "/column/question/pm2/001_nvm跟随版本"
-            },
-            {
-              "title": "PM2 List 列表显示端口号技巧",
-              "url": "/column/question/pm2/002_list显示端口号"
-            }
+            {"title": "PM2 跟随 NVM 切换 Node 版本", "url": "/column/question/pm2/001_nvm跟随版本"},
+            {"title": "PM2 List 列表显示端口号技巧", "url": "/column/question/pm2/002_list显示端口号"}
           ]
         }
       ]
@@ -325,22 +214,10 @@
         {
           "name": "常用链接",
           "links": [
-            {
-              "title": "动漫好站",
-              "url": "/column/utils/fanLink"
-            },
-            {
-              "title": "破解软件 & 游戏资源收藏指南",
-              "url": "/column/utils/gameCrack"
-            },
-            {
-              "title": "高效终端常用工具推荐",
-              "url": "/column/utils/terminal"
-            },
-            {
-              "title": "自用 VPN / 机场推荐",
-              "url": "/column/utils/vpn"
-            }
+            {"title": "动漫好站", "url": "/column/utils/fanLink"},
+            {"title": "破解软件 & 游戏资源收藏指南", "url": "/column/utils/gameCrack"},
+            {"title": "高效终端常用工具推荐", "url": "/column/utils/terminal"},
+            {"title": "自用 VPN / 机场推荐", "url": "/column/utils/vpn"}
           ]
         }
       ]
@@ -353,26 +230,11 @@
         {
           "name": "站点技术栈",
           "links": [
-            {
-              "title": "VitePress 搭建与深度定制指南",
-              "url": "/column/blog/001_vitepress"
-            },
-            {
-              "title": "Decap CMS 去中心化内容管理",
-              "url": "/column/blog/002_decapCMS"
-            },
-            {
-              "title": "Cloudflare Worker 边缘路由鉴权",
-              "url": "/column/blog/003_cloundFlareWorkerAuth"
-            },
-            {
-              "title": "Giscus 基于 GitHub 讨论区的评论系统",
-              "url": "/column/blog/004_Giscus"
-            },
-            {
-              "title": "Umami 隐私安全的自建统计分析",
-              "url": "/column/blog/005_umami"
-            }
+            {"title": "VitePress 搭建与深度定制指南", "url": "/column/blog/001_vitepress"},
+            {"title": "Decap CMS 去中心化内容管理", "url": "/column/blog/002_decapCMS"},
+            {"title": "Cloudflare Worker 边缘路由鉴权", "url": "/column/blog/003_cloundFlareWorkerAuth"},
+            {"title": "Giscus 基于 GitHub 讨论区的评论系统", "url": "/column/blog/004_Giscus"},
+            {"title": "Umami 隐私安全的自建统计分析", "url": "/column/blog/005_umami"}
           ]
         }
       ]
@@ -385,19 +247,13 @@
         {
           "name": "macOS 平台",
           "links": [
-            {
-              "title": "Win 转 Mac 必备硬核效率小工具",
-              "url": "/column/mac/001_app"
-            }
+            {"title": "Win 转 Mac 必备硬核效率小工具", "url": "/column/mac/001_app"}
           ]
         },
         {
           "name": "Windows 平台",
           "links": [
-            {
-              "title": "Windows 装机必备利器推荐",
-              "url": "/column/window/001_app"
-            }
+            {"title": "Windows 装机必备利器推荐", "url": "/column/window/001_app"}
           ]
         }
       ]
@@ -410,10 +266,7 @@
         {
           "name": "云服务器",
           "links": [
-            {
-              "title": "第一次部署",
-              "url": "/column/cloud/云服务器"
-            }
+            {"title": "第一次部署", "url": "/column/cloud/云服务器"}
           ]
         }
       ]
