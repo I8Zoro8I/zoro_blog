@@ -187,6 +187,17 @@
             {"title": "线性回归", "url": "/column/AI/pyTorch/04线性回归"},
             {"title": "卷积神经网络CNN", "url": "/column/AI/pyTorch/05卷积神经网络"},
             {"title": "循环神经网络RNN", "url": "/column/AI/pyTorch/06循环神经网络"},
+            {"title": "数据集", "url": "/column/AI/pyTorch/07数据集"},
+            {"title": "数据转换", "url": "/column/AI/pyTorch/08数据转换"},
+            {"title": "torch 参考手册", "url": "/column/AI/pyTorch/09torch"},
+            {"title": "torch.nn 参考手册", "url": "/column/AI/pyTorch/10torch.nn"},
+            {"title": "Transformer模型介绍", "url": "/column/AI/pyTorch/11Transformer"},
+            {"title": "Transformer模型构建", "url": "/column/AI/pyTorch/12Transformer2"},
+            {"title": "Transformer模型构建", "url": "/column/AI/pyTorch/12Transformer2"},
+            {"title": "torch.optim优化器", "url": "/column/AI/pyTorch/13optim"},
+            {"title": "torchvision计算机视觉模块", "url": "/column/AI/pyTorch/14torchvision"},
+            {"title": "模型部署", "url": "/column/AI/pyTorch/15模型部署"},
+            {"title": "模型保存和加载", "url": "/column/AI/pyTorch/16模型保存和加载"},
             {"title": "番外-计算机视觉识别烟叶种类与物联网控制", "url": "/column/AI/pyTorch/番外-视觉识别烟叶种类"}
           ]
         }
