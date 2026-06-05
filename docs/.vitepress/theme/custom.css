@@ -276,6 +276,30 @@
     border-radius: 999px;
 }
 
+/* ---------------- Mermaid 图表 ---------------- */
+.VPDoc .mermaid-host {
+    margin: 1.25rem 0;
+    padding: 1rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 16px;
+    background: var(--vp-c-bg-soft);
+    overflow-x: auto;
+}
+
+.VPDoc .mermaid-diagram svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.VPDoc .mermaid-diagram.mermaid-error pre {
+    margin: 0;
+    color: #d14d72;
+    white-space: pre-wrap;
+    font-family: var(--vp-font-family-mono);
+}
+
 /* ---------------- 标签页 / 系列页 ---------------- */
 .taxonomy-page {
     margin: 0 auto;

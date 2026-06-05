@@ -18,6 +18,8 @@ import ArchivePage from './components/ArchivePage.vue'
 import TagsPage from './components/TagsPage.vue'
 // @ts-ignore
 import NavCascadeMenu from './components/NavCascadeMenu.vue'
+// @ts-ignore
+import MermaidRenderer from './components/MermaidRenderer.vue'
 
 export default {
     ...DefaultTheme,
@@ -33,7 +35,7 @@ export default {
             'doc-before': () => h(ReadingProgressNotice),
             'doc-footer-before': () => h(DocMetaPanel),
             /* 1. 评论组件 */
-            'doc-after': () => h(Fragment, null, [h(DocEngagementPanel), h(Giscus)])
+            'doc-after': () => h(Fragment, null, [h(MermaidRenderer), h(DocEngagementPanel), h(Giscus)])
         })
     }
 };

@@ -23,6 +23,12 @@ export default defineConfig({
         [
             'script',
             {
+                src: 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js'
+            }
+        ],
+        [
+            'script',
+            {
                 async: '',
                 defer: '',
                 src: 'https://cloud.umami.is/script.js', // 如果是自建，换成你的域名
