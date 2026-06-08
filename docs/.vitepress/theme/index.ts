@@ -11,6 +11,8 @@ import DocEngagementPanel from './components/DocEngagementPanel.vue'
 // @ts-ignore
 import ReadingProgressNotice from './components/ReadingProgressNotice.vue'
 // @ts-ignore
+import DocPrevNextTop from './components/DocPrevNextTop.vue'
+// @ts-ignore
 import CustomHome from '../components/CustomHome.vue'
 // @ts-ignore
 import ArchivePage from './components/ArchivePage.vue'
@@ -32,7 +34,7 @@ export default {
     Layout() {
         return h(DefaultTheme.Layout, null, {
             'nav-bar-content-after': () => h(NavCascadeMenu),
-            'doc-before': () => h(ReadingProgressNotice),
+            'doc-before': () => h(Fragment, null, [h(DocPrevNextTop), h(ReadingProgressNotice)]),
             'doc-footer-before': () => h(DocMetaPanel),
             /* 1. 评论组件 */
             'doc-after': () => h(Fragment, null, [h(MermaidRenderer), h(DocEngagementPanel), h(Giscus)])

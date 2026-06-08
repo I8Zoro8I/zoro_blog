@@ -520,6 +520,58 @@
     border-color: transparent;
 }
 
+/* ---------------- 文章顶部上一篇 / 下一篇 ---------------- */
+.doc-top-prev-next {
+    margin: 0 0 24px;
+    display: grid;
+    grid-row-gap: 8px;
+}
+
+@media (min-width: 640px) {
+    .doc-top-prev-next {
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 16px;
+    }
+}
+
+.doc-top-prev-next .pager-link {
+    display: block;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 8px;
+    padding: 11px 16px 13px;
+    width: 100%;
+    height: 100%;
+    background: var(--vp-c-bg-soft);
+    text-decoration: none;
+    transition: border-color 0.25s, background-color 0.25s;
+}
+
+.doc-top-prev-next .pager-link:hover {
+    border-color: var(--vp-c-brand-1);
+    background: var(--vp-c-bg-alt);
+}
+
+.doc-top-prev-next .pager-link.next {
+    margin-left: auto;
+    text-align: right;
+}
+
+.doc-top-prev-next .desc {
+    display: block;
+    line-height: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--vp-c-text-2);
+}
+
+.doc-top-prev-next .title {
+    display: block;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--vp-c-brand-1);
+}
+
 /* ---------------- 阅读进度 ---------------- */
 .reading-progress-notice {
     display: flex;
