@@ -65,7 +65,7 @@ test_data = datasets.MNIST(
 
 #### 支持的数据集类型：
 
-```
+```mermaid
 graph TD
   A[torchvision.datasets] --> B[分类数据集]
   A --> C[检测数据集]

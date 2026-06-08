@@ -167,7 +167,7 @@ class PositionalEncoding(nn.Module):
 
 ### 构建编码器块（Encoder Layer）
 
-![img](https://static.jyshare.com/images/mix/Figure_2_The_Encoder_part_of_the_transformer_network_Source_image_from_the_original_paper_b0e3ac40fa.avif)
+![img](/images/AI/pyTorch/2.png)
 
 **编码器层：**包含一个自注意力机制和一个前馈网络，每个子层后接残差连接和层归一化。
 
@@ -194,7 +194,7 @@ class EncoderLayer(nn.Module):
 
 ### 构建解码器模块
 
-![img](https://static.jyshare.com/images/mix/Figure_3_The_Decoder_part_of_the_Transformer_network_Souce_Image_from_the_original_paper_b90d9e7f66.avif)
+![img](/images/AI/pyTorch/3.png)
 
 **解码器层：**包含一个自注意力机制、一个交叉注意力机制和一个前馈网络，每个子层后接残差连接和层归一化。
 
@@ -227,7 +227,9 @@ class DecoderLayer(nn.Module):
 
 ### 构建完整的 Transformer 模型
 
-![img](https://static.jyshare.com/images/mix/Figure_4_The_Transformer_Network_Source_Image_from_the_original_paper_120e177956.avif)
+
+
+![img](/images/AI/pyTorch/4.png)
 
 ```py
 class Transformer(nn.Module):

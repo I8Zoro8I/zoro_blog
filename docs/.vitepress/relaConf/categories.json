@@ -198,6 +198,11 @@
             {"title": "torchvision计算机视觉模块", "url": "/column/AI/pyTorch/14torchvision"},
             {"title": "模型部署", "url": "/column/AI/pyTorch/15模型部署"},
             {"title": "模型保存和加载", "url": "/column/AI/pyTorch/16模型保存和加载"},
+            {"title": "示例->图像分类", "url": "/column/AI/pyTorch/17图像分类"},
+            {"title": "示例->文本情感分析", "url": "/column/AI/pyTorch/18文本情感分析"},
+            {"title": "Autograd自动微分", "url": "/column/AI/pyTorch/19Autograd"},
+            {"title": "GPU CUDA加速", "url": "/column/AI/pyTorch/20GPUCUDA加速"},
+            {"title": "损失函数", "url": "/column/AI/pyTorch/21损失函数"},
             {"title": "番外-计算机视觉识别烟叶种类与物联网控制", "url": "/column/AI/pyTorch/番外-视觉识别烟叶种类"}
           ]
         }

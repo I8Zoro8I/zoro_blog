@@ -41,8 +41,11 @@ graph TD
         NoteRNN[必须等 h1 到 h4 才能算 h5]
         style NoteRNN fill:#f9f,stroke:#333,stroke-width:1px
     end
+```
 
-    subgraph Transformer_Section ["Transformer 并行处理（快，全局关注）"]
+```mermaid
+graph TD
+subgraph Transformer_Section ["Transformer 并行处理（快，全局关注）"]
         direction TB
         Attn((attn))
         

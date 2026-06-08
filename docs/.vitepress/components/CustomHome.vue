@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref, watch} from 'vue';
+import {computed, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import {withBase} from 'vitepress';
 /* 请确保路径正确 */
 import categoriesData from '../relaConf/categories.json';
@@ -12,9 +12,20 @@ const searchQuery = ref('');
 const currentPath = ref([]);
 const sponsorType = ref('wechat');
 const randomArticle = ref(null);
-
-const pageSize = 12;
 const currentPage = ref(1);
+const listViewportRef = ref(null);
+
+const DEFAULT_PAGE_SIZE = 12;
+const CARD_MIN_WIDTH = 220;
+const CARD_HEIGHT = 90;
+const GRID_GAP = 16;
+const SECTION_GAP = 24;
+const ROW_FIT_TOLERANCE = 36;
+
+const gridColumns = ref(0);
+const viewportHeight = ref(0);
+
+let resizeObserver = null;
 
 const getRunningDays = (startDate) => {
   const start = new Date(startDate);
@@ -169,14 +180,78 @@ const totalData = computed(() => {
   return searchQuery.value ? searchResults.value : currentDisplay.value;
 });
 
+const hasDynamicLayout = computed(() => {
+  return gridColumns.value > 0 && viewportHeight.value > 0;
+});
+
+const getSectionHeight = (count, columns) => {
+  if (!count) return 0;
+
+  const rows = Math.ceil(count / columns);
+  return rows * CARD_HEIGHT + Math.max(0, rows - 1) * GRID_GAP;
+};
+
+const canFitItems = (items) => {
+  if (!hasDynamicLayout.value) {
+    return items.length <= DEFAULT_PAGE_SIZE;
+  }
+
+  const folderCount = items.filter(item => !item.isDoc && !item.url).length;
+  const docCount = items.length - folderCount;
+  const contentHeight =
+      getSectionHeight(folderCount, gridColumns.value) +
+      getSectionHeight(docCount, gridColumns.value) +
+      (folderCount > 0 && docCount > 0 ? SECTION_GAP : 0);
+
+  return contentHeight <= viewportHeight.value + ROW_FIT_TOLERANCE;
+};
+
+const pageRanges = computed(() => {
+  const items = totalData.value;
+
+  if (!items.length) {
+    return [{ start: 0, end: 0 }];
+  }
+
+  if (!hasDynamicLayout.value) {
+    const ranges = [];
+    for (let start = 0; start < items.length; start += DEFAULT_PAGE_SIZE) {
+      ranges.push({
+        start,
+        end: Math.min(start + DEFAULT_PAGE_SIZE, items.length)
+      });
+    }
+    return ranges;
+  }
+
+  const ranges = [];
+  let start = 0;
+
+  while (start < items.length) {
+    let end = start;
+
+    while (end < items.length && canFitItems(items.slice(start, end + 1))) {
+      end++;
+    }
+
+    if (end === start) {
+      end = start + 1;
+    }
+
+    ranges.push({ start, end });
+    start = end;
+  }
+
+  return ranges;
+});
+
 const totalPages = computed(() => {
-  return Math.ceil(totalData.value.length / pageSize) || 1;
+  return pageRanges.value.length || 1;
 });
 
 const pagedDisplay = computed(() => {
-  const start = (currentPage.value - 1) * pageSize;
-  const end = start + pageSize;
-  return totalData.value.slice(start, end);
+  const range = pageRanges.value[currentPage.value - 1] || pageRanges.value[0];
+  return totalData.value.slice(range.start, range.end);
 });
 
 /* --- 5. 分离当前页面的文件夹与文章（用于换行排列） --- */
@@ -224,8 +299,56 @@ watch(searchQuery, () => {
   currentPage.value = 1;
 });
 
+watch(totalPages, (value) => {
+  if (currentPage.value > value) {
+    currentPage.value = value;
+  }
+});
+
+watch(totalData, async () => {
+  await nextTick();
+  recalculateLayout();
+});
+
+const recalculateLayout = () => {
+  const viewportEl = listViewportRef.value;
+
+  if (!viewportEl) {
+    gridColumns.value = 0;
+    viewportHeight.value = 0;
+    return;
+  }
+
+  const width = viewportEl.clientWidth;
+  const height = viewportEl.clientHeight;
+
+  if (!width || !height) {
+    gridColumns.value = 0;
+    viewportHeight.value = 0;
+    return;
+  }
+
+  gridColumns.value = Math.max(1, Math.floor((width + GRID_GAP) / (CARD_MIN_WIDTH + GRID_GAP)));
+  viewportHeight.value = height;
+};
+
 onMounted(() => {
   pickRandomArticle();
+  nextTick(() => {
+    recalculateLayout();
+
+    resizeObserver = new ResizeObserver(() => {
+      recalculateLayout();
+    });
+
+    if (listViewportRef.value) {
+      resizeObserver.observe(listViewportRef.value);
+    }
+  });
+});
+
+onUnmounted(() => {
+  resizeObserver?.disconnect();
 });
 </script>
 
@@ -265,39 +388,41 @@ onMounted(() => {
         </div>
 
         <div class="list-container">
-          <!-- 干净的内容包裹区：去掉了层级缩进相关的 class -->
-          <div v-if="pagedDisplay.length > 0" class="list-wrapper">
+          <div ref="listViewportRef" class="list-viewport">
+            <!-- 干净的内容包裹区：去掉了层级缩进相关的 class -->
+            <div v-if="pagedDisplay.length > 0" class="list-wrapper">
 
-            <!-- 🌟 文件夹行（排在上方，占满整行宽度，从而实现与文章卡片的自动折行） -->
-            <div v-if="pagedFolders.length > 0" class="card-grid">
-              <div
-                  v-for="item in pagedFolders"
-                  :key="getFolderName(item)"
-                  class="card folder-card"
-                  @click="enterFolder(getFolderName(item))"
-              >
-                <span class="folder-label">
-                  {{ item.icon || '📂' }} {{ getFolderName(item) }}
-                </span>
+              <!-- 🌟 文件夹行（排在上方，占满整行宽度，从而实现与文章卡片的自动折行） -->
+              <div v-if="pagedFolders.length > 0" class="card-grid">
+                <div
+                    v-for="item in pagedFolders"
+                    :key="getFolderName(item)"
+                    class="card folder-card"
+                    @click="enterFolder(getFolderName(item))"
+                >
+                  <span class="folder-label">
+                    {{ item.icon || '📂' }} {{ getFolderName(item) }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- 🌟 文章行（自成一派排在下方，样式规格与第一版完全保持一致） -->
+              <div v-if="pagedDocs.length > 0" class="card-grid">
+                <div
+                    v-for="item in pagedDocs"
+                    :key="item.url || item.title"
+                    class="card doc-card"
+                >
+                  <a :href="getUrl(item.url)" class="card-link">
+                    📄 {{ item.title }}
+                  </a>
+                </div>
               </div>
             </div>
 
-            <!-- 🌟 文章行（自成一派排在下方，样式规格与第一版完全保持一致） -->
-            <div v-if="pagedDocs.length > 0" class="card-grid">
-              <div
-                  v-for="item in pagedDocs"
-                  :key="item.url || item.title"
-                  class="card doc-card"
-              >
-                <a :href="getUrl(item.url)" class="card-link">
-                  📄 {{ item.title }}
-                </a>
-              </div>
-            </div>
+            <!-- 空状态 -->
+            <div v-else class="empty-state">没有找到匹配的结果 😅</div>
           </div>
-
-          <!-- 空状态 -->
-          <div v-else class="empty-state">没有找到匹配的结果 😅</div>
 
           <!-- 分页组件 -->
           <div class="pagination">
@@ -409,6 +534,7 @@ onMounted(() => {
   display: grid;
   grid-template-columns: 8fr 2fr;
   gap: 32px;
+  align-items: stretch;
 }
 
 /* 左侧面板 */
@@ -426,6 +552,11 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.list-viewport {
+  flex: 1;
+  min-height: 0;
 }
 
 .nav-header {
@@ -575,6 +706,9 @@ onMounted(() => {
   padding: 24px;
   border-radius: 16px;
   border: 1px solid var(--vp-c-divider);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .widget-title {
   font-size: 16px;
@@ -720,6 +854,9 @@ onMounted(() => {
   }
   .right-sidebar {
     order: -1;
+  }
+  .info-widget {
+    height: auto;
   }
   .random-widget-actions {
     flex-wrap: wrap;
