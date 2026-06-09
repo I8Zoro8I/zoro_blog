@@ -203,6 +203,10 @@
             {"title": "Autograd自动微分", "url": "/column/AI/pyTorch/19Autograd"},
             {"title": "GPU CUDA加速", "url": "/column/AI/pyTorch/20GPUCUDA加速"},
             {"title": "损失函数", "url": "/column/AI/pyTorch/21损失函数"},
+            {"title": "学习率调度器", "url": "/column/AI/pyTorch/22学习率调度器"},
+            {"title": "迁移学习", "url": "/column/AI/pyTorch/23迁移学习"},
+            {"title": "批归一化与Dropout", "url": "/column/AI/pyTorch/24批归一化与dropout"},
+            {"title": "LSTM / GRU", "url": "/column/AI/pyTorch/25LSTMGRU"},
             {"title": "番外-计算机视觉识别烟叶种类与物联网控制", "url": "/column/AI/pyTorch/番外-视觉识别烟叶种类"}
           ]
         }
