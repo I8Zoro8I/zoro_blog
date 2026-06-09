@@ -30,8 +30,6 @@ date: 2026年04月24日
   P\left(\bigcup_{i=1}^{n} A_i\right) = \sum_{i=1}^{n} P(A_i) - \sum_{1 \le i < j \le n} P(A_i A_j) + \sum_{1 \le i < j < k \le n} P(A_i A_j A_k) + \dots + (-1)^{n-1} P(A_1 A_2 \dots A_n)
   $$
 
-$P\left(\bigcup_{i=1}^{n} A_i\right)$ = $\sum_{i=1}^{n} P(A_i) - \sum_{1 \le i < j \le n} P(A_i A_j) + \sum_{1 \le i < j < k \le n} P(A_i A_j A_k) +$ ··· $+ (-1)^{n-1} P(A_1 A_2$ ··· $A_n)$
-
 ### 2.条件概率
 
 - $$
@@ -45,8 +43,6 @@ $P\left(\bigcup_{i=1}^{n} A_i\right)$ = $\sum_{i=1}^{n} P(A_i) - \sum_{1 \le i <
 - $$
   P(A_1 A_2 ··· A_n) = P(A_1)P(A_2|A_1)P(A_3|A_1 A_2) ··· P(A_n|A_1 A_2 ··· A_{n-1})
   $$
-
-$P(A_1 A_2$ ··· $A_n) = P(A_1)P(A_2|A_1)P(A_3|A_1 A_2)$ ··· $P(A_n|A_1 A_2$ ···$A_{n-1})$
 
 ### 3.全概率公式
 
@@ -106,8 +102,6 @@ $P(A_1 A_2$ ··· $A_n) = P(A_1)P(A_2|A_1)P(A_3|A_1 A_2)$ ··· $P(A_n|A_1 A_2
   对数集 A：P(x \in A) = \int_{A} f(x) \, d
   $$
 
-$P(x \in A)$ = $\int_{A} f(x)d$
-
 ## 2. 常见分布及期望与方差
 
 ### 1. 离散随机变量
@@ -147,7 +141,7 @@ $$
 
 
 
-$P(X = k)$ = $\frac{\lambda^k e^{-\lambda}}{k!}$  $(k=0,1,2,···)$
+
 
 
 $$
@@ -392,27 +386,18 @@ $f(x_1,$ ···$, x_n) = g_1(x_1)$ ··· $g_n(x_n)$
 
 #### 1. 离散型随机向量的函数
 1. **泊松分布具有可加性**：如果 $X_1, X_2, ···, X_n$ 相互独立，$X_i \sim P(\lambda_i)$，则：
-
-   $Z_n$= $X_1$ + $X_2$ + ··· + $X_n$ $\sim P$($\lambda_1$ + $\lambda_2$ + ··· +$\lambda_n$)
-
-$$
-
-$$
+   $$
+   Z_n= X_1 + X_2 + ··· + X_n \sim P(\lambda_1 + \lambda_2 + ··· +\lambda_n)
+   $$
+   
 2. **二项分布具有可加性**：如果 $X_1, X_2, ···, X_n$ 相互独立，$X_i \sim B(m_i, p)$，则：
 
-​    $Z_n$ = $X_1 + X_2$+ ··· + $X_n$ $\sim B$($m_1 + m_2$ + ··· + $m_n, p$)
+
 $$
 Z_n = X_1 + X_2 + ··· + X_n \sim B(m_1 + m_2 + ··· + m_n, p)
 $$
-3. **正态分布具有可加性**：如果 $X_1, X_2, ···, X_n$ 相互独立，$X_i \sim N(\mu_i, \sigma_i^2)$，则：
-   
-   
-   $Z_n$ =$c_0$ $\pm c_1$ $X_1$ $\pm c_2$ $X_2$ $\pm$ ··· $\pm c_n$ $X_n$ $\sim N$$(c_0 \pm c_1\mu_1 \pm$ 
-   
-   
-   $c_2\mu_2 \pm$  ··· $\pm c_n\mu_n$, \, $c_1^2\sigma_1^2$ + $c_2^2\sigma_2^2$ + ··· + $c_n^2\sigma_n^2$)
+3. **正态分布具有可加性**：如果 $X_1, X_2, ···, X_n$ 相互独立，$X_i \sim N(\mu_i, \sigma_i^2)$，则：    
 
-​    
 $$
 Z_n = c_0 \pm c_1 X_1 \pm c_2 X_2 \pm \dots \pm c_n X_n \sim N\left(c_0 \pm c_1\mu_1 \pm c_2\mu_2 \pm \dots \pm c_n\mu_n, \, c_1^2\sigma_1^2 + c_2^2\sigma_2^2 + \dots + c_n^2\sigma_n^2\right)
 $$
@@ -537,22 +522,19 @@ $$
 #### 4. 性质
 1. 线性组合 $Y = c_0 + c_1 X_1 + c_2 X_2 +$ ··· $+ c_n X_n$ 的期望存在，且：
 
-   $E(c_0 + c_1 X_1 + c_2 X_2$ + ··· $+ c_n X_n) = c_0 + c_1 E(X_1) + c_2 E(X_2) +$ ··· + $c_n E(X_n)$
-   
-   
-   
 $$
 E(c_0 + c_1 X_1 + c_2 X_2 + \dots + c_n X_n) = c_0 + c_1 E(X_1) + c_2 E(X_2) + \dots + c_n E(X_n)
 $$
 2. 若 $X_1, X_2,$ ···$, X_n$ 相互独立，那么乘积 $Z = X_1 X_2$ ···$X_n$ 的期望存在，且：
 
-   $E(X_1 X_2$···$X_n) = E(X_1)E(X_2)$ ···$E(X_n)$
-   
-   
 $$
 E(X_1 X_2 ··· X_n) = E(X_1)E(X_2) ··· E(X_n)
 $$
-3. $E(\bar{X}) = \mu$
+3. 
+   $$
+   E(\bar{X}) = \mu
+   $$
+   
 
 ---
 
@@ -581,7 +563,6 @@ $$
    $$
 
    
-   $0 \le Var(X) = E(X^2) - (E(X))^2$ ==>$Var(X)$ $\le E(X^2)$
    
 2. $$
    Var(cX) = c^2 Var(X)
@@ -700,8 +681,6 @@ $$
   
 
   
-
-  
   $$
   P(X = x_i, Y = y_j) = P(X = x_i)P(Y = y_j) \quad \text{且} \quad f(x,y) = f_X(x)f_Y(y)
   $$
@@ -729,13 +708,13 @@ $$
 
 
 则对于充分大的 $n$ 有：
-$\sum_{i=1}^n X_i$  $d_箭头上$--> $N(n\mu, n\sigma^2)$
+
 
 $$
 \sum_{i=1}^n X_i \xrightarrow{d} N(n\mu, n\sigma^2)
 $$
 
-即：($X_1 +$ ··· + $X_n$ - $nu) / $\sqrt{n}\sigma$   $d_箭头上$-->   $N(0,1)$
+即：
 
 
 $$
@@ -998,7 +977,8 @@ $$
 
 ##### 3. 常用矩估计
 
-<h6>1. 在泊松分布 $P(\lambda)$ 中</h6>
+1. 在泊松分布 $P(\lambda)$ 中
+
 $$
 \lambda = E(X) = \alpha_1
 $$
@@ -1007,7 +987,8 @@ $$
 \hat{\lambda} = a_1 = \frac{1}{n} \sum_{i=1}^n X_i
 $$
 
-<h6>2. 在指数分布 $E(\lambda)$ 中</h6>
+2. 在指数分布 $E(\lambda)$ 中
+
 $$
 \mu = E(X) = \frac{1}{\lambda} \implies \lambda = \frac{1}{E(X)} = \frac{1}{\alpha_1}
 $$
@@ -1016,7 +997,8 @@ $$
 \hat{\lambda} = \frac{1}{a_1} = \frac{1}{\frac{1}{n} \sum_{i=1}^n X_i}
 $$
 
-<h6>3. 在正态总体 $N(\mu, \sigma^2)$ 中</h6>
+3. 在正态总体 $N(\mu, \sigma^2)$ 中
+
 $$
 \mu = E(X) = \alpha_1
 $$
@@ -1032,7 +1014,7 @@ $$
 $$
 来估计参数 $\mu$ 和 $\sigma^2$。
 
-<h6>4. 在均匀总体 $U(a,b)$ 中</h6>
+4. 在均匀总体 $U(a,b)$ 中
 
 $$
 \alpha_1 = E(X) = \frac{a + b}{2}
@@ -1331,7 +1313,7 @@ $$
 
 ##### 2. 方差未知时均值的检验
 
-<h6>1. 双侧检验</h6>
+1. 双侧检验
 考虑检验：
 $$
 H_0: \mu = \mu_0 \longleftrightarrow H_1: \mu \neq \mu_0
@@ -1347,7 +1329,7 @@ $$
 \left\{ |T| > t_{\frac{\alpha}{2}}(n - 1) \right\}
 $$
 
-<h6>2. 单侧检验</h6>
+2. 单侧检验
 检验：
 $$
 H_0: \mu = \mu_0 \longleftrightarrow H_1: \mu > \mu_0 \quad \text{或者} \quad H_0: \mu \le \mu_0 \longleftrightarrow H_1: \mu > \mu_0
@@ -1440,7 +1422,7 @@ $$
 
 ##### 1. 已知 $\sigma_1^2, \sigma_2^2$ 时，$\mu_1 - \mu_2$ 的检验
 
-<h6>1. 双侧检验</h6>
+1. 双侧检验
 检验：
 $$
 H_0: \mu_1 = \mu_2 \longleftrightarrow H_1: \mu_1 \neq \mu_2
@@ -1456,7 +1438,7 @@ $$
 \left\{ |Z| > z_{\frac{\alpha}{2}} \right\}
 $$
 
-<h6>2. 单侧检验</h6>
+2. 单侧检验
 检验：
 $$
 H_0: \mu_1 = \mu_2 \longleftrightarrow H_1: \mu_1 > \mu_2 \quad \text{或者} \quad H_0: \mu_1 \le \mu_2 \longleftrightarrow H_1: \mu_1 > \mu_2
@@ -1467,7 +1449,7 @@ $$
 \{ Z > z_{\alpha} \}
 $$
 
-<h6>3. 另一侧检验</h6>
+3. 另一侧检验
 检验：
 $$
 H_0: \mu_1 = \mu_2 \longleftrightarrow H_1: \mu_1 < \mu_2 \quad \text{或者} \quad H_0: \mu_1 \ge \mu_2 \longleftrightarrow H_1: \mu_1 < \mu_2
@@ -1515,7 +1497,7 @@ $$
 
 ##### 3. 方差比较的检验
 
-<h6>1. 均值已知，对方差比 $\frac{\sigma_1^2}{\sigma_2^2}$ 的检验</h6>
+1. 均值已知，对方差比 $\frac{\sigma_1^2}{\sigma_2^2}$ 的检验
 
 **检验**：
 $$
@@ -1552,7 +1534,7 @@ $$
 \left\{ F < \frac{1}{F_{\alpha}(n, m)} \right\}
 $$
 
-<h6>2. 均值未知时，对方差比较的检验</h6>
+2. 均值未知时，对方差比较的检验
 
 **检验统计量**：
 $$

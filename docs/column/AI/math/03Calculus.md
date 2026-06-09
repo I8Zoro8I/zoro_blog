@@ -20,22 +20,28 @@ date: 2026年04月26日
     * 数列极限与函数极限的定义（$\epsilon-N$ 与 $\epsilon-\delta$ 定义的直观理解）。
     * 左右极限（左极限 $x \to x_0^-$ 与右极限 $x \to x_0^+$）。
     * **两个重要极限**：
-        1. $\lim_{x \to 0} \frac{\sin x}{x} = 1$
-        
+        1. 
+           $$
+           $\lim_{x \to 0} \frac{\sin x}{x} = 1$
+           $$
+           
+        2. 
+           $$
+           \lim_{x \to \infty} (1 + \frac{1}{x})^x = e
+           $$
+           
+           
            
         
-           
-        2. $\lim_{x \to \infty} (1 + \frac{1}{x})^x = e$
-        
-           
-        
-           
     * **求极限的核心方法**：夹逼定理、洛必达法则、等价无穷小代换（如 $x \sim \sin x \sim \tan x \sim \ln(1+x)$）。
 * ### 2. 函数的连续性与间断点
-    * 连续的定义：$\lim_{x \to x_0} f(x) = f(x_0)$。
-    
-        
-        
+    * 连续的定义：
+      $$
+      \lim_{x \to x_0} f(x) = f(x_0)
+      $$
+      
+      
+      
     * **间断点分类**：
         * 第一类间断点（左右极限均存在）：可去间断点、跳跃间断点。
         * 第二类间断点（左右极限至少有一个不存在）：无穷间断点、振荡间断点。
@@ -46,15 +52,27 @@ date: 2026年04月26日
 ## 三、 一元函数微分学 (Single-Variable Differentiation)
 * ### 1. 导数与微分的概念
     * 导数的几何意义（切线斜率）与物理意义（瞬时变化率）。
-    * 导数定义式：$$f'(x_0) = \lim_{\Delta x \to 0} \frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x}$$
-    * 可导与连续的关系：**可导必连续，连续不一定可导**（例如 $y = |x|$ 在 $x=0$ 处）。
-    * 微分的定义：$\Delta y = f'(x)\Delta x + o(\Delta x)$，即 $dy = f'(x)dx$。
+    * 导数定义式：
+      $$
+      f'(x_0) = \lim_{\Delta x \to 0} \frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x}
+      $$
+      
+    * 可导与连续的关系：**可导必连续，连续不一定可导**（例如 y = |x| 在 x=0 处）。
+    * 微分的定义：
+      $$
+      \Delta y = f'(x)\Delta x + o(\Delta x)$，即 $dy = f'(x)dx
+      $$
+      。
 * ### 2. 求导法则与计算
     * 四则运算求导法则、复合函数求导（链式法则）。
     * 高阶导数、隐函数求导、参数方程求导、幂指函数求导（对数求导法）。
 * ### 3. 微分中值定理
     * **罗尔定理 (Rolle)**：条件 $f(a)=f(b) \implies f'(\xi)=0$。
-    * **拉格朗日中值定理 (Lagrange)**：$$f(b) - f(a) = f'(\xi)(b - a)$$
+    * **拉格朗日中值定理 (Lagrange)**：
+      $$
+      f(b) - f(a) = f'(\xi)(b - a)
+      $$
+      
     * **柯西中值定理 (Cauchy)**：涉及两个函数的中值定理。
     * **泰勒公式 / 麦克劳林公式 (Taylor / Maclaurin)**：用多项式逼近复杂函数，带有皮亚诺余项或拉格朗日余项。
 * ### 4. 导数的应用
@@ -76,10 +94,18 @@ date: 2026年04月26日
 * ### 2. 定积分 (Definite Integral)
     * 定积分的黎曼和定义（分割、近似、求和、取极限）。
     * 定积分的几何意义（曲边梯形的净面积）。
-    * **微积分基本定理（牛顿-莱布尼茨公式）**：$$\int_a^b f(x)dx = F(b) - F(a)$$
+    * **微积分基本定理（牛顿-莱布尼茨公式）**：
+      $$
+      \int_a^b f(x)dx = F(b) - F(a)
+      $$
+      
     * 变上限积分函数求导（原函数存在定理）。
 * ### 3. 反常积分 (Improper Integral)
-    * 无穷区间上的反常积分（如 $\int_a^{+\infty} f(x)dx$）。
+    * 无穷区间上的反常积分（如 
+      $$
+      \int_a^{+\infty} f(x)dx
+      $$
+      ）。
     * 无界函数的反常积分（瑕积分，积分区间内含有使函数趋于无穷的点）。
 * ### 4. 定积分的应用
     * 几何应用：平面图形的面积、旋转体体积（磁盘法/外壳法）、曲线弧长。
@@ -139,12 +165,6 @@ date: 2026年04月26日
     * 正交函数系。
     * 周期为 $2\pi$ 和 $2l$ 的周期函数的傅里叶级数展开（狄利克雷收敛定理）。
 
-
-
-
-
-# 
-
 # 微积分核心知识详解与公式大全 (Comprehensive Calculus Guide)
 
 ---
@@ -153,8 +173,17 @@ date: 2026年04月26日
 
 ### 1. 核心极限公式
 * **两个重要极限**：
-  1. 夹逼定理推导出的三角极限：$$\lim_{x \to 0} \frac{\sin x}{x} = 1$$
-  2. 自然对数底数 $e$ 的定义：$$\lim_{x \to \infty} \left(1 + \frac{1}{x}\right)^x = e \quad \text{或} \quad \lim_{x \to 0} (1 + x)^{\frac{1}{x}} = e$$
+  
+  1. 夹逼定理推导出的三角极限：
+     $$
+     \lim_{x \to 0} \frac{\sin x}{x} = 1
+     $$
+     
+  2. 自然对数底数 $e$ 的定义：
+     $$
+     \lim_{x \to \infty} \left(1 + \frac{1}{x}\right)^x = e \quad \text{或} \quad \lim_{x \to 0} (1 + x)^{\frac{1}{x}} = e
+     $$
+     
 
 ### 2. 等价无穷小代换 (当 $x \to 0$ 时)
 在求乘除法极限时，等价无穷小代换能极大简化计算：
@@ -164,13 +193,10 @@ date: 2026年04月26日
   
 * $\tan x \sim x$
 
-  
 * $\arcsin x \sim x$
 
-  
 * $\arctan x \sim x$
 
-  
 * $1 - \cos x \sim \frac{1}{2}x^2$
 
   
@@ -191,7 +217,10 @@ date: 2026年04月26日
 ### 3. 洛必达法则 (L'Hôpital's Rule)
 用于处理 $\frac{0}{0}$ 或 $\frac{\infty}{\infty}$ 型不定式：
 如果 $\lim_{x \to a} \frac{f(x)}{g(x)}$ 属于上述不定式，且 $f'(x)$ 和 $g'(x)$ 存在，$g'(x) \neq 0$，则：
-$$\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}$$
+$$
+\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}
+$$
+
 > **注意**：使用前必须验证是否为 $\frac{0}{0}$ 或 $\frac{\infty}{\infty}$ 型。$0 \cdot \infty$、$1^\infty$ 等类型需先进行代数变形。
 
 ---
@@ -233,17 +262,22 @@ $$\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}$$
   
 
 ### 2. 求导法则
-* **乘法法则 (Product Rule)**：$$(uv)' = u'v + uv'$$
-* **除法法则 (Quotient Rule)**：$$\left(\frac{u}{v}\right)' = \frac{u'v - uv'}{v^2}$$
-* **链式法则 (Chain Rule)**：$$[f(g(x))]' = f'(g(x)) \cdot g'(x)$$
+* **乘法法则 (Product Rule)**：$(uv)' = u'v + uv'$
+* **除法法则 (Quotient Rule)**：$\left(\frac{u}{v}\right)' = \frac{u'v - uv'}{v^2}$
+* **链式法则 (Chain Rule)**：$[f(g(x))]' = f'(g(x)) \cdot g'(x)$
 
 ### 3. 微分中值定理
 * **拉格朗日中值定理 (Lagrange Mean Value Theorem)**：
   如果 $f(x)$ 在 $[a, b]$ 上连续，在 $(a, b)$ 内可导，则至少存在一点 $\xi \in (a, b)$ 使得：
-  $$f'(\xi) = \frac{f(b) - f(a)}{b - a}$$
+  $$
+  f'(\xi) = \frac{f(b) - f(a)}{b - a}$$
+  $$
 * **泰勒公式 (Taylor's Formula)**：
   用于多项式逼近，在 $x=x_0$ 处的展开：
-  $$f(x) = f(x_0) + f'(x_0)(x - x_0) + \frac{f''(x_0)}{2!}(x - x_0)^2 + \cdots + \frac{f^{(n)}(x_0)}{n!}(x - x_0)^n + R_n(x)$$
+  $$
+  f(x) = f(x_0) + f'(x_0)(x - x_0) + \frac{f''(x_0)}{2!}(x - x_0)^2 + \cdots + \frac{f^{(n)}(x_0)}{n!}(x - x_0)^n + R_n(x)
+  $$
+  
   其中 $R_n(x)$ 为余项。
 
 ---
@@ -252,12 +286,16 @@ $$\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}$$
 
 ### 1. 微积分基本定理 (Newton-Leibniz Formula)
 连接了微分与积分的核心定理：
-$$\int_a^b f(x) dx = F(b) - F(a)$$
+$$
+\int_a^b f(x) dx = F(b) - F(a)
+$$
+
 其中 $F(x)$ 是 $f(x)$ 的任意一个原函数（即 $F'(x) = f(x)$）。
 
 ### 2. 积分计算核心法则
-* **换元积分法 (Substitution Rule)**：$$\int f(g(x))g'(x) dx = \int f(u) du \quad \text{(令 } u = g(x)\text{)}$$
-* **分部积分法 (Integration by Parts)**：$$\int u \, dv = uv - \int v \, du$$
+* **换元积分法 (Substitution Rule)**：$\int f(g(x))g'(x) dx = \int f(u) du \quad \text{(令 } u = g(x)\text{)}$
+* **分部积分法 (Integration by Parts)**：$\int u \, dv = uv - \int v \, du$
+  
   > **技巧**：选择 $u$ 的顺序通常为：反三角函数 $\to$ 对数函数 $\to$ 幂函数 $\to$ 三角函数 $\to$ 指数函数（反对幂三指）。
 
 ### 3. 常见积分公式
@@ -299,12 +337,16 @@ $$\int_a^b f(x) dx = F(b) - F(a)$$
 ### 1. 一阶线性微分方程
 标准形式：$$y' + P(x)y = Q(x)$$
 **通解公式 (利用积分因子法)**：
-$$y = e^{-\int P(x) dx} \left( \int Q(x) e^{\int P(x) dx} dx + C \right)$$
+$$
+y = e^{-\int P(x) dx} \left( \int Q(x) e^{\int P(x) dx} dx + C \right)
+$$
+
 
 ### 2. 二阶常系数齐次线性微分方程
-标准形式：$$y'' + py' + qy = 0$$
-写出特征方程：$$r^2 + pr + q = 0$$
+标准形式：$y'' + py' + qy = 0$
+写出特征方程：$r^2 + pr + q = 0$
 根据判别式 $\Delta = p^2 - 4q$ 分类：
+
 1. **$\Delta > 0$** (两个不相等的实根 $r_1, r_2$)：$y = C_1 e^{r_1 x} + C_2 e^{r_2 x}$
 
    
@@ -324,8 +366,12 @@ $$y = e^{-\int P(x) dx} \left( \int Q(x) e^{\int P(x) dx} dx + C \right)$$
 
 ### 1. 偏导数与全微分
 * **偏导数 (Partial Derivative)**：例如对 $x$ 求偏导 $\frac{\partial f}{\partial x}$ 时，将 $y$ 视为常数。
-* **全微分 (Total Differential)**：$$dz = \frac{\partial f}{\partial x} dx + \frac{\partial f}{\partial y} dy$$
-* **梯度 (Gradient)**：指向函数增加最快的方向：$$\nabla f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \right)$$
+* **全微分 (Total Differential)**：$dz = \frac{\partial f}{\partial x} dx + \frac{\partial f}{\partial y} dy$
+* **梯度 (Gradient)**：指向函数增加最快的方向：
+  $$
+  \nabla f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \right)
+  $$
+  
 
 ### 2. 多重积分换元公式
 * **极坐标下的二重积分** (令 $x = r\cos\theta$, $y = r\sin\theta$)，面积元素 $dx dy = r \, dr d\theta$：
@@ -334,9 +380,15 @@ $$y = e^{-\int P(x) dx} \left( \int Q(x) e^{\int P(x) dx} dx + C \right)$$
 ### 3. 三大核心向量积分定理
 这些定理将高维积分转化为低维积分（或其边界的积分）：
 * **格林公式 (Green's Theorem)** (平面区域与环路积分)：
-  $$\iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx dy = \oint_L P \, dx + Q \, dy$$
+  $$
+  \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dx dy = \oint_L P \, dx + Q \, dy
+  $$
+  
 * **高斯公式 (Divergence Theorem / Gauss's Theorem)** (空间体积分与闭合曲面积分)：
-  $$\iiint_\Omega \left( \frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z} \right) dv = \iint_\Sigma P \, dy dz + Q \, dz dx + R \, dx dy$$
+  $$
+  \iiint_\Omega \left( \frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z} \right) dv = \iint_\Sigma P \, dy dz + Q \, dz dx + R \, dx dy
+  $$
+  
 * **斯托克斯公式 (Stokes' Theorem)** (空间曲面积分与空间环路积分)：将旋度的曲面积分转化为边界曲线积分。
 
 ---
@@ -344,41 +396,56 @@ $$y = e^{-\int P(x) dx} \left( \int Q(x) e^{\int P(x) dx} dx + C \right)$$
 ## 六、 无穷级数 (Infinite Series)
 
 ### 1. 泰勒/麦克劳林级数常用展开式
-在 $x=0$ 处的展开（Maclaurin Series）：
-* **$e^x$** $= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots = \sum_{n=0}^{\infty} \frac{x^n}{n!} \quad (x \in \mathbb{R})$
+在 $x=0$ 处的展开（Maclaurin Series：
 
+
+
+* 
+  $$
+  e^x$** $= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots = \sum_{n=0}^{\infty} \frac{x^n}{n!} \quad (x \in \mathbb{R})
+  $$
+  
+  
+  
+  
+  
+* 
+  $$
+  \sin x$** $= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n+1}}{(2n+1)!} \quad (x \in \mathbb{R})
+  $$
+  
+  
+  
+  
+  
+* 
+  $$
+  \cos x$** $= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n}}{(2n)!} \quad (x \in \mathbb{R})
+  $$
   
 
   
 
   
-* **$\sin x$** $= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n+1}}{(2n+1)!} \quad (x \in \mathbb{R})$
 
+* 
+  $$
+  \frac{1}{1-x}$** $= 1 + x + x^2 + x^3 + \cdots = \sum_{n=0}^{\infty} x^n \quad (|x| < 1)
+  $$
   
 
   
 
   
-* **$\cos x$** $= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n}}{(2n)!} \quad (x \in \mathbb{R})$
+
+* $$
+  \ln(1+x)$** $= x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots = \sum_{n=1}^{\infty} \frac{(-1)^{n-1} x^n}{n} \quad (-1 < x \le 1)
+  $$
 
   
 
   
-
   
-* **$\frac{1}{1-x}$** $= 1 + x + x^2 + x^3 + \cdots = \sum_{n=0}^{\infty} x^n \quad (|x| < 1)$
-
-  
-
-  
-
-  
-* **$\ln(1+x)$** $= x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots = \sum_{n=1}^{\infty} \frac{(-1)^{n-1} x^n}{n} \quad (-1 < x \le 1)$
-
-  
-
-  
-
   
   
 

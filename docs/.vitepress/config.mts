@@ -84,8 +84,9 @@ export default defineConfig({
         },
     },
     markdown: {
-        config: (md) => {
-            md.use(katex)
-        }
+        math: true,
+        // config: (md) => {
+        //     md.use(katex)
+        // }
     }
 })

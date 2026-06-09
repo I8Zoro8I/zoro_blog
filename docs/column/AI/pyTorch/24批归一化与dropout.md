@@ -233,9 +233,9 @@ Dropout 在训练时随机将某些神经元的输出置为 0（概率为 `p`）
 **训练时：**
 $$
 y_i=
-\begin{cases}
-0  \\ 
-\dfrac{x_i}{1-p}
+\begin{cases} 
+0 , \text{以概率p}  \\ 
+\dfrac{x_i}{1-p} , \text{以概率1-p} 
 \end{cases}
 $$
 保留的神经元会被放大 1/(1-p) 倍，以保持期望值不变（即 Inverted Dropout）。
