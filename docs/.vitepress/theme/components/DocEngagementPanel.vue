@@ -8,6 +8,7 @@ const route = useRoute();
 const rating = ref<RatingValue | null>(null);
 
 const RATING_STORAGE_PREFIX = 'zblog:article-rating:';
+const DISCOVERY_PATHS = new Set(['/tags/', '/archive/']);
 
 const ratingOptions: Array<{value: RatingValue; label: string}> = [
   {value: 'helpful', label: '有帮助'},
@@ -15,6 +16,7 @@ const ratingOptions: Array<{value: RatingValue; label: string}> = [
   {value: 'hardcore', label: '太硬核'}
 ];
 
+const shouldRender = computed(() => !DISCOVERY_PATHS.has(route.path));
 const ratingStorageKey = computed(() => `${RATING_STORAGE_PREFIX}${route.path}`);
 
 const loadRating = () => {
@@ -47,7 +49,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="doc-engagement-panel">
+  <section
+    v-if="shouldRender"
+    class="doc-engagement-panel"
+  >
     <div class="doc-engagement-card">
       <span class="doc-engagement-label">一句话评价</span>
       <strong class="doc-engagement-title">这篇内容看起来怎么样？</strong>

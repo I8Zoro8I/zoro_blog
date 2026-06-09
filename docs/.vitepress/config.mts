@@ -85,8 +85,11 @@ export default defineConfig({
     },
     markdown: {
         math: true,
-        // config: (md) => {
-        //     md.use(katex)
-        // }
+        // 代码块显示行号
+        lineNumbers: true,
+        // 图片配置
+        image: {
+            lazyLoading: true
+        },
     }
 })
