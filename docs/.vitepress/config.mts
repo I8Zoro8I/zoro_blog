@@ -84,6 +84,7 @@ export default defineConfig({
         },
     },
     markdown: {
+        //数学公式
         math: true,
         // 代码块显示行号
         lineNumbers: true,
