@@ -402,7 +402,7 @@ $$
 
 * 
   $$
-  e^x$** $= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots = \sum_{n=0}^{\infty} \frac{x^n}{n!} \quad (x \in \mathbb{R})
+  e^x= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots = \sum_{n=0}^{\infty} \frac{x^n}{n!} \quad (x \in \mathbb{R})
   $$
   
   
@@ -411,7 +411,7 @@ $$
   
 * 
   $$
-  \sin x$** $= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n+1}}{(2n+1)!} \quad (x \in \mathbb{R})
+  \sin x= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n+1}}{(2n+1)!} \quad (x \in \mathbb{R})
   $$
   
   
@@ -420,26 +420,24 @@ $$
   
 * 
   $$
-  \cos x$** $= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n}}{(2n)!} \quad (x \in \mathbb{R})
+  \cos x= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n}}{(2n)!} \quad (x \in \mathbb{R})
   $$
   
-
   
-
   
-
+  
+  
 * 
   $$
-  \frac{1}{1-x}$** $= 1 + x + x^2 + x^3 + \cdots = \sum_{n=0}^{\infty} x^n \quad (|x| < 1)
+  \frac{1}{1-x}= 1 + x + x^2 + x^3 + \cdots = \sum_{n=0}^{\infty} x^n \quad (|x| < 1)
   $$
   
-
   
-
   
-
+  
+  
 * $$
-  \ln(1+x)$** $= x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots = \sum_{n=1}^{\infty} \frac{(-1)^{n-1} x^n}{n} \quad (-1 < x \le 1)
+  \ln(1+x)= x - \frac{x^2}{2} + \frac{x^3}{3} - \cdots = \sum_{n=1}^{\infty} \frac{(-1)^{n-1} x^n}{n} \quad (-1 < x \le 1)
   $$
 
   

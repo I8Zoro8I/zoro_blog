@@ -57,7 +57,7 @@ $$
 \end{array}
 $$
 
-其中 ⊙⊙ 表示逐元素乘法（Hadamard 积），σ*σ* 表示 Sigmoid 函数。
+其中 ⊙ 表示逐元素乘法（Hadamard 积），σ 表示 Sigmoid 函数。
 
 计算逻辑解读：
 
