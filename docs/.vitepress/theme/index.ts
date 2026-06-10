@@ -24,6 +24,8 @@ import NavCascadeMenu from './components/NavCascadeMenu.vue'
 import MermaidRenderer from './components/MermaidRenderer.vue'
 // @ts-ignore
 import HtmlPreview from './components/HtmlPreview.vue'
+// @ts-ignore
+import ChangelogTimeline from './components/ChangelogTimeline.vue'
 
 export default {
     ...DefaultTheme,
@@ -33,14 +35,14 @@ export default {
         app.component('TagsPage', TagsPage)
         app.component('ArchivePage', ArchivePage)
         app.component('HtmlPreview', HtmlPreview)
+        app.component('ChangelogTimeline', ChangelogTimeline)
     },
     Layout() {
         return h(DefaultTheme.Layout, null, {
             'nav-bar-content-after': () => h(NavCascadeMenu),
             'doc-before': () => h(Fragment, null, [h(DocPrevNextTop), h(ReadingProgressNotice)]),
             'doc-footer-before': () => h(DocMetaPanel),
-            /* 1. 评论组件 */
-            'doc-after': () => h(Fragment, null, [h(MermaidRenderer), h(DocEngagementPanel), h(Giscus)])
+            // 'doc-after': () => h(Fragment, null, [h(MermaidRenderer), h(DocEngagementPanel), h(Giscus)])
         })
     }
 };

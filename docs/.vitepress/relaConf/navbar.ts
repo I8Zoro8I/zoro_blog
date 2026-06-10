@@ -51,6 +51,11 @@ export const nav: DefaultTheme.NavItem[] = [
         items: [
             {
 
+                text: '更新日志',
+                link: '/changelog/'
+            },
+            {
+
                 text: '标签导航',
                 link: '/tags/'
             },

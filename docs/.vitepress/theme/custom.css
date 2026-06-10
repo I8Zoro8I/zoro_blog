@@ -520,6 +520,182 @@
     border-color: transparent;
 }
 
+/* ---------------- 更新日志 ---------------- */
+.changelog-page {
+    margin: 0 auto;
+    padding: 1rem 0 2rem;
+}
+
+.changelog-hero {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at top left, rgba(177, 133, 219, 0.22), transparent 34%),
+        linear-gradient(135deg, var(--vp-c-bg-soft), var(--vp-c-bg));
+}
+
+.changelog-kicker {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vp-c-brand);
+}
+
+.changelog-hero h1 {
+    margin: 0;
+}
+
+.changelog-lead {
+    margin: 0.75rem 0 0;
+    color: var(--vp-c-text-2);
+}
+
+.changelog-timeline {
+    position: relative;
+    display: grid;
+    gap: 1.4rem;
+    padding: 0.5rem 0;
+}
+
+.changelog-timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--vp-c-brand), transparent);
+    transform: translateX(-50%);
+}
+
+.changelog-node {
+    position: relative;
+    display: flex;
+    width: calc(50% - 22px);
+}
+
+.changelog-node::before {
+    content: "";
+    position: absolute;
+    top: 1.2rem;
+    width: 14px;
+    height: 14px;
+    border: 3px solid var(--vp-c-brand);
+    border-radius: 50%;
+    background: var(--vp-c-bg);
+    box-shadow: 0 0 0 6px rgba(177, 133, 219, 0.14);
+}
+
+.changelog-node::after {
+    content: "";
+    position: absolute;
+    top: 1.55rem;
+    width: 22px;
+    height: 2px;
+    background: var(--vp-c-brand);
+}
+
+.changelog-node.is-left {
+    justify-self: start;
+}
+
+.changelog-node.is-left::before {
+    right: -29px;
+}
+
+.changelog-node.is-left::after {
+    right: -22px;
+}
+
+.changelog-node.is-right {
+    justify-self: end;
+}
+
+.changelog-node.is-right::before {
+    left: -29px;
+}
+
+.changelog-node.is-right::after {
+    left: -22px;
+}
+
+.changelog-card {
+    width: 100%;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 18px;
+    background:
+        linear-gradient(135deg, rgba(177, 133, 219, 0.12), transparent 45%),
+        var(--vp-c-bg-soft);
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+}
+
+.changelog-date {
+    display: inline-flex;
+    margin-bottom: 0.55rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    background: var(--vp-c-brand-soft);
+    color: var(--vp-c-brand);
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.changelog-card h2 {
+    margin: 0 0 0.55rem;
+    font-size: 1.05rem;
+}
+
+.changelog-card p {
+    margin: 0;
+    color: var(--vp-c-text-2);
+}
+
+.changelog-list {
+    margin: 0.85rem 0 0;
+    padding-left: 1.15rem;
+    color: var(--vp-c-text-1);
+}
+
+.changelog-list li + li {
+    margin-top: 0.35rem;
+}
+
+@media (max-width: 768px) {
+    .changelog-timeline::before {
+        left: 12px;
+        transform: none;
+    }
+
+    .changelog-node,
+    .changelog-node.is-left,
+    .changelog-node.is-right {
+        width: 100%;
+        justify-self: stretch;
+        padding-left: 2rem;
+    }
+
+    .changelog-node::before,
+    .changelog-node.is-left::before,
+    .changelog-node.is-right::before {
+        top: 1.1rem;
+        left: 5px;
+        right: auto;
+    }
+
+    .changelog-node::after,
+    .changelog-node.is-left::after,
+    .changelog-node.is-right::after {
+        top: 1.45rem;
+        left: 12px;
+        right: auto;
+    }
+}
+
 /* ---------------- 文章顶部上一篇 / 下一篇 ---------------- */
 .doc-top-prev-next {
     margin: 0 0 24px;
