@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme';
 import './custom.css';
 // @ts-ignore
 import {Fragment, h} from 'vue'
+import {useData} from 'vitepress'
 // @ts-ignore
 import Giscus from './components/Giscus.vue'
 // @ts-ignore
@@ -38,11 +39,21 @@ export default {
         app.component('ChangelogTimeline', ChangelogTimeline)
     },
     Layout() {
+        const {page} = useData()
+        // @ts-ignore
+        const hiddenDocAfterPages = new Set([
+            'archive/index.md',
+            'tags/index.md',
+            'changelog/index.md'
+        ])
+
         return h(DefaultTheme.Layout, null, {
             'nav-bar-content-after': () => h(NavCascadeMenu),
             'doc-before': () => h(Fragment, null, [h(DocPrevNextTop), h(ReadingProgressNotice)]),
             'doc-footer-before': () => h(DocMetaPanel),
-            // 'doc-after': () => h(Fragment, null, [h(MermaidRenderer), h(DocEngagementPanel), h(Giscus)])
+            'doc-after': () => hiddenDocAfterPages.has(page.value.relativePath)
+                ? null
+                : h(Fragment, null, [h(MermaidRenderer), h(DocEngagementPanel), h(Giscus)])
         })
     }
 };
