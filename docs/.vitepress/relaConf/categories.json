@@ -207,6 +207,15 @@
             {"title": "迁移学习", "url": "/column/AI/pyTorch/23迁移学习"},
             {"title": "批归一化与Dropout", "url": "/column/AI/pyTorch/24批归一化与dropout"},
             {"title": "LSTM / GRU", "url": "/column/AI/pyTorch/25LSTMGRU"},
+            {"title": "词嵌入(Embedding)", "url": "/column/AI/pyTorch/26词嵌入"},
+            {"title": "生成对抗网络(GAN)", "url": "/column/AI/pyTorch/27生成对抗网络"},
+            {"title": "自动编码(Autoencoder)", "url": "/column/AI/pyTorch/28自动编码"},
+            {"title": "模型评估与调试", "url": "/column/AI/pyTorch/29模型评估与调试"},
+            {"title": "torchtext", "url": "/column/AI/pyTorch/30torchtext"},
+            {"title": "混合精度训练", "url": "/column/AI/pyTorch/31混合精度训练"},
+            {"title": "TorchScriptONNX导出", "url": "/column/AI/pyTorch/32TorchScriptONNX导出"},
+            {"title": "分布式训练", "url": "/column/AI/pyTorch/33分布式训练"},
+            {"title": "注意力机制", "url": "/column/AI/pyTorch/34注意力机制"},
             {"title": "番外-计算机视觉识别烟叶种类与物联网控制", "url": "/column/AI/pyTorch/番外-视觉识别烟叶种类"}
           ]
         }
