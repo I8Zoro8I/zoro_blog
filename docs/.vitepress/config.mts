@@ -92,5 +92,25 @@ export default defineConfig({
         image: {
             lazyLoading: true
         },
+        config(md) {
+            const defaultFence = md.renderer.rules.fence?.bind(md.renderer.rules)
+
+            md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+                const token = tokens[idx]
+                const language = token.info.trim().toLowerCase()
+
+                if (language === 'html') {
+                    // @ts-ignore
+                    const encoded = Buffer.from(token.content, 'utf8').toString('base64')
+                    return `<HtmlPreview code="${encoded}"></HtmlPreview>`
+                }
+
+                if (defaultFence) {
+                    return defaultFence(tokens, idx, options, env, self)
+                }
+
+                return self.renderToken(tokens, idx, options)
+            }
+        }
     }
 })

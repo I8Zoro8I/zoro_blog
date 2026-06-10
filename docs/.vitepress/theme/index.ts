@@ -22,6 +22,8 @@ import TagsPage from './components/TagsPage.vue'
 import NavCascadeMenu from './components/NavCascadeMenu.vue'
 // @ts-ignore
 import MermaidRenderer from './components/MermaidRenderer.vue'
+// @ts-ignore
+import HtmlPreview from './components/HtmlPreview.vue'
 
 export default {
     ...DefaultTheme,
@@ -30,6 +32,7 @@ export default {
         app.component('CustomHome', CustomHome)
         app.component('TagsPage', TagsPage)
         app.component('ArchivePage', ArchivePage)
+        app.component('HtmlPreview', HtmlPreview)
     },
     Layout() {
         return h(DefaultTheme.Layout, null, {
