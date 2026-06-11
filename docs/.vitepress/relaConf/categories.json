@@ -9,7 +9,7 @@
           "name": "PostgreSQL",
           "links": [
             {
-              "title": "Linux 基础命令",
+              "title": "pgSQL终端命令",
               "url": "/column/pgsql/001_linux命令"
             },
             {
