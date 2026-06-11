@@ -1,7 +1,7 @@
 {
   "categories": [
     {
-      "name": "服务端与数据库",
+      "name": "后端与数据库",
       "id": "technology",
       "icon": "🗄️",
       "children": [
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "name": "AI /智能开发",
+      "name": "AI/智能开发",
       "id": "AI",
       "icon": "🧠",
       "children": [
