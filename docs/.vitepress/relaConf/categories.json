@@ -218,6 +218,15 @@
             {"title": "注意力机制", "url": "/column/AI/pyTorch/34注意力机制"},
             {"title": "番外-计算机视觉识别烟叶种类与物联网控制", "url": "/column/AI/pyTorch/番外-视觉识别烟叶种类"}
           ]
+        },
+        {
+          "name": "PySpark",
+          "links": [
+            {"title": "简介与安装", "url": "/column/AI/ApacheSpark/pySpark/01简介与安装"},
+            {"title": "快速入门: DataFrame", "url": "/column/AI/ApacheSpark/pySpark/02快速入门DataFrame"},
+            {"title": "快速入门: Spark Connect", "url": "/column/AI/ApacheSpark/pySpark/03快速入门SparkConnect"},
+            {"title": "快速入门: Spark上的Pandas API ", "url": "/column/AI/ApacheSpark/pySpark/04快速入门PandasAPI"}
+          ]
         }
       ]
     },
