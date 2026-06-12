@@ -27,6 +27,13 @@ export const nav: DefaultTheme.NavItem[] = [
                 items: [
                     { text: '烟叶视觉识别', link: '/column/AI/pyTorch/番外-视觉识别烟叶种类' }
                 ]
+            },
+            // 👇 为 PySpark 核心工程与数仓调优单开一栏
+            {
+                text: '大数据与数据工程',
+                items: [
+                    { text: '百万级用户画像：PySpark清洗与聚类', link: '/column/AI/ApacheSpark/pySpark/05实战客户分析' }
+                ]
             }
         ]
     },

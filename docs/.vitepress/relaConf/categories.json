@@ -225,7 +225,8 @@
             {"title": "简介与安装", "url": "/column/AI/ApacheSpark/pySpark/01简介与安装"},
             {"title": "快速入门: DataFrame", "url": "/column/AI/ApacheSpark/pySpark/02快速入门DataFrame"},
             {"title": "快速入门: Spark Connect", "url": "/column/AI/ApacheSpark/pySpark/03快速入门SparkConnect"},
-            {"title": "快速入门: Spark上的Pandas API ", "url": "/column/AI/ApacheSpark/pySpark/04快速入门PandasAPI"}
+            {"title": "快速入门: Spark上的Pandas API ", "url": "/column/AI/ApacheSpark/pySpark/04快速入门PandasAPI"},
+            {"title": "实战: PySpark 230万客户数据 ", "url": "/column/AI/ApacheSpark/pySpark/05实战客户分析"}
           ]
         }
       ]

@@ -46,6 +46,14 @@ const pickRandomArticle = () => {
   randomArticle.value = getRandomArticle();
 };
 
+const getItemName = (item) => {
+  return item?.name || item?.title || item?.displayName || '';
+};
+
+const getItemChildren = (item) => {
+  return item?.children || item?.links || item?.items || [];
+};
+
 /* --- 1. 动态统计逻辑（兼容多级） --- */
 const stats = computed(() => {
   let docCount = 0;
@@ -96,8 +104,9 @@ const stats = computed(() => {
 //   return temp;
 // });
 /* --- 2. 目录导航逻辑（无限级打通 + 单子项智能跨越） --- */
-const currentDisplay = computed(() => {
+const navigationState = computed(() => {
   let temp = categoriesData.categories;
+  const breadcrumbItems = [];
 
   // 1. 先根据当前显式路径，正常逐级向下查找
   for (const segment of currentPath.value) {
@@ -106,32 +115,53 @@ const currentDisplay = computed(() => {
       found = temp.find(c => c.name === segment || c.title === segment);
     }
     if (found) {
-      temp = found.children || found.links || found.items || [];
+      breadcrumbItems.push({
+        label: segment,
+        explicitIndex: breadcrumbItems.length
+      });
+      temp = getItemChildren(found);
     } else {
-      return [];
+      return {
+        breadcrumbItems: [],
+        display: []
+      };
     }
   }
 
   // 2. 🌟 自动化下钻拦截：如果当前层级【只有一个子项】，且该子项是个“空壳目录”而非单篇文章
-  // 只要满足条件，就自动把它推进 currentPath，实现一键穿透
+  // 只做展示层穿透，不修改 currentPath，避免“返回上一级”失效
   while (
       Array.isArray(temp) &&
       temp.length === 1 &&
       !temp[0].url &&               // 确保它不是一篇文章
-      (temp[0].children || temp[0].links || temp[0].items) // 确保它有下级数据
+      getItemChildren(temp[0]).length // 确保它有下级数据
       ) {
     const nextNode = temp[0];
-    const nextName = nextNode.name || nextNode.title;
+    const nextName = getItemName(nextNode);
 
     if (nextName) {
-      currentPath.value.push(nextName); // 同步把面包屑路径也补全，防止面包屑和内容对不上
-      temp = nextNode.children || nextNode.links || nextNode.items || [];
+      breadcrumbItems.push({
+        label: nextName,
+        explicitIndex: null
+      });
+      temp = getItemChildren(nextNode);
     } else {
       break;
     }
   }
 
-  return temp;
+  return {
+    breadcrumbItems,
+    display: temp
+  };
+});
+
+const breadcrumbItems = computed(() => {
+  return navigationState.value.breadcrumbItems;
+});
+
+const currentDisplay = computed(() => {
+  return navigationState.value.display;
 });
 
 /* --- 3. 搜索逻辑 --- */
@@ -281,7 +311,7 @@ const resetNav = () => {
 };
 
 const getFolderName = (item) => {
-  return item.name || item.title || item.displayName;
+  return getItemName(item);
 };
 
 const getUrl = (url) => {
@@ -289,8 +319,12 @@ const getUrl = (url) => {
   return withBase(url);
 };
 
-const jumpToPath = (index) => {
-  currentPath.value = currentPath.value.slice(0, index + 1);
+const jumpToPath = (breadcrumbItem) => {
+  if (breadcrumbItem.explicitIndex === null) {
+    return;
+  }
+
+  currentPath.value = currentPath.value.slice(0, breadcrumbItem.explicitIndex + 1);
   searchQuery.value = '';
   currentPage.value = 1;
 };
@@ -372,13 +406,13 @@ onUnmounted(() => {
         <div class="nav-header">
           <div class="breadcrumb">
             <span class="crumb-item" @click="resetNav">🏠 全部分类</span>
-            <span v-for="(p, index) in currentPath" :key="index">
+            <span v-for="(item, index) in breadcrumbItems" :key="`${item.label}-${index}`">
               <span class="crumb-separator">/</span>
-              <span v-if="index === currentPath.length - 1" class="crumb-text-current">
-                {{ p }}
+              <span v-if="index === breadcrumbItems.length - 1 || item.explicitIndex === null" class="crumb-text-current">
+                {{ item.label }}
               </span>
-              <span v-else class="crumb-item" @click="jumpToPath(index)">
-                {{ p }}
+              <span v-else class="crumb-item" @click="jumpToPath(item)">
+                {{ item.label }}
               </span>
             </span>
           </div>
