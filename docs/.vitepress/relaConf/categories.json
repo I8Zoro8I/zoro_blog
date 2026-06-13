@@ -256,6 +256,10 @@
             {"title": "动漫好站", "url": "/column/utils/fanLink"},
             {"title": "破解软件 & 游戏资源收藏指南", "url": "/column/utils/gameCrack"},
             {"title": "高效终端常用工具推荐", "url": "/column/utils/terminal"},
+            {
+              "title": "落雪音乐在线源",
+              "url": "/column/utils/lxSource"
+            },
             {"title": "自用 VPN / 机场推荐", "url": "/column/utils/vpn"}
           ]
         }

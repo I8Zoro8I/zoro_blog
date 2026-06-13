@@ -41,15 +41,11 @@ export const nav: DefaultTheme.NavItem[] = [
 
         text: '工具合集',
         items: [
-            {
-
-                text: '动漫网站链接',
-                link: '/column/utils/fanLink' // 对应docs/column/Algorithm下的idnex.md文件
-            },
-            {
-                text: '终端工具推荐',
-                link: '/column/utils/terminal'
-            }
+            {text: '动漫网站链接', link: '/column/utils/fanLink'},
+            {text: '终端工具推荐', link: '/column/utils/terminal'},
+            {text: '落雪音乐在线源', link: '/column/utils/lxSource'},
+            {text: '破解游戏软件推荐', link: '/column/utils/gameCrack'},
+            {text: '自用VPN推荐', link: '/column/utils/vpn'},
         ]
     },
     {
