@@ -11,6 +11,7 @@ date: 2026年04月24日
 > 如果有乱码,那么上下一个是他的另外一种写法(兼容多种公式)
 > 都乱码请反馈
 > 或者直接复制粘贴到typora等软件进行查看
+> 公式如果截断没了,可滑动查看
 
 
 
@@ -23,9 +24,10 @@ date: 2026年04月24日
   $$
 
 * $$
-  P(A_1 \cup A_2 \cup A_3) = P(A_1) + P(A_2) + P(A_3) - P(A_1 A_2) - P(A_1 A_3) - P(A_2 A_3) + P(A_1 A_2 A_3)
+  P(A_1 \cup A_2 \cup A_3) = P(A_1) + P(A_2) + P(A_3) \\
+  - P(A_1 A_2) - P(A_1 A_3) - P(A_2 A_3) + P(A_1 A_2 A_3)
   $$
-
+  
 * $$
   P\left(\bigcup_{i=1}^{n} A_i\right) = \sum_{i=1}^{n} P(A_i) - \sum_{1 \le i < j \le n} P(A_i A_j) + \sum_{1 \le i < j < k \le n} P(A_i A_j A_k) + \dots + (-1)^{n-1} P(A_1 A_2 \dots A_n)
   $$

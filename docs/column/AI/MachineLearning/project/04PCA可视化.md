@@ -29,7 +29,16 @@ PCA 的核心思想是寻找数据方差最大的方向。
 
 ### PCA 工作流程图
 
-![img](https://www.runoob.com/wp-content/uploads/2025/12/ml-pca-visualization-case-runoob-1.png)
+```mermaid
+flowchart TD
+    A[原始高维数据] --> B[数据标准化<br/>去中心化]
+    B --> C[计算协方差矩阵]
+    C --> D[计算协方差矩阵的<br/>特征值和特征向量]
+    D --> E[按特征值大小排序<br/>选取前K个特征向量]
+    E --> F[构建投影矩阵]
+    F --> G[将原始数据转换到<br/>新的K维空间（主成分）]
+    G --> H[得到降维后的数据<br/>可用于可视化或后续分析]
+```
 
 **流程关键步骤说明：**
 

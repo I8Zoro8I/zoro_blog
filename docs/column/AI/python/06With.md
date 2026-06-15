@@ -58,7 +58,23 @@ with open('example.txt', 'r') as file:
 
 ### 执行流程
 
-![](/images/AI/python/python-with-runoob2.png)
+```mermaid
+sequenceDiagram
+    participant User
+    participant with_statement
+    participant ContextManager
+
+    User->>with_statement: 开始 with 块
+    with_statement->>ContextManager: 调用 __enter__()
+    ContextManager-->>with_statement: 返回资源对象
+    with_statement->>User: 执行代码块
+    User->>with_statement: 代码块执行完毕/异常
+    with_statement->>ContextManager: 调用 __exit__()
+    ContextManager-->>with_statement: 清理资源
+    with_statement->>User: 继续执行后续代码
+```
+
+
 
 ### 异常处理机制
 

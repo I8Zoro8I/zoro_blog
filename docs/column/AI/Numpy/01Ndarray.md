@@ -23,8 +23,6 @@ ndarray 内部由以下内容组成：
 
 ndarray 的内部结构:
 
-
-
 ![img](https://www.runoob.com/wp-content/uploads/2018/10/ndarray.png)
 
 跨度可以是负数，这样会使数组在内存中后向移动，切片中 **obj[::-1]** 或 **obj[:,::-1]** 就是如此。
