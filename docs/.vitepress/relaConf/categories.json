@@ -302,6 +302,23 @@
       ]
     },
     {
+      "name": "Codex",
+      "id": "agent",
+      "icon": "\uD83E\uDD16",
+      "children": [
+        {
+          "name": "Codex教程",
+          "links": [
+            {"title": "Codex简介与概念", "url": "/column/AI/codex/01简介"},
+            {"title": "Codex安装与使用", "url": "/column/AI/codex/02安装与使用"},
+            {"title": "Codex桌面应用", "url": "/column/AI/codex/03桌面应用"},
+            {"title": "Codex DeepseekAPi", "url": "/column/AI/codex/04CodexDeepSeek"},
+            {"title": "Codex高级配置", "url": "/column/AI/codex/05高级配置"}
+          ]
+        }
+      ]
+    },
+    {
       "name": "Linux&服务器",
       "id": "Linux",
       "icon": "\uD83D\uDCBE",
