@@ -309,11 +309,30 @@
         {
           "name": "Codex教程",
           "links": [
-            {"title": "Codex简介与概念", "url": "/column/AI/codex/01简介"},
-            {"title": "Codex安装与使用", "url": "/column/AI/codex/02安装与使用"},
-            {"title": "Codex桌面应用", "url": "/column/AI/codex/03桌面应用"},
+            {"title": "Codex 简介与概念", "url": "/column/AI/codex/01简介"},
+            {"title": "Codex 安装与使用", "url": "/column/AI/codex/02安装与使用"},
+            {"title": "Codex 桌面应用", "url": "/column/AI/codex/03桌面应用"},
             {"title": "Codex DeepseekAPi", "url": "/column/AI/codex/04CodexDeepSeek"},
-            {"title": "Codex高级配置", "url": "/column/AI/codex/05高级配置"}
+            {"title": "Codex 高级配置", "url": "/column/AI/codex/05高级配置"},
+            {"title": "Codex 斜杠/命令", "url": "/column/AI/codex/06斜杠命令"},
+            {"title": "Codex 电脑操控", "url": "/column/AI/codex/07电脑操控"},
+            {"title": "Codex 进阶使用技巧", "url": "/column/AI/codex/08进阶使用技巧"},
+            {"title": "Codex 速查表", "url": "/column/AI/codex/09速查表"},
+            {"title": "Codex 集成与连接", "url": "/column/AI/codex/11集成与连接"},
+            {"title": "Codex 自动化与CI/CD", "url": "/column/AI/codex/12自动化与CICD"},
+            {"title": "Codex 工作流模式", "url": "/column/AI/codex/13工作流模式"},
+            {"title": "Codex 提示词最佳实践", "url": "/column/AI/codex/14提示词最佳实践"},
+            {"title": "Codex 安全与企业管理", "url": "/column/AI/codex/15安全"},
+            {"title": "Codex 模型选择", "url": "/column/AI/codex/16模型选择"},
+            {"title": "Codex Agent Skills", "url": "/column/AI/codex/17agentskills"},
+            {"title": "Codex 子代理", "url": "/column/AI/codex/18子代理"},
+            {"title": "Codex MCP", "url": "/column/AI/codex/19mcp"},
+            {"title": "Codex 规则与钩子", "url": "/column/AI/codex/20规则与钩子"},
+            {"title": "Codex 非交互模式", "url": "/column/AI/codex/21非交互模式"},
+            {"title": "Codex AGENTS.md", "url": "/column/AI/codex/22AGENTS"},
+            {"title": "Codex github集成", "url": "/column/AI/codex/23github集成"},
+            {"title": "Codex windows原生支持", "url": "/column/AI/codex/24windows"},
+            {"title": "Codex worktrees使用", "url": "/column/AI/codex/25worktrees"}
           ]
         }
       ]
