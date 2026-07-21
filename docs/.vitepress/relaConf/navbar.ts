@@ -44,6 +44,7 @@ export const nav: DefaultTheme.NavItem[] = [
             {text: '动漫网站链接', link: '/column/utils/fanLink'},
             {text: '终端工具推荐', link: '/column/utils/terminal'},
             {text: '落雪音乐在线源', link: '/column/utils/lxSource'},
+            {text: '开源阅读&笔趣阁书源', link: '/column/utils/bookSource'},
             {text: '破解游戏软件推荐', link: '/column/utils/gameCrack'},
             {text: '自用VPN推荐', link: '/column/utils/vpn'},
         ]
