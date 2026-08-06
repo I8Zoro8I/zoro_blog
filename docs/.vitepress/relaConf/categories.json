@@ -281,7 +281,7 @@
       ]
     },
     {
-      "name": "W&M系统优化",
+      "name": "macOS",
       "id": "computer",
       "icon": "💻",
       "children": [
@@ -290,7 +290,14 @@
           "links": [
             {"title": "Win 转 Mac 必备硬核效率小工具", "url": "/column/mac/001_app"}
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Windows",
+      "id": "computer",
+      "icon": "💻",
+      "children": [
         {
           "name": "Windows 平台",
           "links": [
