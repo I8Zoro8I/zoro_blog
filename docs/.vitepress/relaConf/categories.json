@@ -294,7 +294,8 @@
         {
           "name": "Windows 平台",
           "links": [
-            {"title": "Windows 装机必备利器推荐", "url": "/column/window/001_app"}
+            {"title": "Windows 装机必备利器推荐", "url": "/column/window/001_app"},
+            {"title": "Immich 私人相册服务器本地部署", "url": "/column/window/002Immich"}
           ]
         }
       ]
