@@ -285,7 +285,7 @@ https://agent.xfyun.cn/home
 
 工作流最适合的场景，可以直接概括成一句话：**任务步骤大致确定，希望过程可见、可控、可复用时，优先工作流。**
 
-这也是为什么很多真实项目并不是“先做一个很聪明的 Agent”，而是先把稳定链路搭成工作流。后面你在本章案例区，以及 [第 4 章 Python 调用 Dify 平台工作流](https://didilili.github.io/ai-agents-from-zero/#/4-Python调用Dify平台工作流)、[第 5 章 Python 调用 Coze 平台工作流](https://didilili.github.io/ai-agents-from-zero/#/5-Python调用Coze平台工作流) 里会不断看到这一点。
+这也是为什么很多真实项目并不是“先做一个很聪明的 Agent”，而是先把稳定链路搭成工作流。后面你在本章案例区，以及 [Python 调用 Dify 平台工作流]、[Python 调用 Coze 平台工作流] 里会不断看到这一点。
 
 ------
 
