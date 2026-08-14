@@ -92,7 +92,24 @@ export default defineConfig({
         image: {
             lazyLoading: true
         },
+        //修改vite构建 {{}}变量识别报错的问题  直接识别成文本输出
         config(md) {
+            md.core.ruler.after('inline', 'escape-vue-interpolation', (state) => {
+                const escapeInterpolation = (tokens: any[]) => {
+                    for (const token of tokens) {
+                        if (token.children) {
+                            escapeInterpolation(token.children)
+                        }
+
+                        if (token.type === 'text' || token.type === 'code_inline') {
+                            token.content = token.content.replace(/\{\{/g, '&#123;&#123;')
+                        }
+                    }
+                }
+
+                escapeInterpolation(state.tokens)
+            })
+
             const defaultFence = md.renderer.rules.fence?.bind(md.renderer.rules)
 
             md.renderer.rules.fence = (tokens, idx, options, env, self) => {
