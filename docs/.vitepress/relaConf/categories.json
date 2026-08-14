@@ -275,7 +275,7 @@
                 {"title": "Python调用Coze平台工作流", "url": "/column/AIAgent/02-企业低代码平台开发与项目实战/智能体的调用与部署/03-Python调用Coze平台工作流"},
                 {"title": "Coze与Dify的Windows平台部署", "url": "/column/AIAgent/02-企业低代码平台开发与项目实战/智能体的调用与部署/04-Coze与Dify的Windows平台部署"},
                 {"title": "企业级大模型部署", "url": "/column/AIAgent/02-企业低代码平台开发与项目实战/智能体的调用与部署/05-企业级大模型部署"},
-                {"title": "Docker快速入门与", "url": "/column/AIAgent/02-企业低代码平台开发与项目实战/智能体的调用与部署/06-Docker快速入门与"}
+                {"title": "Docker快速入门与Dify部署排障", "url": "/column/AIAgent/02-企业低代码平台开发与项目实战/智能体的调用与部署/06-Docker快速入门与Dify部署排障"}
               ]
             }
           ]
