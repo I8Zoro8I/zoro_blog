@@ -268,6 +268,49 @@ Activate virtualenv
 
 即可。
 
+总结
+
+```
+# 1. 退出并删除当前有问题或不匹配的环境（防止同名冲突）
+conda deactivate
+conda env remove -n ai-agents --yes
+
+# 2. 使用 Conda 创建指定 Python 3.12 的新环境
+conda create -n ai-agents python=3.12 -y
+
+# 3. 激活新环境
+conda activate ai-agents
+
+# 4. 确保在新环境中升级 pip
+pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 5. 重新安装 requirements.txt 依赖
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+
+在 PyCharm 中配置解释器
+打开设置菜单：
+macOS: 点击顶部菜单栏 PyCharm → Settings... (或快捷键 Cmd + ,)
+Windows/Linux: File → Settings... (或快捷键 Ctrl + Alt + S)
+进入解释器设置：
+在左侧导航栏找到并展开 Project: ai-agents-from-zero → 点击 Python Interpreter。
+添加新解释器：
+点击右上角解释器下拉框旁边的 Add Interpreter → 选择 Add Local Interpreter...。
+绑定 Conda 环境：
+在弹出的窗口左侧菜单中选择 Conda Environment。
+Use existing environment（使用现有环境）：选中此项。
+在 Environment 下拉列表中选择你刚才创建的 ai-agents（或者点击右侧 ... 浏览，选中 
+/Users/solot/miniconda3/envs/ai-agents/bin/python
+
+）。
+(注：如果左侧选 Conda 不好找，也可以选左侧 Virtualenv Environment 或 System Interpreter，直接通过 ... 手动定位选择 .../envs/ai-agents/bin/python 文件)。
+保存应用：
+点击 OK，再点击 Apply / OK 保存设置。
+```
+
+
+
 ------
 
 ### 
