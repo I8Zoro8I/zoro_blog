@@ -1,6 +1,5 @@
 import {DefaultTheme} from 'vitepress';
-// @ts-ignore
-import categoriesData from './categories.json';
+import {rawCategoriesData as categoriesData} from './categories';
 
 export const sidebar: DefaultTheme.Sidebar = {};
 

@@ -8,6 +8,10 @@ export interface ChangelogItem {
 // @ts-ignore
 export const changelogItems: ChangelogItem[] = [
     {
+        date: '2026-09-09',
+        title: '首页渲染样式修改:支持卡片跟列表展示',
+    },
+    {
         date: '2026-06-10',
         title: '支持MD文件HTML代码块实时渲染',
     },

@@ -1,5 +1,4 @@
-// @ts-ignore
-import categoriesData from '../relaConf/categories.json';
+import {rawCategoriesData as categoriesData} from '../relaConf/categories';
 
 type Frontmatter = Record<string, any>;
 

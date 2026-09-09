@@ -1,8 +1,7 @@
 <script setup>
 import {computed, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import {withBase} from 'vitepress';
-/* 请确保路径正确 */
-import categoriesData from '../relaConf/categories.json';
+import {homeCategoriesData as categoriesData} from '../relaConf/categories';
 import {siteLaunchDate} from '../relaConf/siteStats';
 import {data as siteStatsData} from '../siteStats.data';
 import {getRandomArticle} from '../theme/contentIndex';
@@ -14,13 +13,17 @@ const sponsorType = ref('wechat');
 const randomArticle = ref(null);
 const currentPage = ref(1);
 const listViewportRef = ref(null);
+const viewMode = ref('card');
 
 const DEFAULT_PAGE_SIZE = 12;
 const CARD_MIN_WIDTH = 220;
 const CARD_HEIGHT = 90;
+const LIST_ITEM_HEIGHT = 52;
 const GRID_GAP = 16;
+const LIST_GAP = 8;
 const SECTION_GAP = 24;
 const ROW_FIT_TOLERANCE = 36;
+const VIEW_MODE_STORAGE_KEY = 'home-category-view-mode';
 
 const gridColumns = ref(0);
 const viewportHeight = ref(0);
@@ -217,8 +220,13 @@ const hasDynamicLayout = computed(() => {
 const getSectionHeight = (count, columns) => {
   if (!count) return 0;
 
-  const rows = Math.ceil(count / columns);
-  return rows * CARD_HEIGHT + Math.max(0, rows - 1) * GRID_GAP;
+  const isListView = viewMode.value === 'list';
+  const effectiveColumns = isListView ? 1 : columns;
+  const itemHeight = isListView ? LIST_ITEM_HEIGHT : CARD_HEIGHT;
+  const gap = isListView ? LIST_GAP : GRID_GAP;
+  const rows = Math.ceil(count / effectiveColumns);
+
+  return rows * itemHeight + Math.max(0, rows - 1) * gap;
 };
 
 const canFitItems = (items) => {
@@ -310,6 +318,14 @@ const resetNav = () => {
   currentPage.value = 1;
 };
 
+const setViewMode = (mode) => {
+  if (mode !== 'card' && mode !== 'list') return;
+
+  viewMode.value = mode;
+  currentPage.value = 1;
+  localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode);
+};
+
 const getFolderName = (item) => {
   return getItemName(item);
 };
@@ -367,6 +383,11 @@ const recalculateLayout = () => {
 };
 
 onMounted(() => {
+  const savedViewMode = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+  if (savedViewMode === 'card' || savedViewMode === 'list') {
+    viewMode.value = savedViewMode;
+  }
+
   pickRandomArticle();
   nextTick(() => {
     recalculateLayout();
@@ -416,15 +437,42 @@ onUnmounted(() => {
               </span>
             </span>
           </div>
-          <button v-if="currentPath.length > 0" class="back-link" @click="goBack">
-            🔙 返回上一级
-          </button>
+          <div class="nav-actions">
+            <div class="view-toggle" role="group" aria-label="展示方式">
+              <button
+                  type="button"
+                  :class="['view-toggle-button', { active: viewMode === 'card' }]"
+                  :aria-pressed="viewMode === 'card'"
+                  title="卡片展示"
+                  @click="setViewMode('card')"
+              >
+                <span aria-hidden="true">▦</span>
+                <span>卡片</span>
+              </button>
+              <button
+                  type="button"
+                  :class="['view-toggle-button', { active: viewMode === 'list' }]"
+                  :aria-pressed="viewMode === 'list'"
+                  title="列表展示"
+                  @click="setViewMode('list')"
+              >
+                <span aria-hidden="true">☰</span>
+                <span>列表</span>
+              </button>
+            </div>
+            <button v-if="currentPath.length > 0" class="back-link" @click="goBack">
+              🔙 返回上一级
+            </button>
+          </div>
         </div>
 
         <div class="list-container">
           <div ref="listViewportRef" class="list-viewport">
             <!-- 干净的内容包裹区：去掉了层级缩进相关的 class -->
-            <div v-if="pagedDisplay.length > 0" class="list-wrapper">
+            <div
+                v-if="pagedDisplay.length > 0"
+                :class="['list-wrapper', `view-${viewMode}`]"
+            >
 
               <!-- 🌟 文件夹行（排在上方，占满整行宽度，从而实现与文章卡片的自动折行） -->
               <div v-if="pagedFolders.length > 0" class="card-grid">
@@ -597,6 +645,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   margin-bottom: 25px;
   padding-bottom: 15px;
   border-bottom: 1px solid var(--vp-c-divider);
@@ -615,6 +664,48 @@ onUnmounted(() => {
 .crumb-separator {
   margin: 0 8px;
   color: var(--vp-c-text-3);
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.view-toggle {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-alt);
+}
+.view-toggle-button {
+  min-width: 68px;
+  height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.view-toggle-button:hover {
+  color: var(--vp-c-brand);
+}
+.view-toggle-button.active {
+  background: var(--vp-c-bg);
+  color: var(--vp-c-brand);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.view-toggle-button:focus-visible {
+  outline: 2px solid var(--vp-c-brand);
+  outline-offset: 1px;
 }
 .back-link {
   font-size: 14px;
@@ -687,6 +778,33 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: 6px;
+}
+
+/* 列表模式：保留文件夹和文章分区，改为紧凑单列展示。 */
+.view-list {
+  gap: 12px;
+}
+.view-list .card-grid {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.view-list .card {
+  height: 52px;
+  padding: 0 14px;
+  border-radius: 8px;
+  justify-content: flex-start;
+  text-align: left;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.view-list .card:hover {
+  transform: none;
+  border-color: var(--vp-c-brand);
+  box-shadow: none;
+  background: var(--vp-c-bg-soft);
+}
+.view-list .card-link,
+.view-list .folder-label {
+  justify-content: flex-start;
 }
 
 /* 分页样式 */
@@ -894,6 +1012,24 @@ onUnmounted(() => {
   }
   .random-widget-actions {
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .nav-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .view-toggle {
+    flex: 1;
+  }
+  .view-toggle-button {
+    flex: 1;
+    min-width: 0;
   }
 }
 </style>
