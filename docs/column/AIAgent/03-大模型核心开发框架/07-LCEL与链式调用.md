@@ -1,5 +1,5 @@
 ---
-2026年08月19日
+date: 2026年08月18日
 ---
 
 # LCEL 与链式调用
@@ -90,7 +90,7 @@ LangChain 的解决思路就是：**把这些“能接收输入并产生输出�
 prompt_str = prompt.format(topic="LangChain")
 
 # LCEL 统一接口写法
-prompt_value = prompt.invoke({"topic": "LangChain"})复制错误已复制
+prompt_value = prompt.invoke({"topic": "LangChain"})
 ```
 
 **2. 模型**
@@ -99,7 +99,7 @@ prompt_value = prompt.invoke({"topic": "LangChain"})复制错误已复制
 - 它接收上一步 Prompt 的输出，再返回 `AIMessage`
 
 ```python
-ai_message = model.invoke(prompt_value)复制错误已复制
+ai_message = model.invoke(prompt_value)
 ```
 
 **3. 解析器**
@@ -108,7 +108,7 @@ ai_message = model.invoke(prompt_value)复制错误已复制
 - 但在 LCEL 里也可以统一通过 `invoke(...)` 接收上一步结果
 
 ```python
-result = parser.invoke(ai_message)复制错误已复制
+result = parser.invoke(ai_message)
 ```
 
 这样一来，三步就被统一成了同一种风格：
@@ -116,7 +116,7 @@ result = parser.invoke(ai_message)复制错误已复制
 ```python
 prompt_value = prompt.invoke({"question": "什么是 LangChain？"})
 ai_message = model.invoke(prompt_value)
-result = parser.invoke(ai_message)复制错误已复制
+result = parser.invoke(ai_message)
 ```
 
 这背后最大的价值是：**组件之间更容易替换**；**流程更容易串联**；**链本身也可以继续被当作一个组件使用**；**中间结果传递方式更统一，不需要每一步都手写很多适配代码**。
@@ -170,7 +170,7 @@ result = parser.invoke(ai_message)复制错误已复制
 
 ```python
 chain = prompt | model | parser
-result = chain.invoke({"question": "什么是 LangChain？"})复制错误已复制
+result = chain.invoke({"question": "什么是 LangChain？"})
 ```
 
 所以你先把 LCEL 理解成：**“用 `|（管道符）` 或其他组合方式，把多个 Runnable 连接起来的一套表达方法。”**
@@ -193,14 +193,14 @@ result = chain.invoke({"question": "什么是 LangChain？"})复制错误已复�
 ```python
 prompt_value = prompt.invoke({"question": "什么是 LangChain？"})
 ai_message = model.invoke(prompt_value)
-result = parser.invoke(ai_message)复制错误已复制
+result = parser.invoke(ai_message)
 ```
 
 LCEL 写法：
 
 ```python
 chain = prompt | model | parser
-result = chain.invoke({"question": "什么是 LangChain？"})复制错误已复制
+result = chain.invoke({"question": "什么是 LangChain？"})
 ```
 
 第二种写法更像在表达“流程本身”，而不是只是在堆代码。
@@ -284,7 +284,7 @@ result = chain.invoke({"question": "什么是 LangChain？"})复制错误已复�
 也就是：
 
 ```python
-chain = prompt | model | parser复制错误已复制
+chain = prompt | model | parser
 ```
 
 这条链不是偶然写法，而是 LangChain 里最经典、最基础的组合方式。
@@ -322,7 +322,7 @@ chain = prompt | model | parser复制错误已复制
 所以：
 
 ```python
-chain = prompt | model | parser复制错误已复制
+chain = prompt | model | parser
 ```
 
 本质上就是一个 `RunnableSequence`。
@@ -332,7 +332,7 @@ chain = prompt | model | parser复制错误已复制
 ```python
 from langchain_core.runnables import RunnableSequence
 
-chain = RunnableSequence(first=prompt, middle=[model], last=parser)复制错误已复制
+chain = RunnableSequence(first=prompt, middle=[model], last=parser)
 ```
 
 但在实际开发中，更常见、更推荐的仍然是管道符写法，因为可读性更好。
@@ -436,7 +436,7 @@ LangChain 是一个开源框架，用于构建基于大语言模型（LLM）的�
 # <class 'langchain_core.runnables.base.RunnableSequence'>
 
 """
-复制错误已复制
+
 ```
 
 这个案例建议重点看一下，因为它不仅演示了“分步执行”，也演示了“直接把三步写成一条链再一次 invoke”。这正是 LCEL 的核心体验。
@@ -452,7 +452,7 @@ RunnableBranch(
     (条件1, 链1),
     (条件2, 链2),
     默认链,
-)复制错误已复制
+)
 ```
 
 执行时会依次判断条件：
@@ -589,7 +589,7 @@ for query_input in test_queries:
 # 2026-03-06 10:15:57.031 | INFO     | __main__:<module>:94 - 输出结果: Nice to meet you.
 
 """
-复制错误已复制
+
 ```
 
 这个案例和实际项目非常贴近，因为很多真实业务并不是“所有请求走同一条链”，而是“先判断，再分流”。
@@ -680,13 +680,13 @@ logger.info(result)
 2026-03-06 10:24:22.765 | INFO     | __main__:<module>:38 - LangChain 是一个开源框架，用于构建基于大语言模型（LLM）的应用程序。它提供模块化组件（如链、代理、记忆、工具集成等），帮助开发者轻松连接 LLM 与外部数据源（如数据库、API）、实现对话状态管理、支持多步推理与工具调用，从而快速开发智能应用（如问答系统、AI 助手、自动化工作流）。核心理念是“编排”——将 LLM 作为通用接口，协同其他软件能力。
 2026-03-06 10:24:27.723 | INFO     | __main__:<module>:53 - LangChain is an open-source framework for building applications powered by large language models (LLMs). It provides modular components—such as chains, agents, memory, and tool integrations—that help developers easily implement prompt engineering, external data integration (e.g., Retrieval-Augmented Generation, or RAG), multi-step reasoning, conversation state management, and more—thereby enhancing the controllability and practicality of LLM-powered applications.
 """
-复制错误已复制
+
 ```
 
 这个案例里最值得你注意的点，不是文件名，而是中间这个映射动作：
 
 ```python
-(lambda content: {"input": content})复制错误已复制
+(lambda content: {"input": content})
 ```
 
 它说明一个很常见的现实问题：**前后两步的输入输出结构，不一定天然匹配。**这也是为什么函数节点和 RunnableLambda 在 LCEL 中很实用。
@@ -712,7 +712,7 @@ logger.info(result)
 parallel_chain = RunnableParallel({
     "chinese": chain1,
     "english": chain2,
-})复制错误已复制
+})
 ```
 
 除了显式使用 `RunnableParallel(...)`，LCEL 里还有一个非常实用的写法：**直接用字典表达并行结构**。例如：
@@ -721,7 +721,7 @@ parallel_chain = RunnableParallel({
 parallel_then_summary = {
     "paragraph_1": chain1,
     "paragraph_2": chain2,
-} | summary_chain复制错误已复制
+} | summary_chain
 ```
 
 这段写法的含义是：
@@ -738,7 +738,7 @@ parallel_then_summary = {
 {
     "chinese": "...",
     "english": "..."
-}复制错误已复制
+}
 ```
 
 根据 LangChain 官方参考，`RunnableParallel` 是与 `RunnableSequence` 并列的另一个核心组合原语。
@@ -849,7 +849,7 @@ parallel_chain.get_graph().print_ascii()
             | Parallel<chinese,english>Output |
             +---------------------------------+
 """
-复制错误已复制
+
 ```
 
 这个案例还有一个很有价值的补充点：它调用了 `get_graph().print_ascii()`。这有助于你从“代码链”过渡到“图结构”的理解，为后续学习 LangGraph 做铺垫。
@@ -876,7 +876,7 @@ def debug_print(x):
     print(x)
     return {"input": x}
 
-chain = chain1 | RunnableLambda(debug_print) | chain2复制错误已复制
+chain = chain1 | RunnableLambda(debug_print) | chain2
 ```
 
 LangChain 还支持一种更省事的写法：直接把函数放在 `|` 中间，框架会自动包装成 Runnable。
@@ -962,7 +962,7 @@ logger.info(f"最终结果222:{result2}")
 2026-03-06 10:30:38.152 | INFO     | __main__:debug_print:34 - 中间结果:LangChain 是一个开源框架，用于构建基于大语言模型（LLM）的应用程序。它提供模块化组件（如链、代理、记忆、工具集成等），帮助开发者轻松连接 LLM 与外部数据源（如数据库、API）、实现对话状态管理、支持多步推理与工具调用，从而快速开发智能应用（如问答系统、聊天机器人、自动化工作流）。核心理念是“编排”——将 LLM 作为通用接口，协同其他能力完成复杂任务。
 2026-03-06 10:30:41.184 | INFO     | __main__:<module>:63 - 最终结果222:LangChain is an open-source framework for building applications powered by large language models (LLMs). It provides modular components—such as chains, agents, memory, and tool integrations—that enable developers to easily connect LLMs with external data sources (e.g., databases, APIs), manage conversational state, support multi-step reasoning and tool invocation, and rapidly develop intelligent applications—including question-answering systems, chatbots, and automated workflows. Its core philosophy centers on “orchestration”: treating the LLM as a universal interface that coordinates with other capabilities to accomplish complex tasks.
 """
-复制错误已复制
+
 ```
 
 从项目角度看，RunnableLambda 很像“链里的胶水层”：
@@ -1000,7 +1000,7 @@ logger.info(f"最终结果222:{result2}")
 ```python
 safe_chain = chain.with_retry(stop_after_attempt=3)
 
-fallback_chain = primary_chain.with_fallbacks([backup_chain])复制错误已复制
+fallback_chain = primary_chain.with_fallbacks([backup_chain])
 ```
 
 这类写法不改变链的主流程，却能让项目更接近生产环境。入门阶段不需要把参数都背下来，先记住：**LCEL 不只负责“怎么串”，也能帮助你把重试、兜底、配置这些工程能力放到链上。**

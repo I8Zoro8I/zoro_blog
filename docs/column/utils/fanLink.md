@@ -12,7 +12,6 @@ date: 2026-04-30
 ## 📺 推荐番剧资源站
 
 <div class="resource-cards">
-
   <a href="https://www.lmm85.com" target="_blank" class="card-link">
     <div class="anime-card">
       <h3>🧭 路漫漫在线动漫</h3>
@@ -72,6 +71,22 @@ date: 2026-04-30
       <div class="target-user">🎯 适合：补老番、找冷门、免科技的人</div>
     </div>
   </a>
+
+ <a href="https://kanju.ai/" target="_blank" rel="noopener noreferrer" class="card-link">
+<div class="anime-card">
+    <h3>🤖 Kanju AI 看剧搜索</h3>
+    <p class="tag">📶 更新速度：每日持续更新</p>
+    <p class="tag">🎬 资源类型：动漫 / 电视剧 / 综艺 / 韩剧 / 日剧 / 欧美剧</p>
+    <div class="divider"></div>
+    <ul>     
+			<li>采用 AI 搜索，能更快定位想看的内容</li>
+      <li>承诺永久免费，每天提供免费 Token 额度</li>
+      <li>覆盖动漫、影视剧集与综艺等多种内容类型</li>
+      <li>支持动漫资源下载，方便离线观看</li>
+    </ul>
+    <div class="target-user">🎯 适合：想用 AI 搜索一站式找番、找剧和下载动漫的用户</div>
+   </div>
+</a>
 
 </div>
 
