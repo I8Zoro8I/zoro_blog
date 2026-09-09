@@ -1,6 +1,6 @@
 import {rawCategoriesData as categoriesData} from '../relaConf/categories';
 
-type Frontmatter = Record<string, any>;
+type Frontmatter = Record<string, unknown>;
 
 type RawPageData = {
     title?: string;
@@ -51,13 +51,13 @@ type PathMeta = {
     topLevelTag: string | null;
 };
 
+// VitePress 构建时由 Vite 注入 import.meta.glob，独立执行 tsc 时没有该类型。
 // @ts-ignore
 const pageModules = import.meta.glob('../../column/**/*.md', {
     eager: true,
     import: '__pageData'
 }) as Record<string, RawPageData>;
 
-// @ts-ignore
 const pathMetaMap = new Map<string, PathMeta>();
 const siteBase = '/zoro_blog';
 
@@ -180,7 +180,6 @@ function toAnchor(value: string): string {
 
 function normalizeLink(path: string): string {
     const withoutExt = `/${path.replace(/\\/g, '/').replace(/\.md$/, '')}`;
-    // @ts-ignore
     if (withoutExt.endsWith('/index')) {
         return `${withoutExt.slice(0, -'/index'.length)}/`;
     }
@@ -192,14 +191,12 @@ function normalizeRoutePath(path: string): string {
 
     if (normalized === siteBase) {
         normalized = '/';
-        // @ts-ignore
     } else if (normalized.startsWith(`${siteBase}/`)) {
         normalized = normalized.slice(siteBase.length);
     }
 
     normalized = normalized.replace(/\/index\.html$/, '/');
     normalized = normalized.replace(/\.html$/, '');
-// @ts-ignore
     if (normalized.length > 1 && normalized.endsWith('/')) {
         normalized = normalized.slice(0, -1);
     }
@@ -226,7 +223,6 @@ function normalizeStringArray(value: unknown): string[] {
 
 function normalizeSeries(value: unknown): string | null {
     if (Array.isArray(value)) {
-        // @ts-ignore
         const first = value.find(Boolean);
         return first ? String(first).trim() : null;
     }
@@ -251,7 +247,6 @@ function parseDateToTime(value: unknown): number {
         .replace(/\//g, '-');
 
     const time = Date.parse(normalized);
-    // @ts-ignore
     return Number.isNaN(time) ? 0 : time;
 }
 
@@ -264,7 +259,6 @@ function extractOrder(article: { title: string; relativePath: string }): number 
     }
 
     const titleMatch = article.title.match(/^(\d+)/);
-    // @ts-ignore
     return titleMatch ? Number(titleMatch[1]) : Number.MAX_SAFE_INTEGER;
 }
 
@@ -285,8 +279,12 @@ function setPathMeta(link: string, meta: PathMeta): void {
 
 for (const category of categoriesData.categories || []) {
     for (const group of category.children || []) {
+        if (!('links' in group)) {
+            continue;
+        }
+
         for (const entry of group.links || []) {
-            if (entry.items && entry.items.length > 0) {
+            if ('items' in entry && entry.items.length > 0) {
                 for (const item of entry.items) {
                     setPathMeta(item.url, {
                         category: category.name || null,
@@ -299,7 +297,7 @@ for (const category of categoriesData.categories || []) {
                 continue;
             }
 
-            if (entry.url) {
+            if ('url' in entry && entry.url) {
                 setPathMeta(entry.url, {
                     category: category.name || null,
                     group: group.name || null,
@@ -319,7 +317,6 @@ function getFallbackMeta(link: string): PathMeta {
     if (fromMap) {
         return fromMap;
     }
-// @ts-ignore
     const matchedRule = pathFallbacks.find((rule) => normalizedLink.startsWith(normalizeRoutePath(rule.prefix)));
 
     if (matchedRule) {
@@ -368,7 +365,6 @@ function createArticle(pageData: RawPageData): ArticleSummary | null {
         link,
         date,
         sortTime: parseDateToTime(date) || pageData.lastUpdated || 0,
-        // @ts-ignore
         order: Number.MAX_SAFE_INTEGER,
         tags,
         series,
@@ -381,10 +377,9 @@ function createArticle(pageData: RawPageData): ArticleSummary | null {
     return article;
 }
 
-// @ts-ignore
 export const articles = Object.values(pageModules)
     .map(createArticle)
-    .filter((article): article is ArticleSummary => Boolean(article))
+    .filter((article): article is ArticleSummary => article !== null)
     .sort((a, b) => {
         if (b.sortTime !== a.sortTime) {
             return b.sortTime - a.sortTime;
@@ -397,7 +392,6 @@ function createTaxonomySections(
     key: 'tags' | 'series',
     sorter?: (a: ArticleSummary, b: ArticleSummary) => number
 ): TaxonomySection[] {
-    // @ts-ignore
     const map = new Map<string, ArticleSummary[]>();
 
     for (const article of articles) {
@@ -414,6 +408,7 @@ function createTaxonomySections(
         }
     }
 
+    // @ts-ignore
     return [...map.entries()]
         .map(([name, list]) => ({
             name,
@@ -448,14 +443,12 @@ export const seriesSections = createTaxonomySections(
 );
 
 function padMonth(value: number): string {
-    // @ts-ignore
     return String(value).padStart(2, '0');
 }
 
 function getArchiveParts(article: ArticleSummary): { year: string; month: string } {
     const date = article.sortTime ? new Date(article.sortTime) : null;
 
-    // @ts-ignore
     if (!date || Number.isNaN(date.getTime())) {
         return {
             year: '未填写日期',
@@ -470,12 +463,10 @@ function getArchiveParts(article: ArticleSummary): { year: string; month: string
 }
 
 export const archiveSections: ArchiveYearSection[] = (() => {
-    // @ts-ignore
     const yearMap = new Map<string, Map<string, ArticleSummary[]>>();
 
     for (const article of articles) {
         const parts = getArchiveParts(article);
-        // @ts-ignore
         const months = yearMap.get(parts.year) || new Map<string, ArticleSummary[]>();
         const list = months.get(parts.month) || [];
         list.push(article);
@@ -483,6 +474,7 @@ export const archiveSections: ArchiveYearSection[] = (() => {
         yearMap.set(parts.year, months);
     }
 
+    // @ts-ignore
     return [...yearMap.entries()]
         .map(([year, months]) => ({
             year,
@@ -515,7 +507,6 @@ export const archiveSections: ArchiveYearSection[] = (() => {
         });
 })();
 
-// @ts-ignore
 const articleMap = new Map(
     articles.map((article) => [normalizeRoutePath(article.link), article])
 );
