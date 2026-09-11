@@ -498,6 +498,70 @@
     gap: 0.6rem;
 }
 
+.doc-series-progress-copy {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.doc-series-progress-copy strong {
+    font-size: 0.95rem;
+}
+
+.doc-series-progress-copy span {
+    color: var(--vp-c-text-2);
+    font-size: 0.85rem;
+}
+
+.doc-series-progress-track {
+    height: 5px;
+    margin-top: 0.65rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--vp-c-divider);
+}
+
+.doc-related-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.doc-related-link {
+    min-width: 0;
+    padding: 0.75rem 0.85rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 8px;
+    background: var(--vp-c-bg);
+    color: var(--vp-c-text-1);
+    text-decoration: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.doc-related-link:hover {
+    border-color: var(--vp-c-brand);
+    background: var(--vp-c-bg-alt);
+}
+
+.doc-related-link strong,
+.doc-related-link span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.doc-related-link strong {
+    font-size: 0.9rem;
+}
+
+.doc-related-link span {
+    margin-top: 0.3rem;
+    color: var(--vp-c-text-2);
+    font-size: 0.78rem;
+}
+
 .doc-meta-pill {
     display: inline-flex;
     align-items: center;
@@ -929,6 +993,10 @@
     .reading-progress-badge {
         right: 12px;
         bottom: 12px;
+    }
+
+    .doc-related-list {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -23,6 +23,16 @@ export type ArticleSummary = {
     relativePath: string;
 };
 
+export type LearningRoute = TaxonomySection & {
+    startArticle: ArticleSummary;
+};
+
+export type SeriesProgress = {
+    name: string;
+    current: number;
+    total: number;
+};
+
 export type TaxonomySection = {
     name: string;
     anchor: string;
@@ -188,6 +198,12 @@ function normalizeLink(path: string): string {
 
 function normalizeRoutePath(path: string): string {
     let normalized = path.split('?')[0].split('#')[0];
+
+    try {
+        normalized = decodeURIComponent(normalized);
+    } catch {
+        // 路由可能包含不完整的转义序列，保留原始值以避免索引构建失败。
+    }
 
     if (normalized === siteBase) {
         normalized = '/';
@@ -442,6 +458,40 @@ export const seriesSections = createTaxonomySections(
     }
 );
 
+export const recentArticles = articles
+    .filter((article) => article.sortTime > 0)
+    .slice(0, 6);
+
+const preferredLearningRoutes = [
+    '大模型核心开发框架',
+    'Codex教程',
+    'pyTorch 深度学习框架'
+];
+
+export const learningRoutes: LearningRoute[] = seriesSections
+    .filter((section) => section.count >= 3 && section.articles.length > 0)
+    .sort((a, b) => {
+        const aPriority = preferredLearningRoutes.indexOf(a.name);
+        const bPriority = preferredLearningRoutes.indexOf(b.name);
+        const normalizedAPriority = aPriority === -1 ? Number.MAX_SAFE_INTEGER : aPriority;
+        const normalizedBPriority = bPriority === -1 ? Number.MAX_SAFE_INTEGER : bPriority;
+
+        if (normalizedAPriority !== normalizedBPriority) {
+            return normalizedAPriority - normalizedBPriority;
+        }
+
+        if (b.count !== a.count) {
+            return b.count - a.count;
+        }
+
+        return b.articles[0].sortTime - a.articles[0].sortTime;
+    })
+    .slice(0, 3)
+    .map((section) => ({
+        ...section,
+        startArticle: section.articles[0]
+    }));
+
 function padMonth(value: number): string {
     return String(value).padStart(2, '0');
 }
@@ -513,6 +563,72 @@ const articleMap = new Map(
 
 export function getArticleByPath(path: string): ArticleSummary | null {
     return articleMap.get(normalizeRoutePath(path)) || null;
+}
+
+export function getSeriesProgress(path: string): SeriesProgress | null {
+    const article = getArticleByPath(path);
+
+    if (!article?.series) {
+        return null;
+    }
+
+    const series = seriesSections.find((section) => section.name === article.series);
+    const current = series?.articles.findIndex((item) => item.link === article.link) ?? -1;
+
+    if (!series || current < 0) {
+        return null;
+    }
+
+    return {
+        name: series.name,
+        current: current + 1,
+        total: series.count
+    };
+}
+
+export function getRelatedArticles(path: string, limit = 4): ArticleSummary[] {
+    const article = getArticleByPath(path);
+
+    if (!article) {
+        return [];
+    }
+
+    return articles
+        .filter((candidate) => candidate.link !== article.link)
+        .map((candidate) => {
+            let score = 0;
+
+            if (article.series && candidate.series === article.series) {
+                score += 8;
+            }
+
+            if (article.group && candidate.group === article.group) {
+                score += 4;
+            }
+
+            if (article.category && candidate.category === article.category) {
+                score += 2;
+            }
+
+            const sharedTags = candidate.tags.filter((tag) => article.tags.includes(tag)).length;
+            score += sharedTags * 3;
+
+            return {candidate, score};
+        })
+        .filter(({score}) => score > 0)
+        .sort((a, b) => {
+            if (b.score !== a.score) {
+                return b.score - a.score;
+            }
+
+            if (a.candidate.series === article.series && b.candidate.series === article.series) {
+                return a.candidate.order - b.candidate.order;
+            }
+
+            return b.candidate.sortTime - a.candidate.sortTime;
+        })
+        .slice(0, limit)
+        .map(({candidate}) => candidate);
 }
 
 export function getRandomArticle(currentPath?: string): ArticleSummary | null {

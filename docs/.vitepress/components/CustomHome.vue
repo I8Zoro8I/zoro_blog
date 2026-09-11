@@ -4,7 +4,7 @@ import {withBase} from 'vitepress';
 import {homeCategoriesData as categoriesData} from '../relaConf/categories';
 import {siteLaunchDate} from '../relaConf/siteStats';
 import {data as siteStatsData} from '../siteStats.data';
-import {getRandomArticle} from '../theme/contentIndex';
+import {articles, getRandomArticle} from '../theme/contentIndex';
 
 /* --- 基础状态 --- */
 const searchQuery = ref('');
@@ -167,45 +167,25 @@ const currentDisplay = computed(() => {
   return navigationState.value.display;
 });
 
-/* --- 3. 搜索逻辑 --- */
+/* --- 3. 统一文章检索：目录浏览仍保持原有交互，搜索时按文章元数据聚合。 --- */
 const searchResults = computed(() => {
   const query = searchQuery.value.toLowerCase().trim();
   if (!query) return [];
 
-  const results = [];
-  const traverse = (items) => {
-    items.forEach(item => {
-      if (item.name && item.name.toLowerCase().includes(query)) {
-        results.push({ ...item, isFolder: true, displayName: item.name });
-      }
-      if (item.title && item.items && item.title.toLowerCase().includes(query)) {
-        results.push({ ...item, isFolder: true, displayName: item.title });
-      }
-      if (item.links) {
-        item.links.forEach(link => {
-          if (link.title && link.title.toLowerCase().includes(query)) {
-            if (link.url) results.push({ ...link, isDoc: true });
-            if (link.items) results.push({ ...link, isFolder: true, displayName: link.title });
-          }
-          if (link.items) {
-            link.items.forEach(sub => {
-              if (sub.title.toLowerCase().includes(query)) results.push({ ...sub, isDoc: true });
-            });
-          }
-        });
-      }
-      if (item.items) {
-        item.items.forEach(sub => {
-          if (sub.title && sub.title.toLowerCase().includes(query) && sub.url) {
-            results.push({ ...sub, isDoc: true });
-          }
-        });
-      }
-      if (item.children) traverse(item.children);
-    });
-  };
-  traverse(categoriesData.categories);
-  return results;
+  return articles.filter((article) => {
+    const haystack = [
+      article.title,
+      article.category,
+      article.group,
+      article.series,
+      ...article.tags
+    ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+
+    return haystack.includes(query);
+  }).map((article) => ({...article, isDoc: true}));
 });
 
 /* --- 4. 分页数据源 --- */
@@ -408,6 +388,7 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <HomeDiscovery />
   <div class="custom-home-layout">
     <!-- 搜索栏 -->
     <div class="search-section">
@@ -415,7 +396,7 @@ onUnmounted(() => {
         <input
             v-model="searchQuery"
             class="search-input"
-            placeholder="🔍 搜索文件夹或文章标题..."
+            placeholder="搜索文章、标签、系列或分类..."
         />
         <span v-if="searchQuery" class="clear-icon" @click="searchQuery = ''">×</span>
       </div>
@@ -495,8 +476,11 @@ onUnmounted(() => {
                     :key="item.url || item.title"
                     class="card doc-card"
                 >
-                  <a :href="getUrl(item.url)" class="card-link">
-                    📄 {{ item.title }}
+                  <a :href="getUrl(item.link || item.url)" class="card-link">
+                    <strong>📄 {{ item.title }}</strong>
+                    <span v-if="item.series || item.group || item.category" class="card-meta">
+                      {{ item.series || item.group || item.category }}
+                    </span>
                   </a>
                 </div>
               </div>
@@ -772,6 +756,22 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+}
+.card-link strong {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.card-meta {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .folder-label {
   display: flex;
@@ -805,6 +805,10 @@ onUnmounted(() => {
 .view-list .card-link,
 .view-list .folder-label {
   justify-content: flex-start;
+}
+.view-list .card-link {
+  align-items: flex-start;
+  gap: 2px;
 }
 
 /* 分页样式 */

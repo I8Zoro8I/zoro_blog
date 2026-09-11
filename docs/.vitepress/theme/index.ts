@@ -27,6 +27,8 @@ import MermaidRenderer from './components/MermaidRenderer.vue'
 import HtmlPreview from './components/HtmlPreview.vue'
 // @ts-ignore
 import ChangelogTimeline from './components/ChangelogTimeline.vue'
+// @ts-ignore
+import HomeDiscovery from '../components/HomeDiscovery.vue'
 
 export default {
     ...DefaultTheme,
@@ -37,6 +39,7 @@ export default {
         app.component('ArchivePage', ArchivePage)
         app.component('HtmlPreview', HtmlPreview)
         app.component('ChangelogTimeline', ChangelogTimeline)
+        app.component('HomeDiscovery', HomeDiscovery)
     },
     Layout() {
         const {page} = useData()

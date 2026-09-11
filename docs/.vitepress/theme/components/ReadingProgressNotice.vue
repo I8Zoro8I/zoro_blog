@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue';
-import {useRoute} from 'vitepress';
+import {useData, useRoute} from 'vitepress';
 
 type SavedProgress = {
   percent: number;
@@ -8,18 +8,23 @@ type SavedProgress = {
 };
 
 const route = useRoute();
+const {site} = useData();
 const savedProgress = ref<SavedProgress | null>(null);
 const noticeVisible = ref(false);
 const currentPercent = ref(0);
 
 const STORAGE_PREFIX = 'zblog:reading-progress:';
-const SITE_BASE = '/zoro_blog';
-
 let saveTimer: number | null = null;
+let lastPersistedPercent: number | null = null;
+
+const siteBase = computed(() => {
+  const base = site.value.base || '/';
+  return base === '/' ? '' : base.replace(/\/$/, '');
+});
 
 const normalizedPath = computed(() => {
-  if (route.path.startsWith(`${SITE_BASE}/`)) {
-    return route.path.slice(SITE_BASE.length);
+  if (siteBase.value && route.path.startsWith(`${siteBase.value}/`)) {
+    return route.path.slice(siteBase.value.length);
   }
 
   return route.path;
@@ -49,12 +54,18 @@ const persistProgress = () => {
 
   const percent = getScrollPercent();
   currentPercent.value = percent;
+
+  if (percent === lastPersistedPercent) {
+    return;
+  }
+
   const payload: SavedProgress = {
     percent,
     updatedAt: new Date().toISOString()
   };
 
   localStorage.setItem(storageKey.value, JSON.stringify(payload));
+  lastPersistedPercent = percent;
 };
 
 const schedulePersist = () => {
@@ -64,13 +75,14 @@ const schedulePersist = () => {
 
   saveTimer = window.setTimeout(() => {
     persistProgress();
-  }, 120);
+  }, 700);
 };
 
 const loadSavedProgress = () => {
   noticeVisible.value = false;
   savedProgress.value = null;
   currentPercent.value = 0;
+  lastPersistedPercent = null;
 
   if (!isTrackablePage.value) {
     return;
@@ -85,6 +97,7 @@ const loadSavedProgress = () => {
     const parsed = JSON.parse(raw) as SavedProgress;
     if (parsed.percent >= 8 && parsed.percent < 98) {
       savedProgress.value = parsed;
+      lastPersistedPercent = parsed.percent;
       noticeVisible.value = true;
     }
   } catch {
