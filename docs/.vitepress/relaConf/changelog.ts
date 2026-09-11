@@ -8,6 +8,15 @@ export interface ChangelogItem {
 // @ts-ignore
 export const changelogItems: ChangelogItem[] = [
     {
+        date: '2026-09-11',
+        title: '首页优化',
+        items: [
+            '首页增加“最近更新”“学习路线”“继续阅读”。继续阅读只使用浏览器 localStorage，不引入后端或隐私数据上报',
+            '首页搜索升级为文章标题、标签、系列、分类、分组的统一检索，并显示所属系列。',
+            '文章底部增加学习路径进度和相关推荐，按同系列、分组、分类、标签计算权重。'
+        ]
+    },
+    {
         date: '2026-09-09',
         title: '首页渲染样式修改:支持卡片跟列表展示',
     },
