@@ -32,7 +32,7 @@ date: 2026年09月11日
 你要按表格输出。
 你要遵守团队规范。
 你还要参考某个模板。
-你还要必要时运行某个脚本。复制错误已复制
+你还要必要时运行某个脚本。
 ```
 
 刚开始这样写很快，项目一复杂就会变得难维护：
@@ -82,7 +82,7 @@ Skill 可以理解为 Agent 的外置能力包，通常把高质量提示词、�
 从工程角度看，Skill 的核心并不复杂：
 
 ```text
-Skill = 可复用提示词 + SOP + 可选脚本 + 可选资源复制错误已复制
+Skill = 可复用提示词 + SOP + 可选脚本 + 可选资源
 ```
 
 例如你写了一个“代码审查技能”，里面可以说明：
@@ -119,7 +119,7 @@ Skill 像“标准化招式”，Agent 像“会选招、会组合招式的人�
 ├─ 技能 1：备菜
 ├─ 技能 2：炒菜
 ├─ 技能 3：调味
-└─ 技能 4：摆盘复制错误已复制
+└─ 技能 4：摆盘
 ```
 
 AI 编程助手也是类似的：
@@ -129,7 +129,7 @@ AI 编程助手也是类似的：
 ├─ 技能 1：代码审查
 ├─ 技能 2：测试修复
 ├─ 技能 3：提交信息生成
-└─ 技能 4：技术文档改写复制错误已复制
+└─ 技能 4：技术文档改写
 ```
 
 这里要形成一个关键判断：**Skill 不是 Agent 的替代品，而是 Agent 的能力组织方式。**
@@ -147,7 +147,7 @@ AI 编程助手也是类似的：
 ```text
 skills/
   emoji-translator/
-    SKILL.md复制错误已复制
+    SKILL.md
 ```
 
 其中：
@@ -179,7 +179,7 @@ description: 当用户明确要求把自然语言翻译成 Emoji、把 Emoji 解
 
 - 用户明确要求“用表情翻译”“转换成 Emoji”“解释这些 Emoji”时，使用本技能。
 - 用户只是普通聊天、提问或写作时，不要主动把内容转成 Emoji。
-- 如果用户要求“只用表情”，最终输出只包含 Emoji，不额外解释。复制错误已复制
+- 如果用户要求“只用表情”，最终输出只包含 Emoji，不额外解释。
 ```
 
 ### 3.2 元数据字段
@@ -194,13 +194,13 @@ description: 当用户明确要求把自然语言翻译成 Emoji、把 Emoji 解
 不推荐的写法：
 
 ```yaml
-description: 一个有用的技能。复制错误已复制
+description: 一个有用的技能。
 ```
 
 更清晰的写法：
 
 ```yaml
-description: 当用户要求将中文句子转成表情符号，或要求解释表情符号含义时使用。复制错误已复制
+description: 当用户要求将中文句子转成表情符号，或要求解释表情符号含义时使用。
 ```
 
 因为模型通常会先看 `name` 和 `description`，再决定是否加载完整 Skill。如果描述太模糊，Skill 就可能触发不了；如果描述太宽泛，又可能在不该触发时被错误触发。
@@ -225,7 +225,7 @@ description: 当用户要求将中文句子转成表情符号，或要求解释�
 ---
 name: your-skill-name
 description: 这个技能做什么，以及什么情况下应该使用它。
----复制错误已复制
+---
 ```
 
 ### 3.4 扩展目录结构
@@ -242,7 +242,7 @@ code-reviewer/
   scripts/
     run_static_check.py
   assets/
-    review-template.md复制错误已复制
+    review-template.md
 ```
 
 ![Skill 扩展目录结构：code-reviewer 技能包由 SKILL.md、requirements.txt、references、scripts 与 assets 组成，并由 Agent 按需加载](https://didilili.github.io/ai-agents-from-zero/images/27/27-3-4-1.png)
@@ -271,7 +271,7 @@ code-reviewer/
 ```markdown
 当需要做静态检查时，运行 `scripts/run_static_check.py`。
 当需要判断 Java 代码风格时，参考 `references/java-style-guide.md`。
-最终输出格式参考 `assets/review-template.md`。复制错误已复制
+最终输出格式参考 `assets/review-template.md`。
 ```
 
 ### 3.5 正文要写清楚什么
@@ -289,7 +289,7 @@ code-reviewer/
 不推荐：
 
 ```markdown
-请帮用户写出高质量报告。复制错误已复制
+请帮用户写出高质量报告。
 ```
 
 更推荐：
@@ -299,7 +299,7 @@ code-reviewer/
 2. 如果用户没有给出目标读者，默认目标读者是业务负责人。
 3. 报告必须包含：背景、核心结论、证据、风险、下一步建议。
 4. 如果证据不足，先列出需要补充的信息，不要强行下结论。
-5. 最终输出使用 Markdown 二级标题组织。复制错误已复制
+5. 最终输出使用 Markdown 二级标题组织。
 ```
 
 ------
@@ -339,7 +339,7 @@ code-reviewer/
 如果它写得太泛：
 
 ```yaml
-description: 用来处理文档。复制错误已复制
+description: 用来处理文档。
 ```
 
 模型很难判断：是 Word 文档、PDF 文档、Markdown 文档，还是技术文档？
@@ -347,7 +347,7 @@ description: 用来处理文档。复制错误已复制
 更好的写法：
 
 ```yaml
-description: 当用户要求审查 Markdown 技术教程的结构、标题层级、代码块说明和读者理解难度时使用。复制错误已复制
+description: 当用户要求审查 Markdown 技术教程的结构、标题层级、代码块说明和读者理解难度时使用。
 ```
 
 这类描述同时包含了：
@@ -398,7 +398,7 @@ description: 当用户要求审查 Markdown 技术教程的结构、标题层级
 Prompt 是临时指令。
 Rules 是常驻规矩。
 Memory 是历史状态。
-Skill 是可复用做法。复制错误已复制
+Skill 是可复用做法。
 ```
 
 ### 5.3 Tool、MCP、Skill
@@ -416,7 +416,7 @@ Tool、MCP、Skill 经常放在一起讨论，但它们解决的问题不一样�
 ```text
 Tool：run_tests()
 MCP：把 GitHub、数据库、文件系统按统一协议暴露给 AI 应用
-Skill：测试修复流程，说明什么时候运行测试、如何定位失败、如何写回归用例、最终如何汇报复制错误已复制
+Skill：测试修复流程，说明什么时候运行测试、如何定位失败、如何写回归用例、最终如何汇报
 ```
 
 两者经常配合使用。Skill 可以告诉 Agent 什么时候调用哪些 Tool，Tool 负责真正执行动作。
@@ -440,7 +440,7 @@ Skill 是一个能力包，可以挂在主 Agent 或 Subagent 上。
 
 ```text
 如果只是“同一个 Agent 需要掌握一套专业做法”，优先 Skill。
-如果已经出现“不同角色、不同权限、不同上下文、不同工具集合”，再考虑 Subagent。复制错误已复制
+如果已经出现“不同角色、不同权限、不同上下文、不同工具集合”，再考虑 Subagent。
 ```
 
 ------
@@ -461,13 +461,13 @@ Skill 是一个能力包，可以挂在主 Agent 或 Subagent 上。
 推荐模板：
 
 ```yaml
-description: 当用户要求【任务动作】，并且输入是【输入类型】，目标是【预期结果】时使用。不要用于【排除场景】。复制错误已复制
+description: 当用户要求【任务动作】，并且输入是【输入类型】，目标是【预期结果】时使用。不要用于【排除场景】。
 ```
 
 例如：
 
 ```yaml
-description: 当用户要求审查 React 组件的可访问性、响应式布局、状态交互和设计一致性时使用。不要用于普通业务逻辑解释。复制错误已复制
+description: 当用户要求审查 React 组件的可访问性、响应式布局、状态交互和设计一致性时使用。不要用于普通业务逻辑解释。
 ```
 
 ### 6.2 Skill 要小而专
@@ -514,7 +514,7 @@ Skill 写得越大，触发条件越模糊，模型越难判断什么时候该�
 ```text
 能稳定自动化的部分交给脚本；
 需要理解、判断和表达的部分交给模型；
-两者之间的流程写在 SKILL.md 里。复制错误已复制
+两者之间的流程写在 SKILL.md 里。
 ```
 
 ### 6.4 不要绕开安全边界
@@ -591,7 +591,7 @@ Cursor 常见规则目录：
   rules/
     api-style.mdc
     frontend-components.mdc
-    code-review.mdc复制错误已复制
+    code-review.mdc
 ```
 
 一个 `.mdc` 规则示例：
@@ -605,7 +605,7 @@ alwaysApply: false
 
 - API 返回结构统一使用 `{ code, message, data }`。
 - 新增接口时必须补充请求参数和错误响应说明。
-- 修改数据库查询逻辑时，优先检查分页、空结果和异常处理。复制错误已复制
+- 修改数据库查询逻辑时，优先检查分页、空结果和异常处理。
 ```
 
 Cursor Rules 和 Agent Skills 不完全等同：
@@ -635,7 +635,7 @@ Claude Code 对 Agent Skills 的支持更接近标准 `SKILL.md` 目录模型。
 ~/.claude/skills/
 
 # 项目 Skills，跟随项目一起版本管理
-.claude/skills/复制错误已复制
+.claude/skills/
 ```
 
 项目内示例：
@@ -648,7 +648,7 @@ Claude Code 对 Agent Skills 的支持更接近标准 `SKILL.md` 目录模型。
     api-debugger/
       SKILL.md
       scripts/
-        check_openapi.py复制错误已复制
+        check_openapi.py
 ```
 
 Claude Code 的 Skill 是模型自动触发的。你不需要像 slash command 那样手动输入命令。关键仍然是 `description` 写得足够清楚。
@@ -679,7 +679,7 @@ agent = create_deep_agent(
     backend=backend,
     skills=[str(current_dir / "skills")],
     system_prompt="你是一个可以按需使用 Skills 的智能助手。",
-)复制错误已复制
+)
 ```
 
 这里要分清三个路径：
@@ -745,7 +745,7 @@ LangChain 里也可以用更通用的方式实现 Skills：给 Agent 一个 `loa
 它有明确触发条件吗？
 它有固定步骤或输出格式吗？
 它需要附带模板、资料或脚本吗？
-它不适合每次都放进主提示词吗？复制错误已复制
+它不适合每次都放进主提示词吗？
 ```
 
 如果多数答案是“是”，就适合写成 Skill。
@@ -801,7 +801,7 @@ skills/
   code-reviewer/
     SKILL.md
     references/
-      severity-guide.md复制错误已复制
+      severity-guide.md
 ```
 
 `SKILL.md`：
@@ -856,7 +856,7 @@ description: 当用户要求进行代码审查、审查 PR、审查 diff、查�
 
 ## 参考资料
 
-如需判断严重级别，参考 `references/severity-guide.md`。复制错误已复制
+如需判断严重级别，参考 `references/severity-guide.md`。
 ```
 
 这个例子体现了 Skill 的工程意义：它沉淀的不是某一句提示词，而是一套可复用的专业 SOP。其他 Agent 或团队成员挂载这个 Skill 后，就可以复用同一套代码审查标准。
