@@ -1,3 +1,4 @@
+// @ts-ignore
 import {DefaultTheme} from 'vitepress';
 import {rawCategoriesData as categoriesData} from './categories';
 

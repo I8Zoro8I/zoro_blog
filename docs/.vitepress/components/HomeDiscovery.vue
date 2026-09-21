@@ -138,6 +138,10 @@ onMounted(loadContinueReading);
   padding: 0 24px;
 }
 
+.continue-section {
+  margin-top: 2rem;
+}
+
 .discovery-section + .discovery-section {
   margin-top: 2.6rem;
 }
@@ -147,7 +151,9 @@ onMounted(loadContinueReading);
   align-items: end;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--vp-c-divider);
 }
 
 .discovery-kicker {
@@ -172,11 +178,19 @@ onMounted(loadContinueReading);
 
 .discovery-more {
   text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease, transform 0.15s ease;
 }
 
 .discovery-more:hover,
 .route-action {
   color: var(--vp-c-brand);
+}
+.discovery-more:hover {
+  text-decoration: underline;
+}
+.discovery-more:active {
+  transform: scale(0.97);
 }
 
 .continue-list,
@@ -190,21 +204,36 @@ onMounted(loadContinueReading);
 .continue-item,
 .recent-item,
 .route-item {
+  position: relative;
+  overflow: hidden;
   min-width: 0;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   background: var(--vp-c-bg-soft);
   color: var(--vp-c-text-1);
   text-decoration: none;
-  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.025);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
-.continue-item:hover,
-.recent-item:hover,
-.route-item:hover {
-  border-color: var(--vp-c-brand);
-  background: var(--vp-c-bg-alt);
-  transform: translateY(-2px);
+.continue-item::before,
+.recent-item::before,
+.route-item::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--vp-c-brand);
+  content: '';
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.continue-item:active,
+.recent-item:active,
+.route-item:active {
+  transform: scale(0.98);
 }
 
 .continue-item {
@@ -232,6 +261,13 @@ onMounted(loadContinueReading);
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.continue-item-copy strong,
+.recent-item strong,
+.route-item strong,
+.route-action {
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .continue-progress {
@@ -274,6 +310,7 @@ onMounted(loadContinueReading);
 
 .recent-item-date {
   color: var(--vp-c-brand);
+  font-weight: 700;
 }
 
 .recent-item strong {
@@ -290,7 +327,8 @@ onMounted(loadContinueReading);
 }
 
 .route-item {
-  background: linear-gradient(135deg, var(--vp-c-bg-soft), var(--vp-c-bg-alt));
+  background: var(--vp-c-bg-alt);
+  box-shadow: inset 0 2px 0 var(--vp-c-brand-soft);
 }
 
 .route-item strong {
@@ -305,8 +343,50 @@ onMounted(loadContinueReading);
 }
 
 .route-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   font-size: 0.86rem;
   font-weight: 700;
+}
+.route-action::after {
+  content: '→';
+  transition: transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .continue-item:hover,
+  .recent-item:hover,
+  .route-item:hover {
+    border-color: var(--vp-c-brand);
+    background: var(--vp-c-bg);
+    box-shadow: 0 9px 20px rgba(24, 24, 27, 0.075);
+    transform: translateY(-3px);
+  }
+
+  .continue-item:hover::before,
+  .recent-item:hover::before,
+  .route-item:hover::before {
+    opacity: 1;
+  }
+
+  .continue-item:hover strong,
+  .recent-item:hover strong,
+  .route-item:hover strong {
+    color: var(--vp-c-brand-dark);
+  }
+
+  .route-item:hover .route-action::after {
+    transform: translateX(3px);
+  }
+}
+
+.continue-item:focus-visible,
+.recent-item:focus-visible,
+.route-item:focus-visible,
+.discovery-more:focus-visible {
+  outline: 2px solid var(--vp-c-brand);
+  outline-offset: 3px;
 }
 
 @media (max-width: 768px) {
@@ -324,6 +404,15 @@ onMounted(loadContinueReading);
   .recent-item,
   .route-item {
     min-height: 118px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
 </style>

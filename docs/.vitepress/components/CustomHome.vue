@@ -14,6 +14,8 @@ const randomArticle = ref(null);
 const currentPage = ref(1);
 const listViewportRef = ref(null);
 const viewMode = ref('card');
+const sponsorExpanded = ref(false);
+const activeFolder = ref('');
 
 const DEFAULT_PAGE_SIZE = 12;
 const CARD_MIN_WIDTH = 220;
@@ -29,6 +31,7 @@ const gridColumns = ref(0);
 const viewportHeight = ref(0);
 
 let resizeObserver = null;
+let folderNavigationTimer = null;
 
 const getRunningDays = (startDate) => {
   const start = new Date(startDate);
@@ -281,11 +284,27 @@ const pagedDocs = computed(() => {
   return pagedDisplay.value.filter(item => item.isDoc || item.url);
 });
 
+const contentTransitionKey = computed(() => [
+  currentPath.value.join('/'),
+  searchQuery.value,
+  currentPage.value,
+  viewMode.value
+].join('|'));
+
 /* --- 6. 操作函数 --- */
 const enterFolder = (name) => {
-  currentPath.value.push(name);
-  searchQuery.value = '';
-  currentPage.value = 1;
+  if (folderNavigationTimer) {
+    window.clearTimeout(folderNavigationTimer);
+  }
+
+  activeFolder.value = name;
+  folderNavigationTimer = window.setTimeout(() => {
+    currentPath.value.push(name);
+    searchQuery.value = '';
+    currentPage.value = 1;
+    activeFolder.value = '';
+    folderNavigationTimer = null;
+  }, 120);
 };
 
 const goBack = () => {
@@ -384,6 +403,9 @@ onMounted(() => {
 
 onUnmounted(() => {
   resizeObserver?.disconnect();
+  if (folderNavigationTimer) {
+    window.clearTimeout(folderNavigationTimer);
+  }
 });
 </script>
 
@@ -393,12 +415,20 @@ onUnmounted(() => {
     <!-- 搜索栏 -->
     <div class="search-section">
       <div class="search-input-wrapper">
+        <span class="search-mark" aria-hidden="true">⌕</span>
         <input
             v-model="searchQuery"
             class="search-input"
             placeholder="搜索文章、标签、系列或分类..."
         />
-        <span v-if="searchQuery" class="clear-icon" @click="searchQuery = ''">×</span>
+        <button
+            v-if="searchQuery"
+            class="clear-icon"
+            type="button"
+            title="清空搜索"
+            aria-label="清空搜索"
+            @click="searchQuery = ''"
+        >×</button>
       </div>
     </div>
 
@@ -407,15 +437,15 @@ onUnmounted(() => {
       <div class="left-content">
         <div class="nav-header">
           <div class="breadcrumb">
-            <span class="crumb-item" @click="resetNav">🏠 全部分类</span>
+            <button type="button" class="crumb-item" @click="resetNav">🏠 全部分类</button>
             <span v-for="(item, index) in breadcrumbItems" :key="`${item.label}-${index}`">
               <span class="crumb-separator">/</span>
-              <span v-if="index === breadcrumbItems.length - 1 || item.explicitIndex === null" class="crumb-text-current">
+              <span v-if="index === breadcrumbItems.length - 1 || item.explicitIndex === null" class="crumb-text-current" aria-current="page">
                 {{ item.label }}
               </span>
-              <span v-else class="crumb-item" @click="jumpToPath(item)">
+              <button v-else type="button" class="crumb-item" @click="jumpToPath(item)">
                 {{ item.label }}
-              </span>
+              </button>
             </span>
           </div>
           <div class="nav-actions">
@@ -449,45 +479,51 @@ onUnmounted(() => {
 
         <div class="list-container">
           <div ref="listViewportRef" class="list-viewport">
-            <!-- 干净的内容包裹区：去掉了层级缩进相关的 class -->
-            <div
-                v-if="pagedDisplay.length > 0"
-                :class="['list-wrapper', `view-${viewMode}`]"
-            >
-
-              <!-- 🌟 文件夹行（排在上方，占满整行宽度，从而实现与文章卡片的自动折行） -->
-              <div v-if="pagedFolders.length > 0" class="card-grid">
-                <div
-                    v-for="item in pagedFolders"
-                    :key="getFolderName(item)"
-                    class="card folder-card"
-                    @click="enterFolder(getFolderName(item))"
-                >
-                  <span class="folder-label">
-                    {{ item.icon || '📂' }} {{ getFolderName(item) }}
-                  </span>
-                </div>
-              </div>
-
-              <!-- 🌟 文章行（自成一派排在下方，样式规格与第一版完全保持一致） -->
-              <div v-if="pagedDocs.length > 0" class="card-grid">
-                <div
-                    v-for="item in pagedDocs"
-                    :key="item.url || item.title"
-                    class="card doc-card"
-                >
-                  <a :href="getUrl(item.link || item.url)" class="card-link">
-                    <strong>📄 {{ item.title }}</strong>
-                    <span v-if="item.series || item.group || item.category" class="card-meta">
-                      {{ item.series || item.group || item.category }}
+            <Transition name="content-swap" mode="out-in">
+              <!-- 干净的内容包裹区：去掉了层级缩进相关的 class -->
+              <div
+                  v-if="pagedDisplay.length > 0"
+                  :key="contentTransitionKey"
+                  :class="['list-wrapper', `view-${viewMode}`]"
+              >
+                <!-- 文件夹行排在上方，占满整行宽度。 -->
+                <div v-if="pagedFolders.length > 0" class="card-grid">
+                  <button
+                      v-for="item in pagedFolders"
+                      :key="getFolderName(item)"
+                      :class="['card', 'folder-card', { 'is-entering': activeFolder === getFolderName(item) }]"
+                      type="button"
+                      @click="enterFolder(getFolderName(item))"
+                  >
+                    <span class="folder-label">
+                      {{ item.icon || '📂' }} {{ getFolderName(item) }}
                     </span>
-                  </a>
+                  </button>
+                </div>
+
+                <!-- 文章行自成一派，保留原有目录与文章分区。 -->
+                <div v-if="pagedDocs.length > 0" class="card-grid">
+                  <div
+                      v-for="item in pagedDocs"
+                      :key="item.url || item.title"
+                      class="card doc-card"
+                  >
+                    <a :href="getUrl(item.link || item.url)" class="card-link">
+                      <strong>📄 {{ item.title }}</strong>
+                      <span v-if="item.series || item.group || item.category" class="card-meta">
+                        {{ item.series || item.group || item.category }}
+                      </span>
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- 空状态 -->
-            <div v-else class="empty-state">没有找到匹配的结果 😅</div>
+              <!-- 空状态 -->
+              <div v-else :key="contentTransitionKey" class="empty-state">
+                <p>没有找到匹配的结果</p>
+                <button v-if="searchQuery" type="button" class="empty-reset" @click="searchQuery = ''">清空搜索</button>
+              </div>
+            </Transition>
           </div>
 
           <!-- 分页组件 -->
@@ -540,15 +576,28 @@ onUnmounted(() => {
             </div>
           </div>
           <hr class="divider"/>
-          <h3 class="widget-title">☕ 赞助我</h3>
-          <div class="sponsor-tabs">
-            <span :class="['tab-item', sponsorType === 'wechat' ? 'active' : '']" @click="sponsorType = 'wechat'">微信</span>
-            <span :class="['tab-item', sponsorType === 'alipay' ? 'active' : '']" @click="sponsorType = 'alipay'">支付宝</span>
-          </div>
-          <div class="sponsor-content">
-            <img :src="sponsorType === 'wechat' ? getUrl('/images/wechat.jpg') : getUrl('/images/alipay.jpg')" class="sponsor-img" />
-          </div>
-          <p class="sponsor-tip">如果觉得文章对你有帮助，可以请我喝杯 coffee ~</p>
+          <button
+              class="sponsor-trigger"
+              type="button"
+              :aria-expanded="sponsorExpanded"
+              aria-controls="sponsor-panel"
+              @click="sponsorExpanded = !sponsorExpanded"
+          >
+            <span>☕ 赞助我</span>
+            <span class="sponsor-trigger-icon" aria-hidden="true">{{ sponsorExpanded ? '−' : '+' }}</span>
+          </button>
+          <Transition name="sponsor-reveal">
+            <div v-if="sponsorExpanded" id="sponsor-panel" class="sponsor-panel">
+              <div class="sponsor-tabs" role="group" aria-label="赞助方式">
+                <button :class="['tab-item', { active: sponsorType === 'wechat' }]" type="button" @click="sponsorType = 'wechat'">微信</button>
+                <button :class="['tab-item', { active: sponsorType === 'alipay' }]" type="button" @click="sponsorType = 'alipay'">支付宝</button>
+              </div>
+              <div class="sponsor-content">
+                <img :src="sponsorType === 'wechat' ? getUrl('/images/wechat.jpg') : getUrl('/images/alipay.jpg')" class="sponsor-img" alt="赞助二维码" />
+              </div>
+              <p class="sponsor-tip">如果觉得文章对你有帮助，可以请我喝杯 coffee ~</p>
+            </div>
+          </Transition>
         </div>
       </div>
     </div>
@@ -572,27 +621,61 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
 }
+.search-mark {
+  position: absolute;
+  left: 17px;
+  z-index: 1;
+  color: var(--vp-c-text-3);
+  font-size: 22px;
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
 .search-input {
   width: 100%;
-  padding: 14px 20px;
-  border-radius: 12px;
+  padding: 14px 46px 14px 44px;
+  border-radius: 8px;
   border: 1px solid var(--vp-c-divider);
   background: var(--vp-c-bg-soft);
   color: var(--vp-c-text-1);
   font-size: 16px;
-  transition: all 0.3s;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 .search-input:focus {
   border-color: var(--vp-c-brand);
   outline: none;
-  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
+  background: var(--vp-c-bg);
+  box-shadow: 0 0 0 3px var(--vp-c-brand-soft), 0 8px 20px rgba(24, 24, 27, 0.05);
+}
+.search-input:focus + .clear-icon,
+.search-input:focus ~ .search-mark {
+  color: var(--vp-c-brand);
+}
+.search-input-wrapper:focus-within .search-mark {
+  color: var(--vp-c-brand);
+  transform: scale(1.08);
 }
 .clear-icon {
   position: absolute;
-  right: 15px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 19px;
+  line-height: 1;
   color: var(--vp-c-text-2);
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+.clear-icon:hover {
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-default-soft);
+}
+.clear-icon:active {
+  transform: scale(0.9);
 }
 
 /* 网格布局 */
@@ -605,11 +688,12 @@ onUnmounted(() => {
 
 /* 左侧面板 */
 .left-content {
-  background: var(--vp-c-bg-soft);
-  border-radius: 16px;
+  background: var(--vp-c-bg);
+  border-radius: 12px;
   padding: 24px;
   min-height: 550px;
   border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 14px 34px rgba(24, 24, 27, 0.035);
   display: flex;
   flex-direction: column;
 }
@@ -637,13 +721,29 @@ onUnmounted(() => {
 .breadcrumb {
   font-size: 15px;
   font-weight: 500;
+  min-width: 0;
 }
 .crumb-item {
+  padding: 0;
+  border: 0;
+  background: transparent;
   cursor: pointer;
   color: var(--vp-c-brand);
+  font: inherit;
+  text-underline-offset: 3px;
 }
 .crumb-item:hover {
   text-decoration: underline;
+}
+.crumb-item:focus-visible {
+  outline: 2px solid var(--vp-c-brand);
+  outline-offset: 3px;
+}
+.crumb-text-current {
+  display: inline-block;
+  color: var(--vp-c-text-1);
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 var(--vp-c-brand);
 }
 .crumb-separator {
   margin: 0 8px;
@@ -677,7 +777,8 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  transition: background-color 0.2s, color 0.2s;
+  position: relative;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
 .view-toggle-button:hover {
   color: var(--vp-c-brand);
@@ -685,7 +786,17 @@ onUnmounted(() => {
 .view-toggle-button.active {
   background: var(--vp-c-bg);
   color: var(--vp-c-brand);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 4px rgba(24, 24, 27, 0.12);
+}
+.view-toggle-button:active,
+.back-link:active,
+.page-btn:active,
+.random-action-primary:active,
+.random-action-secondary:active,
+.tab-item:active,
+.sponsor-trigger:active,
+.empty-reset:active {
+  transform: scale(0.97);
 }
 .view-toggle-button:focus-visible {
   outline: 2px solid var(--vp-c-brand);
@@ -700,11 +811,12 @@ onUnmounted(() => {
   padding: 4px 12px;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 .back-link:hover {
   background: var(--vp-c-brand);
   color: white;
+  box-shadow: 0 5px 12px rgba(177, 133, 219, 0.24);
 }
 
 /* 内容区域上下换行布局 */
@@ -724,29 +836,60 @@ onUnmounted(() => {
 
 /* 一视同仁的原版大卡片样式 */
 .card {
+  position: relative;
+  overflow: hidden;
   height: 90px;
   padding: 10px 20px;
   background: var(--vp-c-bg);
   border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
+  border-radius: 8px;
   text-align: center;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.025);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.card:hover {
-  transform: translateY(-5px);
-  border-color: var(--vp-c-brand);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
 .folder-card {
   color: var(--vp-c-text-1);
   font-weight: 600;
+  background: var(--vp-c-bg-soft);
 }
 .doc-card {
-  background: var(--vp-c-brand-soft);
+  border-color: var(--vp-c-brand-soft);
+  background: var(--vp-c-bg-soft);
+  box-shadow: inset 3px 0 0 var(--vp-c-brand-soft), 0 1px 2px rgba(24, 24, 27, 0.025);
+}
+.doc-card .card-link {
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+}
+.doc-card::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: var(--vp-c-brand);
+  content: '';
+  opacity: 0.8;
+  transition: opacity 0.2s ease, width 0.2s ease;
+}
+.doc-card .card-link::after {
+  position: absolute;
+  right: 15px;
+  bottom: 12px;
+  color: var(--vp-c-brand);
+  content: '→';
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .card-link {
   text-decoration: none;
@@ -779,6 +922,30 @@ onUnmounted(() => {
   justify-content: center;
   gap: 6px;
 }
+.card.is-entering,
+.card:active {
+  transform: scale(0.975);
+  box-shadow: inset 0 0 0 1px var(--vp-c-brand);
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--vp-c-brand);
+    box-shadow: 0 10px 22px rgba(24, 24, 27, 0.09);
+  }
+  .doc-card:hover::before {
+    width: 4px;
+    opacity: 1;
+  }
+  .doc-card:hover .card-link::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .folder-card:hover {
+    background: var(--vp-c-bg);
+  }
+}
 
 /* 列表模式：保留文件夹和文章分区，改为紧凑单列展示。 */
 .view-list {
@@ -794,13 +961,7 @@ onUnmounted(() => {
   border-radius: 8px;
   justify-content: flex-start;
   text-align: left;
-  transition: background-color 0.2s, border-color 0.2s;
-}
-.view-list .card:hover {
-  transform: none;
-  border-color: var(--vp-c-brand);
-  box-shadow: none;
-  background: var(--vp-c-bg-soft);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
 .view-list .card-link,
 .view-list .folder-label {
@@ -808,7 +969,12 @@ onUnmounted(() => {
 }
 .view-list .card-link {
   align-items: flex-start;
+  justify-content: center;
   gap: 2px;
+}
+.view-list .doc-card .card-link {
+  height: 100%;
+  justify-content: center;
 }
 
 /* 分页样式 */
@@ -829,7 +995,7 @@ onUnmounted(() => {
   color: var(--vp-c-text-1);
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
 }
 .page-btn:hover:not(:disabled) {
   border-color: var(--vp-c-brand);
@@ -850,6 +1016,26 @@ onUnmounted(() => {
   color: var(--vp-c-text-3);
   font-size: 18px;
 }
+.empty-state p {
+  margin: 0;
+}
+.empty-reset {
+  margin-top: 14px;
+  padding: 7px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--vp-c-brand);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+.empty-reset:hover {
+  color: var(--vp-c-brand-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
 /* 右侧侧边栏 */
 .right-sidebar {
@@ -858,10 +1044,11 @@ onUnmounted(() => {
   gap: 20px;
 }
 .info-widget {
-  background: var(--vp-c-bg-alt);
+  background: var(--vp-c-bg-soft);
   padding: 24px;
-  border-radius: 16px;
+  border-radius: 12px;
   border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 10px 26px rgba(24, 24, 27, 0.025);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -875,11 +1062,16 @@ onUnmounted(() => {
 .stat-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  align-items: baseline;
+  margin-bottom: 0;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--vp-c-divider);
   font-size: 14px;
 }
 .stat-val {
   color: var(--vp-c-brand);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
 }
 .divider {
   border: 0;
@@ -891,10 +1083,9 @@ onUnmounted(() => {
   margin-top: 16px;
   padding: 16px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 16px;
-  background:
-      linear-gradient(145deg, rgba(177, 133, 219, 0.14), rgba(255, 255, 255, 0)),
-      var(--vp-c-bg);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+  box-shadow: inset 3px 0 0 var(--vp-c-brand-soft);
 }
 
 .random-widget-head {
@@ -936,7 +1127,7 @@ onUnmounted(() => {
   justify-content: center;
   min-height: 38px;
   padding: 0 14px;
-  border-radius: 10px;
+  border-radius: 6px;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
@@ -980,8 +1171,9 @@ onUnmounted(() => {
   border-radius: 6px;
   cursor: pointer;
   border: 1px solid var(--vp-c-divider);
+  background: transparent;
   color: var(--vp-c-text-2);
-  transition: all 0.2s;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 .tab-item.active {
   background: var(--vp-c-brand);
@@ -1003,13 +1195,74 @@ onUnmounted(() => {
   margin-top: 12px;
   text-align: center;
 }
+.sponsor-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  color: var(--vp-c-text-1);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+.sponsor-trigger:hover {
+  color: var(--vp-c-brand);
+}
+.sponsor-trigger-icon {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-brand);
+  font-size: 18px;
+  font-weight: 400;
+}
+.sponsor-panel {
+  padding-top: 16px;
+}
+
+.content-swap-enter-active,
+.content-swap-leave-active {
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.content-swap-enter-from,
+.content-swap-leave-to {
+  opacity: 0;
+  transform: translateY(5px);
+}
+.sponsor-reveal-enter-active,
+.sponsor-reveal-leave-active {
+  overflow: hidden;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.sponsor-reveal-enter-from,
+.sponsor-reveal-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.clear-icon:focus-visible,
+.card:focus-visible,
+.back-link:focus-visible,
+.page-btn:focus-visible,
+.random-action-primary:focus-visible,
+.random-action-secondary:focus-visible,
+.tab-item:focus-visible,
+.sponsor-trigger:focus-visible,
+.empty-reset:focus-visible {
+  outline: 2px solid var(--vp-c-brand);
+  outline-offset: 2px;
+}
 
 @media (max-width: 960px) {
   .main-grid {
     grid-template-columns: 1fr;
-  }
-  .right-sidebar {
-    order: -1;
   }
   .info-widget {
     height: auto;
@@ -1020,6 +1273,14 @@ onUnmounted(() => {
 }
 
 @media (max-width: 640px) {
+  .custom-home-layout {
+    margin: 28px auto;
+    padding: 0 20px;
+  }
+  .left-content,
+  .info-widget {
+    padding: 18px;
+  }
   .nav-header {
     align-items: flex-start;
     flex-direction: column;
@@ -1034,6 +1295,25 @@ onUnmounted(() => {
   .view-toggle-button {
     flex: 1;
     min-width: 0;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    min-height: 64px;
+  }
+  .pagination {
+    gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
 </style>

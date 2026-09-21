@@ -8,6 +8,10 @@ export interface ChangelogItem {
 // @ts-ignore
 export const changelogItems: ChangelogItem[] = [
     {
+        date: '2026-09-21',
+        title: '首页样式修改:增加选中效果,微调间距等CSS参数',
+    },
+    {
         date: '2026-09-11',
         title: '首页优化',
         items: [
