@@ -242,6 +242,31 @@ export const llmApplicationCategory = {
           "title": "第一章 大模型微调概述与整体流程",
           "url": "/column/AIAgent/04-大模型微调实践/01-大模型微调概述与整体流程",
           "visible": true
+        },
+        {
+          "title": "第二章 微调数据准备与对话模板",
+          "url": "/column/AIAgent/04-大模型微调实践/02-微调数据准备与对话模板",
+          "visible": true
+        },
+        {
+          "title": "第三章 模型训练原理与高效微调",
+          "url": "/column/AIAgent/04-大模型微调实践/03-模型训练原理与高效微调",
+          "visible": true
+        },
+        {
+          "title": "第四章 LLaMA-Factory环境搭建与微调实战",
+          "url": "/column/AIAgent/04-大模型微调实践/04-LLaMA-Factory环境搭建与微调实战",
+          "visible": true
+        },
+        {
+          "title": "第五章 微调效果评估与模型部署",
+          "url": "/column/AIAgent/04-大模型微调实践/05-微调效果评估与模型部署",
+          "visible": true
+        },
+        {
+          "title": "第六章 微调显存优化与多卡训练",
+          "url": "/column/AIAgent/04-大模型微调实践/06-微调显存优化与多卡训练",
+          "visible": true
         }
       ],
       "visible": false

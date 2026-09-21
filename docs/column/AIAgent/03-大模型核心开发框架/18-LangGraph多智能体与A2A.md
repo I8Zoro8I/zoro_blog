@@ -107,7 +107,18 @@ A2A 主要回答这几个问题：
 
 远程 Agent调用方 Agent远程 Agent调用方 Agent读取 Agent Card返回能力说明与输入输出约定提交 Task 与初始 Message返回任务状态 / 中间 Message返回 Artifact / 最终结果
 
+```mermaid
+sequenceDiagram
+    participant Caller as 调用方 Agent
+    participant Remote as 远程 Agent
 
+    Caller->>Remote: 读取 Agent Card
+    Remote-->>Caller: 返回能力说明与输入输出约定
+
+    Caller->>Remote: 提交 Task 与初始 Message
+    Remote-->>Caller: 返回任务状态 / 中间 Message
+    Remote-->>Caller: 返回 Artifact / 最终结果
+```
 
 也正因为 A2A 是一种**跨 Agent 系统的互操作协议**，所以它天然更偏：
 
