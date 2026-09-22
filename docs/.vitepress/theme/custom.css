@@ -300,6 +300,92 @@
     font-family: var(--vp-font-family-mono);
 }
 
+/* ---------------- 代码块增强 ---------------- */
+.vp-doc div[class*="language-"]:not(.mermaid-host) pre {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.vp-doc div[class*="language-"]:not(.mermaid-host) pre code {
+    min-width: max-content;
+    white-space: pre;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+.vp-doc .code-block--wrap pre {
+    overflow-x: hidden;
+}
+
+.vp-doc .code-block--wrap pre code {
+    min-width: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.vp-doc div[class*="language-"] > .lang {
+    right: 52px;
+    max-width: calc(100% - 116px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vp-doc div[class*="language-"] > .code-block-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    box-sizing: border-box;
+    max-width: calc(100% - 116px);
+    padding: 0 12px;
+    overflow: hidden;
+    color: var(--vp-c-text-2);
+    font-family: var(--vp-font-family-mono);
+    font-size: 12px;
+    line-height: 32px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.vp-doc div[class*="language-"] > .code-block-title + .lang,
+.vp-doc .vp-code-group .code-block-title {
+    display: none;
+}
+
+.vp-doc div[class*="language-"] > button.copy {
+    opacity: 0.72;
+}
+
+.vp-doc div[class*="language-"] > button.copy.copied {
+    opacity: 1;
+}
+
+.vp-doc div[class*="language-"] > button.copy.copied::before {
+    min-width: max-content;
+    color: var(--vp-c-text-1);
+}
+
+.vp-doc div[class*="language-"] pre::-webkit-scrollbar,
+.html-preview__source::-webkit-scrollbar {
+    height: 7px;
+}
+
+.vp-doc div[class*="language-"] pre::-webkit-scrollbar-thumb,
+.html-preview__source::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: var(--vp-c-divider);
+}
+
+@media (max-width: 640px) {
+    .vp-doc div[class*="language-"] > .lang {
+        right: 48px;
+        max-width: calc(100% - 100px);
+    }
+}
+
 /* ---------------- 标签页 / 系列页 ---------------- */
 .taxonomy-page {
     margin: 0 auto;

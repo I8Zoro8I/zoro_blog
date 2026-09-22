@@ -203,19 +203,41 @@ export default defineConfig({
 
             md.renderer.rules.fence = (tokens, idx, options, env, self) => {
                 const token = tokens[idx]
-                const language = token.info.trim().toLowerCase()
+                const originalInfo = token.info.trim()
+                const isHtmlPreview = originalInfo.toLowerCase() === 'html'
+                const shouldWrap = /(^|\s):wrap(?=\s|$)/.test(originalInfo)
+                const title = originalInfo.match(/\[([^\]]+)]/)?.[1]
 
-                if (language === 'html') {
+                if (isHtmlPreview) {
                     // @ts-ignore
                     const encoded = Buffer.from(token.content, 'utf8').toString('base64')
                     return `<HtmlPreview code="${encoded}"></HtmlPreview>`
                 }
 
-                if (defaultFence) {
-                    return defaultFence(tokens, idx, options, env, self)
+                // :wrap 是本站扩展标记，其余 fence 语法继续交给 VitePress 原生处理。
+                if (shouldWrap) {
+                    token.info = originalInfo.replace(/(^|\s):wrap(?=\s|$)/g, ' ').trim()
                 }
 
-                return self.renderToken(tokens, idx, options)
+                const rendered = defaultFence
+                    ? defaultFence(tokens, idx, options, env, self)
+                    : self.renderToken(tokens, idx, options)
+
+                token.info = originalInfo
+
+                let enhanced = shouldWrap
+                    ? rendered.replace(/(<div class="language-[^"]+)/, '$1 code-block--wrap')
+                    : rendered
+
+                if (title) {
+                    const encodedTitle = md.utils.escapeHtml(title)
+                    enhanced = enhanced.replace(
+                        /(<button[^>]*class="copy"[^>]*><\/button>)/,
+                        `$1<span class="code-block-title" title="${encodedTitle}">${encodedTitle}</span>`
+                    )
+                }
+
+                return enhanced
             }
         }
     }

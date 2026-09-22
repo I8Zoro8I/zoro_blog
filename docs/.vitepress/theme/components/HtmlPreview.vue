@@ -2,11 +2,23 @@
   <div class="html-preview">
     <div class="html-preview__header">
       <span class="html-preview__title">{{ isCodeVisible ? 'HTML 源码' : '实时预览' }}</span>
-      <button class="html-preview__toggle" type="button" @click="toggleView">
-        {{ isCodeVisible ? '返回预览' : '查看代码' }}
-      </button>
+      <div class="html-preview__actions">
+        <button
+          v-if="isCodeVisible"
+          class="html-preview__copy"
+          type="button"
+          :aria-label="copyStatus === 'copied' ? 'HTML 源码已复制' : '复制 HTML 源码'"
+          @click="copySource"
+        >
+          {{ copyStatus === 'copied' ? '已复制' : copyStatus === 'failed' ? '复制失败' : '复制代码' }}
+        </button>
+        <button class="html-preview__toggle" type="button" @click="toggleView">
+          {{ isCodeVisible ? '返回预览' : '查看代码' }}
+        </button>
+      </div>
     </div>
     <div class="html-preview__body">
+      <p class="html-preview__status" aria-live="polite">{{ copyStatusMessage }}</p>
       <pre v-if="isCodeVisible" class="html-preview__source"><code>{{ html }}</code></pre>
       <div
         v-else-if="hasRenderableHtml"
@@ -43,9 +55,16 @@ const iframeRef = ref<HTMLIFrameElement | null>(null)
 const viewportRef = ref<HTMLDivElement | null>(null)
 const canvasRef = ref<HTMLDivElement | null>(null)
 const isCodeVisible = ref(false)
+const copyStatus = ref<'idle' | 'copied' | 'failed'>('idle')
+const copyStatusMessage = computed(() => {
+  if (copyStatus.value === 'copied') return 'HTML 源码已复制'
+  if (copyStatus.value === 'failed') return '复制失败，请手动选择源码复制'
+  return ''
+})
 let frameResizeObserver: ResizeObserver | null = null
 let viewportResizeObserver: ResizeObserver | null = null
 let syncRafId: number | null = null
+let copyStatusTimer: number | null = null
 
 const MIN_LAYOUT_WIDTH = 1200
 const PREVIEW_PADDING = 20
@@ -283,8 +302,56 @@ function handleFrameLoad() {
   syncFrameViewport()
 }
 
+function setCopyStatus(status: 'copied' | 'failed') {
+  copyStatus.value = status
+
+  if (copyStatusTimer !== null) {
+    window.clearTimeout(copyStatusTimer)
+  }
+
+  copyStatusTimer = window.setTimeout(() => {
+    copyStatus.value = 'idle'
+    copyStatusTimer = null
+  }, 2000)
+}
+
+function fallbackCopy(value: string) {
+  const textarea = document.createElement('textarea')
+  textarea.value = value
+  textarea.setAttribute('readonly', '')
+  textarea.style.position = 'fixed'
+  textarea.style.opacity = '0'
+  document.body.append(textarea)
+  textarea.select()
+  const copied = document.execCommand('copy')
+  textarea.remove()
+
+  if (!copied) {
+    throw new Error('浏览器未允许复制')
+  }
+}
+
+async function copySource() {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(html.value)
+    } else {
+      fallbackCopy(html.value)
+    }
+    setCopyStatus('copied')
+  } catch {
+    try {
+      fallbackCopy(html.value)
+      setCopyStatus('copied')
+    } catch {
+      setCopyStatus('failed')
+    }
+  }
+}
+
 function toggleView() {
   isCodeVisible.value = !isCodeVisible.value
+  copyStatus.value = 'idle'
 }
 
 watch(srcdoc, syncFrameViewport)
@@ -319,6 +386,9 @@ onBeforeUnmount(() => {
   if (syncRafId !== null) {
     cancelAnimationFrame(syncRafId)
   }
+  if (copyStatusTimer !== null) {
+    window.clearTimeout(copyStatusTimer)
+  }
   cleanupFrameObserver()
   cleanupViewportObserver()
 })
@@ -349,10 +419,17 @@ onBeforeUnmount(() => {
   color: var(--vp-c-text-2);
 }
 
-.html-preview__toggle {
+.html-preview__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.html-preview__toggle,
+.html-preview__copy {
   padding: 6px 12px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 999px;
+  border-radius: 6px;
   background: var(--vp-c-bg);
   color: var(--vp-c-text-1);
   font-size: 12px;
@@ -362,18 +439,37 @@ onBeforeUnmount(() => {
   transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 }
 
-.html-preview__toggle:hover {
+.html-preview__copy {
+  min-width: 70px;
+}
+
+.html-preview__toggle:hover,
+.html-preview__copy:hover {
   border-color: var(--vp-c-brand-1, var(--vp-c-brand));
   color: var(--vp-c-brand-1, var(--vp-c-brand));
 }
 
-.html-preview__toggle:focus-visible {
+.html-preview__toggle:focus-visible,
+.html-preview__copy:focus-visible {
   outline: 2px solid var(--vp-c-brand-1, var(--vp-c-brand));
   outline-offset: 2px;
 }
 
 .html-preview__body {
+  position: relative;
   min-height: 0;
+}
+
+.html-preview__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .html-preview__viewport {
@@ -408,9 +504,11 @@ onBeforeUnmount(() => {
 
 .html-preview__source code {
   display: block;
+  min-width: max-content;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  white-space: pre-wrap;
-  word-break: break-word;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .html-preview__frame {

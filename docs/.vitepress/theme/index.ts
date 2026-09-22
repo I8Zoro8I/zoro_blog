@@ -29,6 +29,10 @@ import HtmlPreview from './components/HtmlPreview.vue'
 import ChangelogTimeline from './components/ChangelogTimeline.vue'
 // @ts-ignore
 import HomeDiscovery from '../components/HomeDiscovery.vue'
+// @ts-ignore
+import ReadingAssist from './components/ReadingAssist.vue'
+// @ts-ignore
+import MobileTocDrawer from './components/MobileTocDrawer.vue'
 
 export default {
     ...DefaultTheme,
@@ -52,6 +56,8 @@ export default {
 
         return h(DefaultTheme.Layout, null, {
             'nav-bar-content-after': () => h(NavCascadeMenu),
+            'aside-outline-before': () => h(ReadingAssist),
+            'aside-outline-after': () => h(MobileTocDrawer),
             'doc-before': () => h(Fragment, null, [h(DocPrevNextTop), h(ReadingProgressNotice)]),
             'doc-footer-before': () => h(DocMetaPanel),
             'doc-after': () => hiddenDocAfterPages.has(page.value.relativePath)
