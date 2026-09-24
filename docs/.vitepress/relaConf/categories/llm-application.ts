@@ -269,7 +269,7 @@ export const llmApplicationCategory = {
           "visible": true
         }
       ],
-      "visible": false
+      "visible": true
     },
     {
       "name": "企业级项目实战",
