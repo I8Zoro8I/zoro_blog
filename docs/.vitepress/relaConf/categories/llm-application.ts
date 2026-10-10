@@ -309,7 +309,7 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第七章 MySQL、Embedding 接入与日志管理",
-              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/06-MySQL、Embedding 接入与日志管理",
+              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/06-MySQL_Embedding接入与日志管理",
               "visible": true
             },
             {
@@ -354,7 +354,7 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第十六章 API 接口基础与 FastAPI 入门",
-              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/15-API 接口基础与 FastAPI 入门",
+              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/15-API 接口基础与FastAPI入门",
               "visible": true
             },
             {
@@ -380,12 +380,12 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第二章 DeepAgents 基础与核心概念",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/01-DeepAgents 基础与核心概念",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/01-DeepAgents基础与核心概念",
               "visible": true
             },
             {
               "title": "第三章 DeepAgents 快速入门与流式解析",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/02-DeepAgents 快速入门与流式解析",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/02-DeepAgents快速入门与流式解析",
               "visible": true
             },
             {
@@ -395,7 +395,7 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第五章 接入 LangGraph 与 LangChain",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/04-接入 LangGraph 与 LangChain",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/04-接入LangGraph与LangChain",
               "visible": true
             },
             {
@@ -405,12 +405,12 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第七章 长期记忆与 Backend 存储",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/06-长期记忆与 Backend 存储",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/06-长期记忆与Backend存储",
               "visible": true
             },
             {
               "title": "第八章 中间件机制与 Skills 配置",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/07-中间件机制与 Skills 配置",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/07-中间件机制与Skills 配置",
               "visible": true
             },
             {
@@ -435,7 +435,7 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第十三章 RAGFlow 子智能体与知识库准备",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/12-RAGFlow 子智能体与知识库准备",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/12-RAGFlow子智能体与知识库准备",
               "visible": true
             },
             {
@@ -445,11 +445,11 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第十五章 FastAPI 接口与项目闭环",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/14-FastAPI 接口与项目闭环",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/14-FastAPI接口与项目闭环",
               "visible": true
             }
           ],
-          "visible": false
+          "visible": true
         }
       ],
       "visible": true
