@@ -1,40 +1,36 @@
 <script setup lang="ts">
-import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue';
+import {computed, nextTick, onBeforeUnmount, onMounted, ref, watch} from 'vue';
 import {useData, useRoute} from 'vitepress';
-
-type SavedProgress = {
-  percent: number;
-  updatedAt: string;
-};
+import {normalizeRoutePath} from '../../shared/routes';
+import {getArticleByPath} from '../contentIndex';
+import {createProgressWriter, getReadingRecords, type SavedProgress} from '../utils/readingProgress';
 
 const route = useRoute();
-const {site} = useData();
+const {site, page} = useData();
 const savedProgress = ref<SavedProgress | null>(null);
 const noticeVisible = ref(false);
 const currentPercent = ref(0);
 
-const STORAGE_PREFIX = 'zblog:reading-progress:';
 let saveTimer: number | null = null;
 let lastPersistedPercent: number | null = null;
+let activePath = '';
+let refreshFrame: number | null = null;
+let generation = 0;
+const writer = createProgressWriter();
 
 const siteBase = computed(() => {
   const base = site.value.base || '/';
   return base === '/' ? '' : base.replace(/\/$/, '');
 });
 
-const normalizedPath = computed(() => {
-  if (siteBase.value && route.path.startsWith(`${siteBase.value}/`)) {
-    return route.path.slice(siteBase.value.length);
-  }
-
-  return route.path;
-});
+const normalizedPath = computed(() => normalizeRoutePath(route.path, siteBase.value || '/'));
 
 const isTrackablePage = computed(() => {
-  return normalizedPath.value.startsWith('/column/') && !normalizedPath.value.endsWith('/');
+  return Boolean(getArticleByPath(normalizedPath.value));
 });
-
-const storageKey = computed(() => `${STORAGE_PREFIX}${normalizedPath.value}`);
+const isPageReady = computed(() => normalizeRoutePath(
+  `/${page.value.relativePath}`, '/'
+) === normalizedPath.value);
 
 const getScrollPercent = () => {
   const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
@@ -47,35 +43,22 @@ const getScrollPercent = () => {
   return Math.max(0, Math.min(100, Math.round((scrollTop / documentHeight) * 100)));
 };
 
-const persistProgress = () => {
-  if (!isTrackablePage.value) {
-    return;
-  }
-
-  const percent = getScrollPercent();
-  currentPercent.value = percent;
-
-  if (percent === lastPersistedPercent) {
-    return;
-  }
-
-  const payload: SavedProgress = {
-    percent,
-    updatedAt: new Date().toISOString()
-  };
-
-  localStorage.setItem(storageKey.value, JSON.stringify(payload));
-  lastPersistedPercent = percent;
+const flushProgress = () => {
+  if (saveTimer !== null) window.clearTimeout(saveTimer);
+  saveTimer = null;
+  writer.flush();
 };
 
 const schedulePersist = () => {
-  if (saveTimer) {
-    window.clearTimeout(saveTimer);
-  }
-
-  saveTimer = window.setTimeout(() => {
-    persistProgress();
-  }, 700);
+  // 捕获发生滚动时的路径，延迟写入时不再读取新路由或新页面 DOM。
+  if (!activePath || activePath !== normalizedPath.value || !isPageReady.value) return;
+  const percent = getScrollPercent();
+  currentPercent.value = percent;
+  if (percent === lastPersistedPercent) return;
+  writer.capture(activePath, percent);
+  lastPersistedPercent = percent;
+  if (saveTimer !== null) window.clearTimeout(saveTimer);
+  saveTimer = window.setTimeout(flushProgress, 700);
 };
 
 const loadSavedProgress = () => {
@@ -88,20 +71,13 @@ const loadSavedProgress = () => {
     return;
   }
 
-  const raw = localStorage.getItem(storageKey.value);
-  if (!raw) {
-    return;
-  }
-
-  try {
-    const parsed = JSON.parse(raw) as SavedProgress;
+  const parsed = getReadingRecords(siteBase.value || '/').get(normalizedPath.value);
+  if (parsed) {
+    lastPersistedPercent = parsed.percent;
     if (parsed.percent >= 8 && parsed.percent < 98) {
       savedProgress.value = parsed;
-      lastPersistedPercent = parsed.percent;
       noticeVisible.value = true;
     }
-  } catch {
-    localStorage.removeItem(storageKey.value);
   }
 };
 
@@ -125,31 +101,38 @@ const dismissNotice = () => {
   noticeVisible.value = false;
 };
 
-watch(
-  () => route.path,
-  () => {
-    if (typeof window !== 'undefined') {
-      window.requestAnimationFrame(() => {
-        loadSavedProgress();
-        currentPercent.value = getScrollPercent();
-      });
-    }
-  }
-);
+const activatePage = async () => {
+  const currentGeneration = ++generation;
+  activePath = '';
+  flushProgress();
+  if (refreshFrame !== null) window.cancelAnimationFrame(refreshFrame);
+  await nextTick();
+  if (currentGeneration !== generation) return;
+  refreshFrame = window.requestAnimationFrame(() => {
+    refreshFrame = null;
+    loadSavedProgress();
+    activePath = isTrackablePage.value && isPageReady.value ? normalizedPath.value : '';
+    currentPercent.value = getScrollPercent();
+  });
+};
+
+watch(() => [route.path, page.value.relativePath], () => {
+  if (typeof window !== 'undefined') void activatePage();
+});
 
 onMounted(() => {
-  loadSavedProgress();
-  currentPercent.value = getScrollPercent();
+  void activatePage();
   window.addEventListener('scroll', schedulePersist, {passive: true});
-  window.addEventListener('beforeunload', persistProgress);
+  window.addEventListener('pagehide', flushProgress);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', schedulePersist);
-  window.removeEventListener('beforeunload', persistProgress);
-  if (saveTimer) {
-    window.clearTimeout(saveTimer);
-  }
+  window.removeEventListener('pagehide', flushProgress);
+  generation++;
+  activePath = '';
+  if (refreshFrame !== null) window.cancelAnimationFrame(refreshFrame);
+  flushProgress();
 });
 </script>
 

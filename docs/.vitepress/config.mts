@@ -1,11 +1,13 @@
 import {defineConfig} from 'vitepress'
 import {nav, sidebar} from './relaConf';
+import {siteBase} from './relaConf/site'
+import {renderSearchContent} from './build/readableContent'
 // @ts-ignore
 import katex from 'markdown-it-katex'
 // @ts-ignore
 export default defineConfig({
     lang: 'zh-CN', // 设置页面的 lang 属性
-    base: '/zoro_blog/',
+    base: siteBase,
     // base: '/',
     //github page  '/zoro_blog/'
     cleanUrls: true, // 加上这一行
@@ -23,7 +25,7 @@ export default defineConfig({
                 href: 'https://cdn.jsdelivr.net/npm/katex@0.6.0/dist/katex.min.css'
             }
         ],
-        ['link', {rel: 'icon', href: '/zoro_blog/images/logo.png'}],
+        ['link', {rel: 'icon', href: `${siteBase}images/logo.png`}],
         [
             'script',
             {
@@ -45,7 +47,10 @@ export default defineConfig({
         sidebar: sidebar,
         search: {
 
-            provider: 'local'
+            provider: 'local',
+            options: {
+                _render: renderSearchContent
+            }
         },
         socialLinks: [
             {icon: 'github', link: 'https://github.com/vuejs/vitepress'}

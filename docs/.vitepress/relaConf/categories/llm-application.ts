@@ -149,7 +149,7 @@ export const llmApplicationCategory = {
         },
         {
           "title": "第三章 Model IO与模型接入",
-          "url": "/column/AIAgent/03-大模型核心开发框架/03-Model IO与模型接入",
+          "url": "/column/AIAgent/03-大模型核心开发框架/03-Model_IO与模型接入",
           "visible": true
         },
         {
@@ -209,12 +209,12 @@ export const llmApplicationCategory = {
         },
         {
           "title": "第十五章 LangGraph API:图与状态",
-          "url": "/column/AIAgent/03-大模型核心开发框架/15-LangGraph API:图与状态",
+          "url": "/column/AIAgent/03-大模型核心开发框架/15-LangGraph_API_图与状态",
           "visible": true
         },
         {
           "title": "第十六章 LangGraphAPI：节点、边与进阶",
-          "url": "/column/AIAgent/03-大模型核心开发框架/16-LangGraphAPI：节点、边与进阶",
+          "url": "/column/AIAgent/03-大模型核心开发框架/16-LangGraphAPI_节点_边与进阶",
           "visible": true
         },
         {
@@ -344,17 +344,17 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第十四章 SQL 生成前的信息过滤与补全",
-              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/13-SQL 生成前的信息过滤与补全",
+              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/13-SQL生成前的信息过滤与补全",
               "visible": true
             },
             {
               "title": "第十五章 SQL 生成与执行闭环",
-              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/14-SQL 生成与执行闭环",
+              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/14-SQL生成与执行闭环",
               "visible": true
             },
             {
               "title": "第十六章 API 接口基础与 FastAPI 入门",
-              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/15-API 接口基础与FastAPI入门",
+              "url": "/column/AIAgent/05-企业级项目实战/01-电商问数/15-API接口基础与FastAPI入门",
               "visible": true
             },
             {
@@ -385,7 +385,7 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第三章 DeepAgents 快速入门与流式解析",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/02-DeepAgents快速入门与流式解析",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/02-DeepAgents 快速入门与流式解析",
               "visible": true
             },
             {
@@ -410,7 +410,7 @@ export const llmApplicationCategory = {
             },
             {
               "title": "第八章 中间件机制与 Skills 配置",
-              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/07-中间件机制与Skills 配置",
+              "url": "/column/AIAgent/05-企业级项目实战/02-深度研搜/07-中间件机制与Skills配置",
               "visible": true
             },
             {

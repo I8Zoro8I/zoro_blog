@@ -1,8 +1,9 @@
 import DefaultTheme from 'vitepress/theme';
 import './custom.css';
 // @ts-ignore
-import {Fragment, h} from 'vue'
+import {defineComponent, Fragment, h} from 'vue'
 import {useData} from 'vitepress'
+import {provideReadingAssist} from './composables/useReadingAssist'
 // @ts-ignore
 import Giscus from './components/Giscus.vue'
 // @ts-ignore
@@ -45,8 +46,9 @@ export default {
         app.component('ChangelogTimeline', ChangelogTimeline)
         app.component('HomeDiscovery', HomeDiscovery)
     },
-    Layout() {
+    Layout: defineComponent({setup() {
         const {page} = useData()
+        provideReadingAssist()
         // @ts-ignore
         const hiddenDocAfterPages = new Set([
             'archive/index.md',
@@ -54,7 +56,7 @@ export default {
             'changelog/index.md'
         ])
 
-        return h(DefaultTheme.Layout, null, {
+        return () => h(DefaultTheme.Layout, null, {
             'nav-bar-content-after': () => h(NavCascadeMenu),
             'aside-outline-before': () => h(ReadingAssist),
             'aside-outline-after': () => h(MobileTocDrawer),
@@ -64,5 +66,5 @@ export default {
                 ? null
                 : h(Fragment, null, [h(MermaidRenderer), h(DocEngagementPanel), h(Giscus)])
         })
-    }
+    }})
 };

@@ -22,39 +22,12 @@ collections:
       - { label: "文章标题", name: "title", widget: "string" }
       - { label: "文件名 (URL路径)", name: "slug", widget: "string" }
       - { label: "发布日期", name: "date", widget: "datetime" }
+      - { label: "系列", name: "series", widget: "string", required: false }
+      - { label: "分类名称", name: "category", widget: "string", required: false }
+      - { label: "分组名称", name: "group", widget: "string", required: false }
       - label: "标签"
         name: "tags"
         widget: "list"
         required: false
         field: { label: "标签名", name: "tag", widget: "string" }
       - { label: "正文内容", name: "body", widget: "markdown" }
-
-  - name: "settings"
-    label: "系统设置"
-    # 对于 file collections，建议显式指明不需要创建新文件
-    create: false
-    files:
-      - name: "categories_config"
-        label: "全站分类管理"
-        file: "docs/.vitepress/relaConf/categories.json"
-        # 确保指定格式为 json，方便 CMS 解析
-        format: "json"
-        fields:
-          - label: "分类列表"
-            name: "categories"
-            widget: "list"
-            fields:
-              - { label: "分类名称", name: "name", widget: "string" }
-              - { label: "分类标识", name: "id", widget: "string" }
-              - { label: "图标", name: "icon", widget: "string" }
-              - label: "二级分组"
-                name: "children"
-                widget: "list"
-                fields:
-                  - { label: "分组名称", name: "name", widget: "string" }
-                  - label: "三级文章列表"
-                    name: "links"
-                    widget: "list"
-                    fields:
-                      - { label: "文章标题", name: "title", widget: "string" }
-                      - { label: "文章路径", name: "url", widget: "string" }

@@ -1,4 +1,6 @@
 import {rawCategoriesData as categoriesData} from '../relaConf/categories';
+import {collectCategoryArticles} from '../relaConf/categories/walk';
+import {normalizeRoutePath} from '../shared/routes';
 // @ts-ignore VitePress 将 .data.mts 转换为带有 data 导出的模块。
 import {data as pageModules} from '../../contentIndex.data.mts';
 
@@ -10,6 +12,7 @@ type RawPageData = {
     relativePath?: string;
     filePath?: string;
     lastUpdated?: number;
+    readingStats?: {characterCount: number; wordCount: number; readingMinutes: number};
 };
 
 export type ArticleSummary = {
@@ -23,6 +26,8 @@ export type ArticleSummary = {
     category: string | null;
     group: string | null;
     relativePath: string;
+    readingStats: {characterCount: number; wordCount: number; readingMinutes: number};
+    lastUpdated: number;
 };
 
 export type LearningRoute = TaxonomySection & {
@@ -64,7 +69,6 @@ type PathMeta = {
 };
 
 const pathMetaMap = new Map<string, PathMeta>();
-const siteBase = '/zoro_blog';
 
 const pathFallbacks = [
     {
@@ -191,30 +195,6 @@ function normalizeLink(path: string): string {
     return withoutExt;
 }
 
-function normalizeRoutePath(path: string): string {
-    let normalized = path.split('?')[0].split('#')[0];
-
-    try {
-        normalized = decodeURIComponent(normalized);
-    } catch {
-        // 路由可能包含不完整的转义序列，保留原始值以避免索引构建失败。
-    }
-
-    if (normalized === siteBase) {
-        normalized = '/';
-    } else if (normalized.startsWith(`${siteBase}/`)) {
-        normalized = normalized.slice(siteBase.length);
-    }
-
-    normalized = normalized.replace(/\/index\.html$/, '/');
-    normalized = normalized.replace(/\.html$/, '');
-    if (normalized.length > 1 && normalized.endsWith('/')) {
-        normalized = normalized.slice(0, -1);
-    }
-
-    return normalized;
-}
-
 function normalizeStringArray(value: unknown): string[] {
     if (Array.isArray(value)) {
         return value
@@ -288,37 +268,14 @@ function setPathMeta(link: string, meta: PathMeta): void {
     });
 }
 
-for (const category of categoriesData.categories || []) {
-    for (const group of category.children || []) {
-        if (!('links' in group)) {
-            continue;
-        }
-
-        for (const entry of group.links || []) {
-            if ('items' in entry && entry.items.length > 0) {
-                for (const item of entry.items) {
-                    setPathMeta(item.url, {
-                        category: category.name || null,
-                        group: group.name || null,
-                        series: entry.title || group.name || null,
-                        tags: [category.name, group.name, entry.title].filter(Boolean),
-                        topLevelTag: group.name || null
-                    });
-                }
-                continue;
-            }
-
-            if ('url' in entry && entry.url) {
-                setPathMeta(entry.url, {
-                    category: category.name || null,
-                    group: group.name || null,
-                    series: group.name || null,
-                    tags: [category.name, group.name].filter(Boolean),
-                    topLevelTag: group.name || null
-                });
-            }
-        }
-    }
+for (const item of collectCategoryArticles(categoriesData)) {
+    setPathMeta(item.url, {
+        category: item.category || null,
+        group: item.group || null,
+        series: item.series || null,
+        tags: [item.category, item.group, item.series].filter(Boolean),
+        topLevelTag: item.group || item.category || null
+    });
 }
 
 function getFallbackMeta(link: string): PathMeta {
@@ -328,7 +285,7 @@ function getFallbackMeta(link: string): PathMeta {
     if (fromMap) {
         return fromMap;
     }
-    const matchedRule = pathFallbacks.find((rule) => normalizedLink.startsWith(normalizeRoutePath(rule.prefix)));
+    const matchedRule = pathFallbacks.find((rule) => normalizedLink.startsWith(`${normalizeRoutePath(rule.prefix)}/`));
 
     if (matchedRule) {
         return {
@@ -379,9 +336,11 @@ function createArticle(pageData: RawPageData): ArticleSummary | null {
         order: Number.MAX_SAFE_INTEGER,
         tags,
         series,
-        category: fallbackMeta.category,
-        group: fallbackMeta.group,
-        relativePath
+        category: normalizeSeries(frontmatter.category) || fallbackMeta.category,
+        group: normalizeSeries(frontmatter.group) || fallbackMeta.group,
+        relativePath,
+        readingStats: pageData.readingStats || {characterCount: 0, wordCount: 0, readingMinutes: 1},
+        lastUpdated: pageData.lastUpdated || parseDateToTime(date) || 0
     };
 
     article.order = extractOrder(article);
@@ -398,6 +357,16 @@ export const articles = pageModules
 
         return a.title.localeCompare(b.title, 'zh-CN');
     });
+
+export const contentStats = {
+    docs: articles.length,
+    totalWords: articles.reduce((sum, article) =>
+        sum + article.readingStats.characterCount + article.readingStats.wordCount, 0),
+    latestUpdatedDate: (() => {
+        const timestamp = Math.max(0, ...articles.map(article => article.lastUpdated));
+        return timestamp ? new Date(timestamp).toISOString().slice(0, 10) : '未记录';
+    })()
+};
 
 function createTaxonomySections(
     key: 'tags' | 'series',

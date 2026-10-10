@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue';
-import {useRoute} from 'vitepress';
+import {useData, useRoute} from 'vitepress';
+import {getRouteStoredValue, setStoredValue} from '../utils/storage';
+import {normalizeRoutePath} from '../../shared/routes';
 
 type RatingValue = 'helpful' | 'normal' | 'hardcore';
 
 const route = useRoute();
+const {site} = useData();
 const rating = ref<RatingValue | null>(null);
 
 const RATING_STORAGE_PREFIX = 'zblog:article-rating:';
-const DISCOVERY_PATHS = new Set(['/tags/', '/archive/']);
+const DISCOVERY_PATHS = new Set(['/tags', '/archive', '/changelog']);
 
 const ratingOptions: Array<{value: RatingValue; label: string}> = [
   {value: 'helpful', label: '有帮助'},
@@ -16,11 +19,12 @@ const ratingOptions: Array<{value: RatingValue; label: string}> = [
   {value: 'hardcore', label: '太硬核'}
 ];
 
-const shouldRender = computed(() => !DISCOVERY_PATHS.has(route.path));
-const ratingStorageKey = computed(() => `${RATING_STORAGE_PREFIX}${route.path}`);
+const path = computed(() => normalizeRoutePath(route.path, site.value.base));
+const shouldRender = computed(() => !DISCOVERY_PATHS.has(path.value));
+const ratingStorageKey = computed(() => `${RATING_STORAGE_PREFIX}${path.value}`);
 
 const loadRating = () => {
-  const raw = localStorage.getItem(ratingStorageKey.value);
+  const raw = getRouteStoredValue(RATING_STORAGE_PREFIX, path.value, site.value.base);
   if (raw === 'helpful' || raw === 'normal' || raw === 'hardcore') {
     rating.value = raw;
     return;
@@ -31,7 +35,7 @@ const loadRating = () => {
 
 const setRating = (value: RatingValue) => {
   rating.value = value;
-  localStorage.setItem(ratingStorageKey.value, value);
+  setStoredValue(ratingStorageKey.value, value);
 };
 
 watch(

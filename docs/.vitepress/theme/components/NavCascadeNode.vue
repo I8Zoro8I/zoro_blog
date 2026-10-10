@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {computed} from 'vue';
 import {useData, useRoute, withBase} from 'vitepress';
+import {normalizeRoutePath} from '../../shared/routes';
 
 type NavItem = {
   text?: string;
@@ -16,27 +17,7 @@ const props = defineProps<{
 const route = useRoute();
 const {site} = useData();
 
-const normalizePath = (value?: string) => {
-  if (!value) {
-    return '';
-  }
-
-  let normalized = value.split('?')[0].split('#')[0];
-  const base = site.value.base || '/';
-
-  if (base !== '/' && normalized.startsWith(base)) {
-    normalized = normalized.slice(base.length - 1);
-  }
-
-  normalized = normalized.replace(/\/index\.html$/, '/');
-  normalized = normalized.replace(/\.html$/, '');
-
-  if (normalized.length > 1 && normalized.endsWith('/')) {
-    normalized = normalized.slice(0, -1);
-  }
-
-  return normalized;
-};
+const normalizePath = (value?: string) => normalizeRoutePath(value || '', site.value.base || '/');
 
 const currentPath = computed(() => normalizePath(route.path));
 

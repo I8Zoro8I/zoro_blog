@@ -3,35 +3,29 @@ import {computed, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import {withBase} from 'vitepress';
 import {homeCategoriesData as categoriesData} from '../relaConf/categories';
 import {siteLaunchDate} from '../relaConf/siteStats';
-import {data as siteStatsData} from '../siteStats.data';
-import {articles, getRandomArticle} from '../theme/contentIndex';
+import {contentStats, getRandomArticle} from '../theme/contentIndex';
+import {getStoredValue, setStoredValue} from '../theme/utils/storage';
+import {useHomeSearch} from './composables/useHomeSearch';
+import {useHomePagination} from './composables/useHomePagination';
+import {getItemName, useHomeNavigation} from './composables/useHomeNavigation';
 
 /* --- 基础状态 --- */
 const searchQuery = ref('');
-const currentPath = ref([]);
 const sponsorType = ref('wechat');
 const randomArticle = ref(null);
 const currentPage = ref(1);
 const listViewportRef = ref(null);
 const viewMode = ref('card');
 const sponsorExpanded = ref(false);
-const activeFolder = ref('');
 
-const DEFAULT_PAGE_SIZE = 12;
 const CARD_MIN_WIDTH = 220;
-const CARD_HEIGHT = 90;
-const LIST_ITEM_HEIGHT = 52;
 const GRID_GAP = 16;
-const LIST_GAP = 8;
-const SECTION_GAP = 24;
-const ROW_FIT_TOLERANCE = 36;
 const VIEW_MODE_STORAGE_KEY = 'home-category-view-mode';
 
 const gridColumns = ref(0);
 const viewportHeight = ref(0);
 
 let resizeObserver = null;
-let folderNavigationTimer = null;
 
 const getRunningDays = (startDate) => {
   const start = new Date(startDate);
@@ -52,17 +46,8 @@ const pickRandomArticle = () => {
   randomArticle.value = getRandomArticle();
 };
 
-const getItemName = (item) => {
-  return item?.name || item?.title || item?.displayName || '';
-};
-
-const getItemChildren = (item) => {
-  return item?.children || item?.links || item?.items || [];
-};
-
 /* --- 1. 动态统计逻辑（兼容多级） --- */
 const stats = computed(() => {
-  let docCount = 0;
   let folderSet = new Set();
 
   const traverse = (items) => {
@@ -70,219 +55,36 @@ const stats = computed(() => {
       if (item.name) folderSet.add(item.name);
       if (item.title && item.items) folderSet.add(item.title);
 
-      if (item.links) {
-        item.links.forEach(l => {
-          if (l.url) docCount++;
-          if (l.items) docCount += l.items.length;
-        });
-      }
-      if (item.items) {
-        item.items.forEach(sub => { if (sub.url) docCount++; });
-      }
+      if (item.links) traverse(item.links);
+      if (item.items) traverse(item.items);
       if (item.children) traverse(item.children);
     });
   };
 
   traverse(categoriesData.categories);
   return {
-    docs: docCount,
+    docs: contentStats.docs,
     folders: folderSet.size,
-    totalWords: siteStatsData.totalWords,
-    latestUpdatedDate: siteStatsData.latestUpdatedDate,
+    totalWords: contentStats.totalWords,
+    latestUpdatedDate: contentStats.latestUpdatedDate,
     runningDays: getRunningDays(siteLaunchDate)
   };
 });
+const searchResults = useHomeSearch(searchQuery);
 
-// /* --- 2. 目录导航逻辑（无限级打通） --- */
-// const currentDisplay = computed(() => {
-//   let temp = categoriesData.categories;
-//   for (const segment of currentPath.value) {
-//     let found = null;
-//     if (Array.isArray(temp)) {
-//       found = temp.find(c => c.name === segment || c.title === segment);
-//     }
-//     if (found) {
-//       temp = found.children || found.links || found.items || [];
-//     } else {
-//       return [];
-//     }
-//   }
-//   return temp;
-// });
-/* --- 2. 目录导航逻辑（无限级打通 + 单子项智能跨越） --- */
-const navigationState = computed(() => {
-  let temp = categoriesData.categories;
-  const breadcrumbItems = [];
-
-  // 1. 先根据当前显式路径，正常逐级向下查找
-  for (const segment of currentPath.value) {
-    let found = null;
-    if (Array.isArray(temp)) {
-      found = temp.find(c => c.name === segment || c.title === segment);
-    }
-    if (found) {
-      breadcrumbItems.push({
-        label: segment,
-        explicitIndex: breadcrumbItems.length
-      });
-      temp = getItemChildren(found);
-    } else {
-      return {
-        breadcrumbItems: [],
-        display: []
-      };
-    }
-  }
-
-  // 2. 🌟 自动化下钻拦截：如果当前层级【只有一个子项】，且该子项是个“空壳目录”而非单篇文章
-  // 只做展示层穿透，不修改 currentPath，避免“返回上一级”失效
-  while (
-      Array.isArray(temp) &&
-      temp.length === 1 &&
-      !temp[0].url &&               // 确保它不是一篇文章
-      getItemChildren(temp[0]).length // 确保它有下级数据
-      ) {
-    const nextNode = temp[0];
-    const nextName = getItemName(nextNode);
-
-    if (nextName) {
-      breadcrumbItems.push({
-        label: nextName,
-        explicitIndex: null
-      });
-      temp = getItemChildren(nextNode);
-    } else {
-      break;
-    }
-  }
-
-  return {
-    breadcrumbItems,
-    display: temp
-  };
-});
-
-const breadcrumbItems = computed(() => {
-  return navigationState.value.breadcrumbItems;
-});
-
-const currentDisplay = computed(() => {
-  return navigationState.value.display;
-});
-
-/* --- 3. 统一文章检索：目录浏览仍保持原有交互，搜索时按文章元数据聚合。 --- */
-const searchResults = computed(() => {
-  const query = searchQuery.value.toLowerCase().trim();
-  if (!query) return [];
-
-  return articles.filter((article) => {
-    const haystack = [
-      article.title,
-      article.category,
-      article.group,
-      article.series,
-      ...article.tags
-    ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
-
-    return haystack.includes(query);
-  }).map((article) => ({...article, isDoc: true}));
-});
+const {
+  currentPath, activeFolder, enterFolder, goBack, resetNav, jumpToPath,
+  currentDisplay, breadcrumbItems
+} = useHomeNavigation(categoriesData.categories, searchQuery, currentPage);
 
 /* --- 4. 分页数据源 --- */
 const totalData = computed(() => {
   return searchQuery.value ? searchResults.value : currentDisplay.value;
 });
 
-const hasDynamicLayout = computed(() => {
-  return gridColumns.value > 0 && viewportHeight.value > 0;
-});
-
-const getSectionHeight = (count, columns) => {
-  if (!count) return 0;
-
-  const isListView = viewMode.value === 'list';
-  const effectiveColumns = isListView ? 1 : columns;
-  const itemHeight = isListView ? LIST_ITEM_HEIGHT : CARD_HEIGHT;
-  const gap = isListView ? LIST_GAP : GRID_GAP;
-  const rows = Math.ceil(count / effectiveColumns);
-
-  return rows * itemHeight + Math.max(0, rows - 1) * gap;
-};
-
-const canFitItems = (items) => {
-  if (!hasDynamicLayout.value) {
-    return items.length <= DEFAULT_PAGE_SIZE;
-  }
-
-  const folderCount = items.filter(item => !item.isDoc && !item.url).length;
-  const docCount = items.length - folderCount;
-  const contentHeight =
-      getSectionHeight(folderCount, gridColumns.value) +
-      getSectionHeight(docCount, gridColumns.value) +
-      (folderCount > 0 && docCount > 0 ? SECTION_GAP : 0);
-
-  return contentHeight <= viewportHeight.value + ROW_FIT_TOLERANCE;
-};
-
-const pageRanges = computed(() => {
-  const items = totalData.value;
-
-  if (!items.length) {
-    return [{ start: 0, end: 0 }];
-  }
-
-  if (!hasDynamicLayout.value) {
-    const ranges = [];
-    for (let start = 0; start < items.length; start += DEFAULT_PAGE_SIZE) {
-      ranges.push({
-        start,
-        end: Math.min(start + DEFAULT_PAGE_SIZE, items.length)
-      });
-    }
-    return ranges;
-  }
-
-  const ranges = [];
-  let start = 0;
-
-  while (start < items.length) {
-    let end = start;
-
-    while (end < items.length && canFitItems(items.slice(start, end + 1))) {
-      end++;
-    }
-
-    if (end === start) {
-      end = start + 1;
-    }
-
-    ranges.push({ start, end });
-    start = end;
-  }
-
-  return ranges;
-});
-
-const totalPages = computed(() => {
-  return pageRanges.value.length || 1;
-});
-
-const pagedDisplay = computed(() => {
-  const range = pageRanges.value[currentPage.value - 1] || pageRanges.value[0];
-  return totalData.value.slice(range.start, range.end);
-});
-
-/* --- 5. 分离当前页面的文件夹与文章（用于换行排列） --- */
-const pagedFolders = computed(() => {
-  return pagedDisplay.value.filter(item => !item.isDoc && !item.url);
-});
-
-const pagedDocs = computed(() => {
-  return pagedDisplay.value.filter(item => item.isDoc || item.url);
-});
+const {totalPages, pagedDisplay, pagedFolders, pagedDocs} = useHomePagination(
+  totalData, currentPage, gridColumns, viewportHeight, viewMode
+);
 
 const contentTransitionKey = computed(() => [
   currentPath.value.join('/'),
@@ -292,37 +94,12 @@ const contentTransitionKey = computed(() => [
 ].join('|'));
 
 /* --- 6. 操作函数 --- */
-const enterFolder = (name) => {
-  if (folderNavigationTimer) {
-    window.clearTimeout(folderNavigationTimer);
-  }
-
-  activeFolder.value = name;
-  folderNavigationTimer = window.setTimeout(() => {
-    currentPath.value.push(name);
-    searchQuery.value = '';
-    currentPage.value = 1;
-    activeFolder.value = '';
-    folderNavigationTimer = null;
-  }, 120);
-};
-
-const goBack = () => {
-  currentPath.value.pop();
-  currentPage.value = 1;
-};
-
-const resetNav = () => {
-  currentPath.value = [];
-  currentPage.value = 1;
-};
-
 const setViewMode = (mode) => {
   if (mode !== 'card' && mode !== 'list') return;
 
   viewMode.value = mode;
   currentPage.value = 1;
-  localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode);
+  setStoredValue(VIEW_MODE_STORAGE_KEY, mode);
 };
 
 const getFolderName = (item) => {
@@ -332,16 +109,6 @@ const getFolderName = (item) => {
 const getUrl = (url) => {
   if (!url) return '#';
   return withBase(url);
-};
-
-const jumpToPath = (breadcrumbItem) => {
-  if (breadcrumbItem.explicitIndex === null) {
-    return;
-  }
-
-  currentPath.value = currentPath.value.slice(0, breadcrumbItem.explicitIndex + 1);
-  searchQuery.value = '';
-  currentPage.value = 1;
 };
 
 watch(searchQuery, () => {
@@ -382,7 +149,7 @@ const recalculateLayout = () => {
 };
 
 onMounted(() => {
-  const savedViewMode = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+  const savedViewMode = getStoredValue(VIEW_MODE_STORAGE_KEY);
   if (savedViewMode === 'card' || savedViewMode === 'list') {
     viewMode.value = savedViewMode;
   }
@@ -403,9 +170,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   resizeObserver?.disconnect();
-  if (folderNavigationTimer) {
-    window.clearTimeout(folderNavigationTimer);
-  }
 });
 </script>
 

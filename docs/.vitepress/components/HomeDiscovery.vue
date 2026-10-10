@@ -2,18 +2,13 @@
 import {computed, onMounted, ref} from 'vue';
 import {withBase} from 'vitepress';
 import {type ArticleSummary, getArticleByPath, learningRoutes, recentArticles} from '../theme/contentIndex';
+import {getReadingRecords} from '../theme/utils/readingProgress';
 
 type ContinueReading = ArticleSummary & {
   percent: number;
   updatedAt: string;
 };
 
-type SavedProgress = {
-  percent: number;
-  updatedAt: string;
-};
-
-const STORAGE_PREFIX = 'zblog:reading-progress:';
 const continueReading = ref<ContinueReading[]>([]);
 
 const hasDiscoveryContent = computed(() => {
@@ -23,24 +18,10 @@ const hasDiscoveryContent = computed(() => {
 const loadContinueReading = () => {
   const records: ContinueReading[] = [];
 
-  for (let index = 0; index < localStorage.length; index += 1) {
-    const key = localStorage.key(index);
-
-    if (!key?.startsWith(STORAGE_PREFIX)) {
-      continue;
-    }
-
-    try {
-      const saved = JSON.parse(localStorage.getItem(key) || '') as SavedProgress;
-      const article = getArticleByPath(key.slice(STORAGE_PREFIX.length));
-
-      if (!article || saved.percent < 8 || saved.percent >= 98 || !saved.updatedAt) {
-        continue;
-      }
-
+  for (const [path, saved] of getReadingRecords()) {
+    const article = getArticleByPath(path);
+    if (article && saved.percent >= 8 && saved.percent < 98) {
       records.push({...article, percent: saved.percent, updatedAt: saved.updatedAt});
-    } catch {
-      // 保留无效记录以外的数据，避免首页加载因单条历史记录失败。
     }
   }
 
