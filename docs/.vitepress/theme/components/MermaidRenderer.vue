@@ -1,15 +1,7 @@
 <script setup lang="ts">
 import {nextTick, onBeforeUnmount, onMounted, watch} from 'vue'
 import {useData, useRoute} from 'vitepress'
-
-type MermaidRenderResult = {
-    svg: string
-}
-
-type MermaidAPI = {
-    initialize: (config: Record<string, unknown>) => void
-    render: (id: string, code: string) => Promise<MermaidRenderResult>
-}
+import {loadMermaid} from '../mermaid'
 
 const route = useRoute()
 const {isDark} = useData()
@@ -17,35 +9,17 @@ const {isDark} = useData()
 let renderVersion = 0
 let pendingTimer: number | null = null
 
-function getMermaid(): MermaidAPI | null {
-    return (window as Window & {mermaid?: MermaidAPI}).mermaid ?? null
-}
-
-async function waitForMermaid(maxRetries = 40): Promise<MermaidAPI | null> {
-    for (let attempt = 0; attempt < maxRetries; attempt += 1) {
-        const mermaid = getMermaid()
-        if (mermaid) {
-            return mermaid
-        }
-
-        await new Promise((resolve) => window.setTimeout(resolve, 250))
-    }
-
-    return null
-}
-
 async function renderMermaidDiagrams() {
-    const mermaid = await waitForMermaid()
-    if (!mermaid) {
-        return
-    }
-
+    const currentVersion = renderVersion
     const blocks = Array.from(document.querySelectorAll<HTMLElement>('.vp-doc div[class*="language-mermaid"]'))
     if (!blocks.length) {
         return
     }
 
-    const currentVersion = ++renderVersion
+    const mermaid = await loadMermaid()
+    if (!mermaid || currentVersion !== renderVersion) {
+        return
+    }
 
     mermaid.initialize({
         startOnLoad: false,
@@ -81,6 +55,9 @@ async function renderMermaidDiagrams() {
             surface.classList.remove('mermaid-error')
             surface.innerHTML = svg
         } catch (error) {
+            if (currentVersion !== renderVersion) {
+                return
+            }
             surface.innerHTML = ''
             surface.classList.add('mermaid-error')
 
@@ -96,6 +73,7 @@ async function renderMermaidDiagrams() {
 }
 
 function scheduleRender() {
+    renderVersion += 1
     if (pendingTimer !== null) {
         window.clearTimeout(pendingTimer)
     }
@@ -119,6 +97,7 @@ watch(isDark, () => {
 })
 
 onBeforeUnmount(() => {
+    renderVersion += 1
     if (pendingTimer !== null) {
         window.clearTimeout(pendingTimer)
     }

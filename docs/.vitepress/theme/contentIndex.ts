@@ -1,4 +1,6 @@
 import {rawCategoriesData as categoriesData} from '../relaConf/categories';
+// @ts-ignore VitePress 将 .data.mts 转换为带有 data 导出的模块。
+import {data as pageModules} from '../../contentIndex.data.mts';
 
 type Frontmatter = Record<string, unknown>;
 
@@ -60,13 +62,6 @@ type PathMeta = {
     tags: string[];
     topLevelTag: string | null;
 };
-
-// VitePress 构建时由 Vite 注入 import.meta.glob，独立执行 tsc 时没有该类型。
-// @ts-ignore
-const pageModules = import.meta.glob('../../column/**/*.md', {
-    eager: true,
-    import: '__pageData'
-}) as Record<string, RawPageData>;
 
 const pathMetaMap = new Map<string, PathMeta>();
 const siteBase = '/zoro_blog';
@@ -393,7 +388,7 @@ function createArticle(pageData: RawPageData): ArticleSummary | null {
     return article;
 }
 
-export const articles = Object.values(pageModules)
+export const articles = pageModules
     .map(createArticle)
     .filter((article): article is ArticleSummary => article !== null)
     .sort((a, b) => {
