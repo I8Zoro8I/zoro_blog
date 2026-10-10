@@ -9,6 +9,10 @@ export default defineConfig({
     // base: '/',
     //github page  '/zoro_blog/'
     cleanUrls: true, // 加上这一行
+    // 本地开发服务只有在运行对应容器/进程时才可访问，不应阻断文档构建。
+    ignoreDeadLinks: [
+        /^https?:\/\/localhost:(6333|8081|5601)(?:\/|$)/
+    ],
     /* 核心配置：在 HTML 的 <head> 中添加图标链接 */
     head: [
         /* 注意：因为你的项目 base 是 /zoro_blog/，路径需包含前缀 */
