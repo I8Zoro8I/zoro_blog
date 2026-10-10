@@ -449,10 +449,10 @@ export const llmApplicationCategory = {
               "visible": true
             }
           ],
-          "visible": true
+          "visible": false
         }
       ],
-      "visible": false
+      "visible": true
     }
   ],
   "visible": true
